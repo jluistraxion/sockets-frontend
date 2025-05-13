@@ -1,5 +1,4 @@
 <template>
-  <div>Incode Scanner</div>
   <div
     ref="container"
     id="incode-container"

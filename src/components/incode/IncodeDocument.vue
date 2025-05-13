@@ -1,5 +1,4 @@
 <template>
-  <div>Incode Document</div>
   <div
     ref="container"
     style="width: 100%; height: 400px"

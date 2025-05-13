@@ -1,24 +1,28 @@
 <template>
-  <div class="h-screen flex justify-center bg-gray-900/50">
-    <div
-      class="min-w-96 rounded-lg py-2 px-6 bg-white flex flex-col items-center justify-center gap-4"
-    >
+  <div
+    class="h-screen w-screen flex items-center justify-center bg-slate-50 overflow-hidden"
+  >
+    <div class="flex flex-col items-center justify-center gap-4">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="46"
-        height="46"
-        class="bi bi-exclamation-triangle fill-red-600"
+        width="90"
+        height="90"
+        class="bi bi-emoji-frown fill-red-600"
         viewBox="0 0 16 16"
       >
         <path
-          d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"
+          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
         />
         <path
-          d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"
+          d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.5 3.5 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.5 4.5 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683M7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5m4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5"
         />
       </svg>
-      <div class="text-2xl text-red-600 font-bold">Ocurrio un error</div>
+      <div class="text-3xl text-red-600 font-bold">¡Oops!</div>
       <div>{{ error }}</div>
+      <div class="text-sm text-gray-600 text-center">
+        Si no conoces el error, por favor contacta con el administrador de la
+        aplicación para mayor información.
+      </div>
     </div>
   </div>
 </template>

@@ -1,5 +1,4 @@
 <template>
-  <div class="text-3xl my-4">Blinkid in browser</div>
   <blinkid-in-browser ref="blinkid"></blinkid-in-browser>
 </template>
 

@@ -5,10 +5,12 @@
       v-if="isError"
       :error="errorMsg"
     />
-    <QR
-      v-if="!isError"
-      :config="config"
-    />
+    <div v-else>
+      <QR
+        v-if="config.tipoflujo === 'escritorio'"
+        :config="config?.configuraciones[0].valores"
+      />
+    </div>
   </div>
 </template>
 
@@ -37,16 +39,20 @@ const fetchData = async () => {
     )
     console.log('response', response)
     if (response.success) {
-      config.value = response.data.configuraciones[0].valores
+      config.value = response.data
     } else {
       isError.value = true
       errorMsg.value = response.message
     }
   } catch (error) {
-    const message = 'Error al recuperar los datos, intente más tarde por favor.'
-    const parseError = JSON.parse(error.message)
+    errorMsg.value = 'El recurso solicitado no está disponible en este momento.'
+    const looksLikeJson =
+      error.message.startsWith('{') && error.message.endsWith('}')
+    if (looksLikeJson) {
+      const parseError = JSON.parse(error.message)
+      errorMsg.value = parseError.message
+    }
     isError.value = true
-    errorMsg.value = parseError ? parseError.message : message
   } finally {
     isLoading.value = false
   }

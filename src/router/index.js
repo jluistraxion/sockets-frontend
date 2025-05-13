@@ -3,7 +3,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 const routes = [
   {
     name: 'home',
-    path: '/:id',
+    path: '/:id?',
     component: () => import('@/views/Home.vue')
   },
   {
@@ -19,17 +19,17 @@ const routes = [
   {
     name: 'microblink',
     path: '/microblink',
-    component: () => import('@/views/BlinkIdScanner.vue')
+    component: () => import('@/components/blinkid//BlinkIdScanner.vue')
   },
   {
     name: 'incode-scanner',
     path: '/incode-scanner',
-    component: () => import('@/views/IncodeScanner.vue')
+    component: () => import('@/components/incode/IncodeScanner.vue')
   },
   {
     name: 'incode-document',
     path: '/incode-document',
-    component: () => import('@/views/IncodeDocument.vue')
+    component: () => import('@/components/incode/IncodeDocument.vue')
   }
 ]
 
