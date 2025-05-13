@@ -6,17 +6,12 @@
     }"
   >
     <div
-      class="w-96 rounded-lg flex flex-col gap-4 items-center py-2"
+      class="min-w-96 rounded-lg flex flex-col gap-4 items-center py-2 px-6"
       :style="{
         backgroundColor: config?.fondocentral.backgroundColor || '#FFF'
       }"
     >
-      <div
-        v-show="isLoading"
-        class="animate-pulse h-4 bg-gray-200 rounded-md dark:bg-gray-700 w-48"
-      />
       <img
-        v-show="!isLoading"
         :src="config?.logo.url"
         :style="{
           maxWidth: config?.logo.width || '24px',
@@ -71,31 +66,8 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
 import QrcodeVue from 'qrcode.vue'
 import Spinner from '@/ui/spinner/Spinner.vue'
 
-const route = useRoute()
-const config = ref(null)
-const isLoading = ref(false)
-
-const fetchData = async (id) => {
-  isLoading.value = true
-  try {
-    const response = await fetch('http://localhost:3002/configuracion')
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`)
-    }
-    const json = await response.json()
-    console.log('response', json)
-    config.value = json.data[0].estilos
-  } catch (error) {
-    console.log('error', error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-watch(() => route.params.id, fetchData, { immediate: true })
+defineProps(['config'])
 </script>

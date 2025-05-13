@@ -1,5 +1,5 @@
 // const apiUrl = process.env.NEXT_PUBLIC_API_URL
-const apiUrl = 'https://localhost/api/'
+// const apiUrl = 'https://localhost/api/'
 
 // Configuración común
 const defaultHeaders = {
@@ -7,7 +7,7 @@ const defaultHeaders = {
   'Content-Type': 'application/json'
 }
 
-async function request(method, endpoint, data = null, options = {}) {
+async function request(method = 'GET', endpoint, data = null, options = {}) {
   const headers = {
     ...defaultHeaders,
     ...options.headers
@@ -25,11 +25,12 @@ async function request(method, endpoint, data = null, options = {}) {
     delete fetchOptions.body
   }
 
-  const response = await fetch(`${apiUrl}${endpoint}`, fetchOptions)
+  const response = await fetch(`${endpoint}`, fetchOptions)
 
   if (!response.ok) {
     const errorText = await response.text()
-    throw new Error(`HTTP ${response.status}: ${errorText}`)
+    console.log('aqui esta el pedo', errorText)
+    throw new Error(errorText)
   }
 
   const contentType = response.headers.get('Content-Type')
