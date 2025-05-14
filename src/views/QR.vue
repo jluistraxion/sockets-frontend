@@ -46,9 +46,7 @@
           render-as="svg"
         />
       </div>
-      <div
-        class="flex flex-col gap-2 items-center justify-center absolute bottom-0 mb-6"
-      >
+      <div class="flex flex-col gap-2 items-center justify-center absolute bottom-0 mb-6">
         <Spinner :color="config?.spinner.color" />
         <div
           :style="{

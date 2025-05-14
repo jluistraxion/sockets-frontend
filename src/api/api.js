@@ -1,7 +1,3 @@
-// const apiUrl = process.env.NEXT_PUBLIC_API_URL
-// const apiUrl = 'https://localhost/api/'
-
-// Configuración común
 const defaultHeaders = {
   // Accept: 'application/json',
   'Content-Type': 'application/json'
@@ -29,7 +25,6 @@ async function request(method = 'GET', endpoint, data = null, options = {}) {
 
   if (!response.ok) {
     const errorText = await response.text()
-    console.log('aqui esta el pedo', errorText)
     throw new Error(errorText)
   }
 
@@ -43,14 +38,10 @@ async function request(method = 'GET', endpoint, data = null, options = {}) {
 
 const api = {
   get: (endpoint, options = {}) => request('GET', endpoint, null, options),
-  post: (endpoint, data, options = {}) =>
-    request('POST', endpoint, data, options),
-  put: (endpoint, data, options = {}) =>
-    request('PUT', endpoint, data, options),
-  patch: (endpoint, data, options = {}) =>
-    request('PATCH', endpoint, data, options),
-  delete: (endpoint, data = null, options = {}) =>
-    request('DELETE', endpoint, data, options)
+  post: (endpoint, data, options = {}) => request('POST', endpoint, data, options),
+  put: (endpoint, data, options = {}) => request('PUT', endpoint, data, options),
+  patch: (endpoint, data, options = {}) => request('PATCH', endpoint, data, options),
+  delete: (endpoint, data = null, options = {}) => request('DELETE', endpoint, data, options)
 }
 
 export default api
