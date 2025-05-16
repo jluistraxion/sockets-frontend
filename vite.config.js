@@ -31,5 +31,5 @@ export default defineConfig({
     host: true // permite conexiones desde IP o LAN
   }
     */
-  server: { port: 3000, allowedHosts: true }
+  server: { port: 2026, allowedHosts: true }
 })

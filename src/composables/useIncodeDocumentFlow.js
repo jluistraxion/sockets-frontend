@@ -7,7 +7,7 @@ export function useIncodeDocumentFlow() {
 
   const createOnboarding = () => {
     incode = window.OnBoarding.create({
-      apiURL: 'https://demo-e2ee-api.incodesmile.com/0',
+      apiURL: 'https://demo-api.incodesmile.com/0',
       apiKey: API_KEY,
       encrypt: true
     })
@@ -76,9 +76,8 @@ export function useIncodeDocumentFlow() {
   const start = async (container) => {
     createOnboarding()
     await getToken()
-    await publishKeys()
-    saveDeviceData()
-
+    // await publishKeys()
+    // saveDeviceData()
     captureDocument(container, async () => {
       await processId()
       await finishOnboarding()
