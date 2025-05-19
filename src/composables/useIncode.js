@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-export function useIncodeOnboarding() {
+export function useIncode() {
   const API_URL = import.meta.env.VITE_API_URL
   const session = ref(null)
   const incodeSession = ref({})
@@ -26,7 +26,7 @@ export function useIncodeOnboarding() {
 
     const body = JSON.stringify({
       idoperacion: route.params.id,
-      error: 1
+      error: 0
     })
 
     const res = await fetch(`${API_URL}/getmotorselect`, {

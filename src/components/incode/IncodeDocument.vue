@@ -7,10 +7,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useIncodeDocumentFlow } from '@/composables/useIncodeDocumentFlow'
+import { useIncodeDocument } from '@/composables/useIncodeDocument'
 
 const container = ref(null)
-const { start } = useIncodeDocumentFlow()
+const { start } = useIncodeDocument()
 
 onMounted(() => {
   start(container.value)

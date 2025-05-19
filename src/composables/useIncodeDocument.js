@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export function useIncodeDocumentFlow() {
+export function useIncodeDocument() {
   const session = ref(null)
   let incode = null
   const API_KEY = import.meta.env.VITE_INCODE_KEY

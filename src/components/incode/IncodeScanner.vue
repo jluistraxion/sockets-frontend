@@ -14,7 +14,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
-import { useIncodeOnboarding } from '@/composables/useIncodeOnboarding'
+import { useIncode } from '@/composables/useIncode'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import api from '@/api/api'
 import SpinnerFullScreen from '@/ui/spinner/SpinnerFullScreen.vue'
@@ -22,7 +22,7 @@ import Error from '@/views/Error.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
-const { setConfig } = useIncodeOnboarding()
+const { setConfig } = useIncode()
 const container = ref(null)
 const errorMsg = ref(null)
 
