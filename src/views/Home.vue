@@ -2,22 +2,25 @@
   <SpinnerFullScreen v-if="isLoading" />
   <div v-else>
     <Error
-      v-if="isError"
+      v-if="errorMsg"
       :error="errorMsg"
     />
     <div v-else>
       <QR
         v-if="config.tipoflujo === 'escritorio'"
-        :config="config?.configuraciones[0].valores"
+        :config="config?.configuraciones"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useMutation } from '@tanstack/vue-query'
+import { parseErrorMessage } from '@/utils/parseData.js'
 import SpinnerFullScreen from '@/ui/spinner/SpinnerFullScreen.vue'
+
 import QR from './QR.vue'
 import Error from './Error.vue'
 import api from '@/api/api'
@@ -25,22 +28,8 @@ import api from '@/api/api'
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
 const router = useRouter()
-const isLoading = ref(true)
-const isError = ref(false)
 const errorMsg = ref(null)
 const config = ref({})
-
-const setError = (message, parseMessage = null) => {
-  isError.value = true
-  errorMsg.value = message
-  if (parseMessage) {
-    const looksLikeJson = parseMessage.startsWith('{') && parseMessage.endsWith('}')
-    if (looksLikeJson) {
-      const parseError = JSON.parse(parseMessage)
-      errorMsg.value = parseError.message
-    }
-  }
-}
 
 const setConfig = (data) => {
   if (data.tipoflujo === 'escritorio') config.value = data
@@ -55,22 +44,19 @@ const setConfig = (data) => {
   }
 }
 
-const fetchData = async () => {
-  isLoading.value = true
-  try {
-    const payload = { idoperacion: route.params.id }
-    const response = await api.post(`${API_URL}/getconfig`, payload)
+const { mutate: fetchData, isPending: isLoading } = useMutation({
+  mutationFn: () => api.post(`${API_URL}/getconfig`, { idoperacion: route.params.id }),
+  onSuccess: (response) => {
     if (response.success) {
       setConfig(response.data)
     } else {
-      setError(response.message)
+      errorMsg.value = response.message
     }
-  } catch ({ message }) {
-    setError('El recurso solicitado no está disponible en este momento.', message)
-  } finally {
-    isLoading.value = false
+  },
+  onError: (error) => {
+    errorMsg.value = parseErrorMessage(error)
   }
-}
+})
 
-watch(() => route.params.id, fetchData, { immediate: true })
+fetchData()
 </script>

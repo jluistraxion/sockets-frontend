@@ -1,10 +1,14 @@
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 export function useIncodeOnboarding() {
+  const API_URL = import.meta.env.VITE_API_URL
   const session = ref(null)
   const incodeSession = ref({})
   const config = ref({})
   let incode = null
+  const route = useRoute()
+  const router = useRouter()
 
   const createOnboarding = () => {
     incode = window.OnBoarding.create({
@@ -17,24 +21,27 @@ export function useIncodeOnboarding() {
 
   const getToken = async () => {
     const headers = new Headers({
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'api-version': '1.0',
-      'x-api-key': config.value?.apiKey
+      'Content-Type': 'application/json'
     })
 
-    const res = await fetch(config.value?.tokenURL, {
+    const body = JSON.stringify({
+      idoperacion: route.params.id,
+      error: 1
+    })
+
+    const res = await fetch(`${API_URL}/getmotorselect`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({
-        countryCode: 'ALL',
-        configurationId: config.value?.configurationId
-      })
+      body
     })
 
     const data = await res.json()
-    session.value = data.token
-    incodeSession.value = data
+    if (data.success) {
+      session.value = data.token
+      incodeSession.value = data
+    } else {
+      router.push({ name: data.data.redirect, params: { id: route.params.id } })
+    }
   }
 
   const publishKeys = async () => {

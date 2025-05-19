@@ -61,7 +61,7 @@ import { useWebSocket } from '@vueuse/core'
 import { FwbInput } from 'flowbite-vue'
 import Button from '@/ui/buttons/Button.vue'
 
-const WS_URL = 'ws://localhost:3000'
+const WS_URL = 'ws://7682-201-175-225-140.ngrok-free.app'
 
 const message = ref('')
 const messages = ref([])

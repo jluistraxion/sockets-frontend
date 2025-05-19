@@ -10,7 +10,7 @@ const routes = [
   {
     name: 'demo',
     path: '/demo',
-    component: () => import('@/views/Demo.vue')
+    component: () => import('@/views/DemoUseWebSocket.vue')
   },
   {
     name: 'qr',

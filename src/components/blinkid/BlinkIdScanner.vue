@@ -1,24 +1,24 @@
 <template>
   <SpinnerFullScreen v-if="isLoading" />
   <Error
-    v-if="isError"
+    v-if="errorMsg"
     :error="errorMsg"
   />
   <blinkid-in-browser ref="blinkid"></blinkid-in-browser>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import api from '@/api/api'
+import { useMutation } from '@tanstack/vue-query'
+import { parseErrorMessage } from '@/utils/parseData.js'
 import SpinnerFullScreen from '@/ui/spinner/SpinnerFullScreen.vue'
 import Error from '@/views/Error.vue'
+import api from '@/api/api'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
 const blinkid = ref(null)
-const isLoading = ref(true)
-const isError = ref(false)
 const errorMsg = ref(null)
 const config = ref({})
 
@@ -53,35 +53,20 @@ const run = () => {
   }
 }
 
-const setError = (message, parseMessage = null) => {
-  isError.value = true
-  errorMsg.value = message
-  if (parseMessage) {
-    const looksLikeJson = parseMessage.startsWith('{') && parseMessage.endsWith('}')
-    if (looksLikeJson) {
-      const parseError = JSON.parse(parseMessage)
-      errorMsg.value = parseError.message
-    }
-  }
-}
-
-const fetchData = async () => {
-  isLoading.value = true
-  try {
-    const payload = { idoperacion: route.params.id }
-    const response = await api.post(`${API_URL}/getmotorconfig`, payload)
+const { mutate: fetchData, isPending: isLoading } = useMutation({
+  mutationFn: () => api.post(`${API_URL}/getmotorconfig`, { idoperacion: route.params.id }),
+  onSuccess: (response) => {
     if (response.success) {
       config.value = response.data
       run()
     } else {
-      setError(response.message)
+      errorMsg.value = response.message
     }
-  } catch ({ message }) {
-    setError('El recurso solicitado no está disponible en este momento.', message)
-  } finally {
-    isLoading.value = false
+  },
+  onError: (error) => {
+    errorMsg.value = parseErrorMessage(error)
   }
-}
+})
 
 fetchData()
 </script>
