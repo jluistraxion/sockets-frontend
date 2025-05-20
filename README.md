@@ -16,5 +16,5 @@ npm run dev
 4. Ver el resultado en el navegador
 
 ```
-http://localhost:3000/
+http://localhost:2026/
 ```

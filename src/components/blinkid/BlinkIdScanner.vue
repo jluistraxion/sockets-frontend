@@ -9,7 +9,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import SpinnerFullScreen from '@/ui/spinner/SpinnerFullScreen.vue'
@@ -18,6 +18,7 @@ import api from '@/api/api'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
+const router = useRouter()
 const blinkid = ref(null)
 const errorMsg = ref(null)
 const config = ref({})
@@ -47,7 +48,10 @@ const run = () => {
 
     blinkId.addEventListener('scanError', (ev) => console.log('scanError', ev.detail))
 
-    blinkId.addEventListener('scanSuccess', (ev) => console.log('scanSuccess', ev.detail))
+    blinkId.addEventListener('scanSuccess', (ev) => {
+      console.log('scanSuccess', ev.detail)
+      router.push({ name: 'success' })
+    })
 
     blinkId.addEventListener('feedback', (ev) => console.log('feedback', ev))
   }

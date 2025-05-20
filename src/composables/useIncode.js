@@ -11,12 +11,16 @@ export function useIncode() {
   const router = useRouter()
 
   const createOnboarding = () => {
-    incode = window.OnBoarding.create({
-      apiURL: config.value?.apiURL,
-      apiKey: config.value?.apiKey,
-      encrypt: config.value?.crypto,
-      lang: 'es'
-    })
+    try {
+      incode = window.OnBoarding.create({
+        apiURL: config.value?.apiURL,
+        apiKey: config.value?.apiKey,
+        encrypt: config.value?.crypto,
+        lang: 'es'
+      })
+    } catch (error) {
+      console.log('este es un error')
+    }
   }
 
   const getToken = async () => {
@@ -119,9 +123,11 @@ export function useIncode() {
   const setConfig = (data, container) => {
     config.value = data
     start(container)
+    /* PENDIENTE MEJORAR
     setTimeout(() => {
       console.log('timeout para desconectar al usuario')
     }, data.timeout * 1000) // timeout definido en segundos
+    */
   }
 
   return {
