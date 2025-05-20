@@ -25,7 +25,8 @@ export function useIncode() {
     })
 
     const body = JSON.stringify({
-      idoperacion: route.params.id
+      idoperacion: route.params.id,
+      error: true
     })
 
     const res = await fetch(`${API_URL}/getmotorselect`, {
