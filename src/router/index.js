@@ -37,6 +37,11 @@ const routes = [
     path: '/:pathMatch(.*)*',
     component: Error,
     props: () => ({ error: `Error 404. Página no encontrada` })
+  },
+  {
+    name: 'success',
+    path: '/success',
+    component: () => import('@/views/Success.vue')
   }
 ]
 
