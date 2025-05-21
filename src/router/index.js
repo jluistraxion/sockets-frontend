@@ -3,6 +3,11 @@ import Error from '@/views/Error.vue'
 
 const routes = [
   {
+    name: 'healt',
+    path: '/healt',
+    component: () => import('@/views/Healt.vue')
+  },
+  {
     name: 'home',
     path: '/home/:id?',
     component: () => import('@/views/Home.vue')
