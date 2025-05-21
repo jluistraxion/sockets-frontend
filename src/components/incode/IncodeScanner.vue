@@ -1,8 +1,7 @@
 <template>
-  <SpinnerFullScreen v-if="isLoading" />
-  <Error
-    v-if="errorMsg"
-    :error="errorMsg"
+  <Container
+    :isLoading
+    :errorMsg
   />
   <div
     ref="container"
@@ -16,9 +15,8 @@ import { useRoute } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { useIncode } from '@/composables/useIncode'
 import { parseErrorMessage } from '@/utils/parseData.js'
+import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
-import SpinnerFullScreen from '@/ui/spinner/SpinnerFullScreen.vue'
-import Error from '@/views/Error.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()

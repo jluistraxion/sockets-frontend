@@ -1,17 +1,13 @@
 <template>
-  <SpinnerFullScreen v-if="isLoading" />
-  <div v-else>
-    <Error
-      v-if="errorMsg"
-      :error="errorMsg"
+  <Container
+    :isLoading
+    :errorMsg
+  >
+    <QR
+      v-if="config.tipoflujo === 'escritorio'"
+      :config="config?.configuraciones"
     />
-    <div v-else>
-      <QR
-        v-if="config.tipoflujo === 'escritorio'"
-        :config="config?.configuraciones"
-      />
-    </div>
-  </div>
+  </Container>
 </template>
 
 <script setup>
@@ -19,10 +15,8 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
-import SpinnerFullScreen from '@/ui/spinner/SpinnerFullScreen.vue'
-
-import QR from './QR.vue'
-import Error from './Error.vue'
+import Container from '@/components/layout/Container.vue'
+import QR from '@/views/QR.vue'
 import api from '@/api/api'
 
 const API_URL = import.meta.env.VITE_API_URL

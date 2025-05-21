@@ -14,7 +14,7 @@
           d="M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64l.012-.013.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5M8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3"
         />
       </svg>
-      <div class="text-3xl text-red-600 font-bold">Sesión expirada por inactividad</div>
+      <div class="text-3xl text-red-600 text-center font-bold">Sesión expirada por inactividad</div>
       <div class="text-sm text-gray-600 text-center px-4 md:px-2">
         Hemos cerrado tu sesión por motivos de seguridad, ya que estuviste inactivo durante un
         tiempo.

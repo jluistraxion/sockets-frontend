@@ -1,8 +1,7 @@
 <template>
-  <SpinnerFullScreen v-if="isLoading" />
-  <Error
-    v-if="errorMsg"
-    :error="errorMsg"
+  <Container
+    :isLoading
+    :errorMsg
   />
   <blinkid-in-browser ref="blinkid"></blinkid-in-browser>
 </template>
@@ -12,8 +11,7 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
-import SpinnerFullScreen from '@/ui/spinner/SpinnerFullScreen.vue'
-import Error from '@/views/Error.vue'
+import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
 
 const API_URL = import.meta.env.VITE_API_URL

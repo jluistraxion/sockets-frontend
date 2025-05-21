@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <RouterView :key="route.path" />
-  </div>
+  <RouterView :key="route.path" />
 </template>
 
 <script setup>

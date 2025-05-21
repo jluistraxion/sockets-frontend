@@ -11,16 +11,14 @@ export function useIncode() {
   const router = useRouter()
 
   const createOnboarding = () => {
-    try {
-      incode = window.OnBoarding.create({
-        apiURL: config.value?.apiURL,
-        apiKey: config.value?.apiKey,
-        encrypt: config.value?.crypto,
-        lang: 'es'
-      })
-    } catch (error) {
-      console.log('este es un error')
-    }
+    incode = window.OnBoarding.create({
+      apiURL: config.value?.apiURL,
+      apiKey: config.value?.apiKey,
+      encrypt: config.value?.crypto,
+      lang: 'es'
+    })
+
+    console.log('-->', incode, config.value)
   }
 
   const getToken = async () => {
@@ -30,7 +28,7 @@ export function useIncode() {
 
     const body = JSON.stringify({
       idoperacion: route.params.id,
-      error: true
+      error: false
     })
 
     const res = await fetch(`${API_URL}/getmotorselect`, {
