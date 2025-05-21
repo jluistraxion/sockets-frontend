@@ -15,7 +15,7 @@ const routes = [
   {
     name: 'demo',
     path: '/demo',
-    component: () => import('@/views/DemoUseWebSocket.vue')
+    component: () => import('@/views/Demo.vue')
   },
   {
     name: 'qr',
@@ -47,6 +47,11 @@ const routes = [
     name: 'success',
     path: '/success',
     component: () => import('@/views/Success.vue')
+  },
+  {
+    name: 'timeout',
+    path: '/timeout',
+    component: () => import('@/views/Timeout.vue')
   }
 ]
 

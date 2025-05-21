@@ -42,10 +42,26 @@
         Incode Document
       </Button>
     </div>
+    <div>Demo inactividad: {{ countdown }}</div>
+    <InactivityModal
+      ref="modal"
+      @cancel="cancelRedirect"
+      :countdown="warningCountdown"
+    />
   </div>
 </template>
 
 <script setup>
+import { ref, watch } from 'vue'
 import Card from '@/ui/cards/Card.vue'
 import Button from '@/ui/buttons/Button.vue'
+import InactivityModal from '@/ui/modals/InactivityModal.vue'
+import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
+
+const modal = ref()
+const { showWarning, countdown, warningCountdown, cancelRedirect } = useInactivityWatcher()
+
+watch(showWarning, (isShowWarning) => {
+  if (isShowWarning) modal.value.showModal()
+})
 </script>
