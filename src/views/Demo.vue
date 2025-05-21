@@ -25,13 +25,13 @@
       </Button>
       <Button
         color="default"
-        @click="$router.push('/microblink')"
+        @click="$router.push('/demo/microblink')"
       >
         Microblink Scanner
       </Button>
       <Button
         color="default"
-        @click="$router.push('/incode-scanner')"
+        @click="$router.push('/demo/incode')"
       >
         Incode Scanner
       </Button>
