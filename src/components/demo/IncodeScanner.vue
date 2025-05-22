@@ -78,12 +78,31 @@ const processId = async () => {
   }
 }
 
+const getOcrData = () => {
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      'api-version': '1.0',
+      'x-api-key': 'a02644685ee3394d70154fcfa5b2237180e4f6aa',
+      'X-Incode-Hardware-Id':
+        'eyJhbGciOiJIUzI1NiJ9.eyJleHRlcm5hbFVzZXJJZCI6IjY4MmU1MTc577ZDQ0YzFiMDczYzAzZWYxYSIsInJvbGUiOiJBQ0NFU1MiLCJUIjoiSSIsImtleVJlZiI6IjYxNGQyYTk2YmEzNWY4MDAxMzhhNzFhYSIsImV4cCI6MTc1NTgxNDc3NywiaWF0IjoxNzQ3ODY1OTc3fQ.4oKqsjqwTJq_rR3VJzIn_CbnhTJrrCzTSx2I0exZFRk57'
+    }
+  }
+  // documentation: https://developer.incode.com/reference/getocrdata
+  fetch('https://demo-api.incodesmile.com/omni/get/ocr-data', options)
+    .then((res) => res.json())
+    .then((res) => console.log('ocr data', res))
+    .catch((err) => console.error(err))
+}
+
 const finishOnboarding = async () => {
   try {
     const result = await incode.getFinishStatus(null, {
       token: session.value
     })
     console.log('Finish status:', result)
+    getOcrData()
   } catch (error) {
     console.error(error)
   }
