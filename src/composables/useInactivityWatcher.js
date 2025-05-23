@@ -1,16 +1,21 @@
 import { ref, watch, computed } from 'vue'
-import { useIdle, useTimestamp, useInterval } from '@vueuse/core'
+import { useTimestamp, useInterval } from '@vueuse/core'
 import { useRouter } from 'vue-router'
+import { useCustomIdle } from './useCustomIdle'
 
 export function useInactivityWatcher() {
-  const idleTime = 5 * 1000
-  const { idle, lastActive, reset } = useIdle(idleTime)
   const now = useTimestamp({ interval: 1000 })
   const router = useRouter()
+
   const showWarning = ref(false)
-  const warningCountdown = ref(5)
+  const warningCountdownSeconds = ref(5)
+  const warningCountdown = ref(warningCountdownSeconds.value)
+  const idleTimeSeconds = ref(5)
+  const idleTime = ref(idleTimeSeconds.value * 1000)
 
   const countdown = computed(() => Math.floor((now.value - lastActive.value) / 1000))
+
+  const { idle, lastActive, setIdleTime, reset } = useCustomIdle(idleTime.value)
 
   const { pause, resume } = useInterval(1000, {
     controls: true,
@@ -26,7 +31,7 @@ export function useInactivityWatcher() {
   const cancelRedirect = () => {
     reset()
     pause()
-    warningCountdown.value = 5
+    warningCountdown.value = warningCountdownSeconds.value
   }
 
   watch(idle, (isIdle) => {
@@ -36,14 +41,21 @@ export function useInactivityWatcher() {
       reset()
     } else {
       showWarning.value = false
-      warningCountdown.value = 5
+      warningCountdown.value = warningCountdownSeconds.value
     }
   })
+
+  const setConfig = (timeout, timedown) => {
+    setIdleTime(timeout)
+    warningCountdownSeconds.value = timedown
+    warningCountdown.value = timedown
+  }
 
   return {
     showWarning,
     countdown,
     warningCountdown,
-    cancelRedirect
+    cancelRedirect,
+    setConfig
   }
 }
