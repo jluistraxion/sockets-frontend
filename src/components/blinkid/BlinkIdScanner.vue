@@ -4,13 +4,20 @@
     :errorMsg
   />
   <blinkid-in-browser ref="blinkid"></blinkid-in-browser>
+  <InactivityModal
+    ref="modal"
+    @cancel="cancelRedirect"
+    :countdown="warningCountdown"
+  />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
+import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
+import InactivityModal from '@/ui/modals/InactivityModal.vue'
 import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
 import translations from './translations'
@@ -21,6 +28,13 @@ const router = useRouter()
 const blinkid = ref(null)
 const errorMsg = ref(null)
 const config = ref({})
+const modal = ref()
+
+const { showWarning, warningCountdown, cancelRedirect, setConfig } = useInactivityWatcher()
+
+watch(showWarning, (isShowWarning) => {
+  if (isShowWarning) modal.value.showModal()
+})
 
 const run = () => {
   if (blinkid.value) {
@@ -77,6 +91,9 @@ const { mutate: fetchData, isPending: isLoading } = useMutation({
     if (response.success) {
       config.value = response.data
       run()
+      let timeout = response.data.timeout ? Number(response.data.timeout) : 180
+      let timedown = response.data.timedown ? Number(response.data.timedown) : 10
+      setConfig(timeout, timedown)
     } else {
       errorMsg.value = response.message
     }

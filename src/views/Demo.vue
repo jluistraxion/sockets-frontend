@@ -42,7 +42,7 @@
         Incode Document
       </Button>
     </div>
-    <div>Demo inactividad: {{ countdown }}</div>
+    <div>Demo inactividad: {{ countdown }} - {{ showWarning }} - {{ warningCountdown }}</div>
     <InactivityModal
       ref="modal"
       @cancel="cancelRedirect"
@@ -68,6 +68,6 @@ watch(showWarning, (isShowWarning) => {
 })
 
 onMounted(() => {
-  setConfig(5, 5)
+  setConfig(180, 5)
 })
 </script>
