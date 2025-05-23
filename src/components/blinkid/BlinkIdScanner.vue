@@ -13,6 +13,7 @@ import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
+import translations from './translations'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
@@ -36,6 +37,21 @@ const run = () => {
         signatureImage: config.value.signatureImage
       }
     }
+
+    // extra configs
+    blinkId.allowHelloMessage = true
+    blinkId.enableDrag = true
+    blinkId.hideFeedback = true
+    blinkId.hideLoadingAndErrorUi = false
+    blinkId.scanFromCamera = true
+    blinkId.scanFromImage = false
+    blinkId.translations = translations
+    blinkId.iconCameraDefault = undefined
+    blinkId.iconCameraActive = undefined
+    blinkId.iconGalleryDefault = undefined
+    blinkId.iconGalleryActive = undefined
+    blinkId.iconInvalidFormat = undefined
+    blinkId.iconSpinner = undefined
 
     blinkId.addEventListener('fatalError', (ev) => console.log('fatalError', ev.detail))
 

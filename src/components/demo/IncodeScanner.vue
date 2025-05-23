@@ -10,7 +10,6 @@ import { ref, watch } from 'vue'
 
 const session = ref(null)
 const incodeSession = ref({})
-const config = ref({})
 let incode = null
 const container = ref()
 
@@ -46,14 +45,14 @@ const getToken = async () => {
 }
 
 const saveDeviceData = () => {
-  incode.sendGeolocation({ token: session.value }).catch(console.error)
-  incode.sendFingerprint({ token: session.value }).catch(console.error)
+  incode.sendGeolocation({ token: incodeSession.value.token }).catch(console.error)
+  incode.sendFingerprint({ token: incodeSession.value.token }).catch(console.error)
 }
 
 const captureIdFront = (container, onSuccess) => {
   incode.renderCamera('front', container, {
     token: incodeSession.value,
-    numberOfTries: config.value?.reintentos,
+    numberOfTries: 3,
     showTutorial: true,
     onSuccess,
     onError: console.error
@@ -63,7 +62,7 @@ const captureIdFront = (container, onSuccess) => {
 const captureIdBack = (container, onSuccess) => {
   incode.renderCamera('back', container, {
     token: incodeSession.value,
-    numberOfTries: config.value?.reintentos,
+    numberOfTries: 3,
     showTutorial: true,
     onSuccess,
     onError: console.error

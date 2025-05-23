@@ -17,8 +17,6 @@ export function useIncode() {
       encrypt: config.value?.crypto,
       lang: 'es'
     })
-
-    console.log('-->', incode, config.value)
   }
 
   const getToken = async () => {
