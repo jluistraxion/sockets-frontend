@@ -118,12 +118,11 @@ export function useIncode() {
 
   const setConfig = (data, container) => {
     config.value = data
+    if (!data.apiURL && !data.apiKey) {
+      console.log('configuracion incorrecta')
+      router.push({ name: 'error' })
+    }
     start(container)
-    /* PENDIENTE MEJORAR
-    setTimeout(() => {
-      console.log('timeout para desconectar al usuario')
-    }, data.timeout * 1000) // timeout definido en segundos
-    */
   }
 
   return {
