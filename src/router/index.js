@@ -1,6 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Error from '@/views/Error.vue'
-import demo from './demo'
 
 const routes = [
   {
