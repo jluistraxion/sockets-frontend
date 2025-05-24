@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router'
 export function useIncode() {
   const API_URL = import.meta.env.VITE_API_URL
   const session = ref(null)
-  const incodeSession = ref({})
   const config = ref({})
   let incode = null
   const route = useRoute()
@@ -37,8 +36,7 @@ export function useIncode() {
 
     const data = await res.json()
     if (data.success) {
-      session.value = data.token
-      incodeSession.value = data
+      session.value = data.data
     } else {
       router.push({ name: data.data.redirect, params: { id: route.params.id } })
     }
@@ -49,13 +47,13 @@ export function useIncode() {
   }
 
   const saveDeviceData = () => {
-    incode.sendGeolocation({ token: session.value }).catch(console.error)
-    incode.sendFingerprint({ token: session.value }).catch(console.error)
+    incode.sendGeolocation({ token: session.value.token }).catch(console.error)
+    incode.sendFingerprint({ token: session.value.token }).catch(console.error)
   }
 
   const captureIdFront = (container, onSuccess) => {
     incode.renderCamera('front', container, {
-      token: incodeSession.value,
+      token: session.value,
       numberOfTries: config.value?.reintentos,
       showTutorial: true,
       onSuccess,
@@ -65,7 +63,7 @@ export function useIncode() {
 
   const captureIdBack = (container, onSuccess) => {
     incode.renderCamera('back', container, {
-      token: incodeSession.value,
+      token: session.value,
       numberOfTries: config.value?.reintentos,
       showTutorial: true,
       onSuccess,
@@ -84,7 +82,7 @@ export function useIncode() {
 
   const processId = async () => {
     try {
-      await incode.processId({ token: session.value })
+      await incode.processId({ token: session.value.token })
     } catch (error) {
       console.error(error)
     }
@@ -93,7 +91,7 @@ export function useIncode() {
   const finishOnboarding = async () => {
     try {
       const result = await incode.getFinishStatus(null, {
-        token: session.value
+        token: session.value.token
       })
       console.log('Finish status:', result)
     } catch (error) {
