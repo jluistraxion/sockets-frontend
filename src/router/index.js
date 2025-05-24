@@ -18,6 +18,16 @@ const routes = [
     component: () => import('@/views/Demo.vue')
   },
   {
+    name: 'example-incode',
+    path: '/example-incode',
+    component: () => import('@/components/demo/IncodeScanner.vue')
+  },
+  {
+    name: 'demo-incode',
+    path: '/example-microblink',
+    component: () => import('@/components/demo/MicroblinkScanner.vue')
+  },
+  {
     name: 'qr',
     path: '/qr/:id',
     component: () => import('@/views/QR.vue')
