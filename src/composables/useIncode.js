@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useScriptTag } from '@vueuse/core'
 
 export function useIncode() {
   const API_URL = import.meta.env.VITE_API_URL
@@ -8,6 +9,22 @@ export function useIncode() {
   let incode = null
   const route = useRoute()
   const router = useRouter()
+
+  const loadIncodeScript = () => {
+    return new Promise((resolve, reject) => {
+      useScriptTag(
+        '/incode/onBoarding-1.76.0.js',
+        () => {
+          if (window.OnBoarding && window.OnBoarding.create) {
+            resolve(window.OnBoarding)
+          } else {
+            reject(new Error('Incode SDK cargado, pero window.OnBoarding no está disponible.'))
+          }
+        },
+        { async: true, defer: true, manual: true }
+      ).load()
+    })
+  }
 
   const createOnboarding = () => {
     incode = window.OnBoarding.create({
@@ -100,6 +117,7 @@ export function useIncode() {
   }
 
   const start = async (container) => {
+    await loadIncodeScript()
     createOnboarding()
     await getToken()
     // await publishKeys()

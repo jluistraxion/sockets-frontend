@@ -12,8 +12,9 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useScriptTag } from '@vueuse/core'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
@@ -35,6 +36,15 @@ const { showWarning, warningCountdown, cancelRedirect, setConfig } = useInactivi
 watch(showWarning, (isShowWarning) => {
   if (isShowWarning) modal.value.showModal()
 })
+
+const loadIncode = () => {
+  useScriptTag('/blinkid/blinkid-in-browser.esm.js', () => {}, {
+    manual: true,
+    type: 'module'
+  }).load()
+}
+
+loadIncode()
 
 const run = () => {
   if (blinkid.value) {

@@ -7,17 +7,33 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import { useScriptTag } from '@vueuse/core'
 
 const session = ref(null)
 const incodeSession = ref({})
 let incode = null
 const container = ref()
 
+const loadIncodeScript = () => {
+  return new Promise((resolve, reject) => {
+    useScriptTag(
+      '/incode/onBoarding-1.76.0.js',
+      () => {
+        if (window.OnBoarding && window.OnBoarding.create) {
+          resolve(window.OnBoarding)
+        } else {
+          reject(new Error('Incode SDK cargado, pero window.OnBoarding no está disponible.'))
+        }
+      },
+      { async: true, defer: true, manual: true }
+    ).load()
+  })
+}
+
 const createOnboarding = () => {
   incode = window.OnBoarding.create({
     apiURL: 'https://demo-api.incodesmile.com/0',
     apiKey: 'a02644685ee3394d70154fcfa5b2237180e4f6aa',
-    encrypt: true,
     lang: 'es'
   })
 }
@@ -108,6 +124,7 @@ const finishOnboarding = async () => {
 }
 
 const start = async (container) => {
+  await loadIncodeScript()
   createOnboarding()
   await getToken()
   // await publishKeys()

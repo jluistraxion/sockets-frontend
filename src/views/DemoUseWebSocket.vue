@@ -61,7 +61,8 @@ import { useWebSocket } from '@vueuse/core'
 import { FwbInput } from 'flowbite-vue'
 import Button from '@/ui/buttons/Button.vue'
 
-const WS_URL = 'ws://7682-201-175-225-140.ngrok-free.app'
+// const WS_URL = 'ws://7682-201-175-225-140.ngrok-free.app'
+const WS_URL = import.meta.env.VITE_WS_URL
 
 const message = ref('')
 const messages = ref([])
@@ -100,7 +101,13 @@ const addMessage = (content, type) => {
 
 const sendMessage = () => {
   if (message.value.trim() && isOpen.value) {
-    send(message.value)
+    let payload = JSON.stringify({
+      type: 'message',
+      text: message.value,
+      sessionId: 'c4f51e47-1a0f-4301-b662-cca23ab60a20'
+    })
+
+    send(payload)
     addMessage(`📤 Enviado: ${message.value}`, 'sent')
     message.value = ''
   }

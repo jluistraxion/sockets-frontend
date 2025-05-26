@@ -4,9 +4,19 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import { useScriptTag } from '@vueuse/core'
 import translations from '@/components/blinkid/translations.js'
 
 const blinkid = ref(null)
+
+const loadMicroblink = () => {
+  useScriptTag('/blinkid/blinkid-in-browser.esm.js', () => {}, {
+    manual: true,
+    type: 'module'
+  }).load()
+}
+
+loadMicroblink()
 
 const run = () => {
   if (blinkid.value) {
