@@ -3,7 +3,7 @@ import { ref } from 'vue'
 export function useIncodeDocument() {
   const session = ref(null)
   let incode = null
-  const API_KEY = import.meta.env.VITE_INCODE_KEY
+  const API_KEY = 'test_key'
 
   const createOnboarding = () => {
     incode = window.OnBoarding.create({
