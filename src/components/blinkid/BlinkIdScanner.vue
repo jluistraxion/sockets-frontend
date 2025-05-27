@@ -12,12 +12,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useScriptTag } from '@vueuse/core'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
+import { useWebSockets } from '@/composables/useWebSockets'
 import InactivityModal from '@/ui/modals/InactivityModal.vue'
 import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
@@ -32,6 +33,7 @@ const config = ref({})
 const modal = ref()
 
 const { showWarning, warningCountdown, cancelRedirect, setConfig } = useInactivityWatcher()
+const { joinSession, sendMessage, close } = useWebSockets()
 
 watch(showWarning, (isShowWarning) => {
   if (isShowWarning) modal.value.showModal()
@@ -45,6 +47,7 @@ const loadIncode = () => {
 }
 
 loadIncode()
+joinSession()
 
 const run = () => {
   if (blinkid.value) {
@@ -88,6 +91,8 @@ const run = () => {
 
     blinkId.addEventListener('scanSuccess', (ev) => {
       console.log('scanSuccess', ev.detail)
+      sendMessage('capture-finished')
+      close()
       router.push({ name: 'success' })
     })
 

@@ -15,6 +15,7 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
+import { useWebSockets } from '@/composables/useWebSockets'
 import Container from '@/components/layout/Container.vue'
 import QR from '@/views/QR.vue'
 import api from '@/api/api'
@@ -24,6 +25,10 @@ const route = useRoute()
 const router = useRouter()
 const errorMsg = ref(null)
 const config = ref({})
+
+const { createSession, close } = useWebSockets()
+
+createSession()
 
 const setConfig = (data) => {
   if (data.tipoflujo === 'escritorio') config.value = data
@@ -35,6 +40,7 @@ const setConfig = (data) => {
   }
   if (data.tipoflujo === 'movil' && data.motorutilizado === '3') {
     router.push({ name: 'incode-document', params: { id: route.params.id } })
+    close()
   }
 }
 

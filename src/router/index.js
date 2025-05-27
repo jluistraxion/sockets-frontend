@@ -15,7 +15,7 @@ const routes = [
   {
     name: 'demo',
     path: '/demo',
-    component: () => import('@/views/DemoUseWebSocket.vue')
+    component: () => import('@/components/sockets/DemoUseWebSocket.vue')
   },
   {
     name: 'example-incode',
@@ -52,6 +52,20 @@ const routes = [
     path: '/:pathMatch(.*)*',
     component: Error,
     props: () => ({ error: `Error 404. Página no encontrada` })
+  },
+  {
+    name: 'session-not-found',
+    path: '/session-not-found',
+    component: Error,
+    props: () => ({ error: `Sesión no encontrada` })
+  },
+  {
+    name: 'session-already-exists',
+    path: '/session-already-exists',
+    component: Error,
+    props: () => ({
+      error: `La sesión ya se encuentra en uso, cierre esta ventana para poder continuar.`
+    })
   },
   {
     name: 'success',

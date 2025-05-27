@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useScriptTag } from '@vueuse/core'
+import { useWebSockets } from '@/composables/useWebSockets'
 
 export function useIncode() {
   const API_URL = import.meta.env.VITE_API_URL
@@ -9,6 +10,9 @@ export function useIncode() {
   let incode = null
   const route = useRoute()
   const router = useRouter()
+  const { joinSession, sendMessage, close } = useWebSockets()
+
+  joinSession()
 
   const loadIncodeScript = () => {
     return new Promise((resolve, reject) => {
@@ -105,12 +109,40 @@ export function useIncode() {
     }
   }
 
+  const getIndicadores = async () => {
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    })
+
+    const body = JSON.stringify({
+      idoperacion: route.params.id,
+      error: false
+    })
+
+    const res = await fetch(`${API_URL}/getindicadores`, {
+      method: 'POST',
+      headers,
+      body
+    })
+
+    const data = await res.json()
+    if (data.success) {
+      router.push({ name: 'success' })
+    } else {
+      router.push({ name: 'not-found' })
+    }
+  }
+
   const finishOnboarding = async () => {
     try {
       const result = await incode.getFinishStatus(null, {
         token: session.value.token
       })
       console.log('Finish status:', result)
+      // await getIndicadores()
+      sendMessage('capture-finished')
+      close()
+      router.push({ name: 'success' })
     } catch (error) {
       console.error(error)
     }
