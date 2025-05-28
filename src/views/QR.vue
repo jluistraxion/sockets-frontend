@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-screen flex justify-center"
+    class="h-screen flex justify-center p-6"
     :style="{
       backgroundColor: config?.fondogeneral.backgroundColor || '#21232de6'
     }"
@@ -46,7 +46,7 @@
           render-as="svg"
         />
       </div>
-      <div class="flex flex-col gap-2 items-center justify-center absolute bottom-0 mb-6">
+      <div class="flex flex-col gap-2 items-center justify-center absolute bottom-0 mb-8">
         <Spinner :color="config?.spinner.color" />
         <div
           :style="{

@@ -10,7 +10,7 @@ export function useIncode() {
   let incode = null
   const route = useRoute()
   const router = useRouter()
-  const { joinSession, sendMessage, close } = useWebSockets()
+  const { joinSession, sendMessage, close, sendToIncodePreview } = useWebSockets()
 
   joinSession()
 
@@ -138,9 +138,10 @@ export function useIncode() {
       const result = await incode.getFinishStatus(null, {
         token: session.value.token
       })
-      console.log('Finish status:', result)
+      // console.log('Finish status:', result)
       // await getIndicadores()
-      sendMessage('capture-finished')
+      // sendMessage('capture-finished')
+      sendToIncodePreview(session.value.token)
       close()
       router.push({ name: 'success' })
     } catch (error) {

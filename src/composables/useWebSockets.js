@@ -32,8 +32,12 @@ export function useWebSockets() {
       if (parsed.type === 'session-already-exists') router.push('/session-already-exists')
 
       // corregir
-      if (parsed.type === 'message' && parsed.message === 'capture-finished')
+      if (parsed.type === 'message' && parsed.message === 'capture-finished') {
         router.push('/success')
+      }
+      if (parsed.type === 'message' && parsed.message === 'incode-preview') {
+        router.push({ name: 'incode-preview', params: { id: parsed.token } })
+      }
 
       console.log(`📩 Recibido: ${event.data}`, parsed, 'received')
     }
@@ -47,6 +51,17 @@ export function useWebSockets() {
       type: 'message',
       message: txt ? txt : 'mensaje',
       sessionId: route.params.id
+    })
+    send(payload)
+    console.log(payload)
+  }
+
+  const sendToIncodePreview = (token) => {
+    let payload = JSON.stringify({
+      type: 'message',
+      message: 'incode-preview',
+      sessionId: route.params.id,
+      token: token
     })
     send(payload)
     console.log(payload)
@@ -87,6 +102,7 @@ export function useWebSockets() {
     status,
     createSession,
     joinSession,
-    mobileConnected
+    mobileConnected,
+    sendToIncodePreview
   }
 }

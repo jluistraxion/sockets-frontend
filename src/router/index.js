@@ -76,6 +76,11 @@ const routes = [
     name: 'timeout',
     path: '/timeout',
     component: () => import('@/views/Timeout.vue')
+  },
+  {
+    name: 'incode-preview',
+    path: '/incode-preview/:id',
+    component: () => import('@/views/IncodePreview.vue')
   }
 ]
 
