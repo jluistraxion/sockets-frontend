@@ -17,6 +17,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useScriptTag } from '@vueuse/core'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
+import { parseaOcr } from '@/utils/blinkid.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
 import { useWebSockets } from '@/composables/useWebSockets'
 import InactivityModal from '@/ui/modals/InactivityModal.vue'
@@ -39,6 +40,7 @@ watch(showWarning, (isShowWarning) => {
   if (isShowWarning) modal.value.showModal()
 })
 
+//lazy loading script
 const loadIncode = () => {
   useScriptTag('/blinkid/blinkid-in-browser.esm.js', () => {}, {
     manual: true,
@@ -48,6 +50,27 @@ const loadIncode = () => {
 
 loadIncode()
 joinSession()
+
+const { mutate: getIndicadores } = useMutation({
+  mutationFn: (payload) => {
+    console.log('payload getIndicadores', payload)
+    return api.post(`${API_URL}/getindicadores`, {
+      success: true,
+      message: 'Operacion concluida exitosamente',
+      idoperacion: route.params.id,
+      data: payload
+    })
+  },
+  onSuccess: (response) => {
+    sendMessage('capture-finished')
+    close()
+    router.push({ name: 'success' })
+  },
+  onError: (error) => {
+    console.log('error getIndicadores', error)
+    errorMsg.value = 'Token o Interview ID no encontrados para esta operación'
+  }
+})
 
 const run = () => {
   if (blinkid.value) {
@@ -91,9 +114,8 @@ const run = () => {
 
     blinkId.addEventListener('scanSuccess', (ev) => {
       console.log('scanSuccess', ev.detail)
-      sendMessage('capture-finished')
-      close()
-      router.push({ name: 'success' })
+      let parseData = parseaOcr(ev.detail.recognizer)
+      getIndicadores(parseData)
     })
 
     blinkId.addEventListener('feedback', (ev) => console.log('feedback', ev))
