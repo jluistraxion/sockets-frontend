@@ -27,10 +27,11 @@ import api from '@/api/api'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
-const { setConfig } = useIncodeScanner()
 const container = ref(null)
 const errorMsg = ref(null)
 const modal = ref()
+
+const { setConfig } = useIncodeScanner({ errorMsg })
 
 const {
   showWarning,
@@ -56,7 +57,7 @@ const { mutate: fetchData, isPending: isLoading } = useMutation({
     }
   },
   onError: (error) => {
-    errorMsg.value = parseErrorMessage(error)
+    errorMsg.value = parseErrorMessage(error.message)
   }
 })
 

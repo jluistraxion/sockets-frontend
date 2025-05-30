@@ -2,8 +2,11 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useScriptTag } from '@vueuse/core'
 import { useWebSockets } from '@/composables/useWebSockets'
+import { useMutation } from '@tanstack/vue-query'
+import { parseErrorMessage } from '@/utils/parseData'
+import api from '@/api/api'
 
-export function useIncodeScanner() {
+export function useIncodeScanner({ errorMsg }) {
   const API_URL = import.meta.env.VITE_API_URL
   const session = ref(null)
   const config = ref({})
@@ -109,29 +112,23 @@ export function useIncodeScanner() {
     }
   }
 
-  const getIndicadores = async () => {
-    const headers = new Headers({
-      'Content-Type': 'application/json'
-    })
-
-    const body = JSON.stringify({
-      idoperacion: route.params.id,
-      error: false
-    })
-
-    const res = await fetch(`${API_URL}/getindicadores`, {
-      method: 'POST',
-      headers,
-      body
-    })
-
-    const data = await res.json()
-    if (data.success) {
+  const { mutate: getIndicadores } = useMutation({
+    mutationFn: () => {
+      return api.post(`${API_URL}/getindicadores`, {
+        success: true,
+        message: 'Operacion concluida exitosamente',
+        idoperacion: route.params.id
+      })
+    },
+    onSuccess: () => {
+      sendToIncodePreview(session.value.token)
+      close()
       router.push({ name: 'success' })
-    } else {
-      router.push({ name: 'not-found' })
+    },
+    onError: (error) => {
+      errorMsg.value = parseErrorMessage(error.message)
     }
-  }
+  })
 
   const finishOnboarding = async () => {
     try {
@@ -139,11 +136,8 @@ export function useIncodeScanner() {
         token: session.value.token
       })
       // console.log('Finish status:', result)
-      // await getIndicadores()
+      getIndicadores()
       // sendMessage('capture-finished')
-      sendToIncodePreview(session.value.token)
-      close()
-      router.push({ name: 'success' })
     } catch (error) {
       console.error(error)
     }
