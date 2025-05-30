@@ -3,7 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useScriptTag } from '@vueuse/core'
 import { useWebSockets } from '@/composables/useWebSockets'
 
-export function useIncode() {
+export function useIncodeScanner() {
   const API_URL = import.meta.env.VITE_API_URL
   const session = ref(null)
   const config = ref({})

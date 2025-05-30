@@ -18,7 +18,7 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
-import { useIncode } from '@/composables/useIncode'
+import { useIncodeScanner } from '@/composables/useIncodeScanner'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
 import InactivityModal from '@/ui/modals/InactivityModal.vue'
@@ -27,7 +27,7 @@ import api from '@/api/api'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
-const { setConfig } = useIncode()
+const { setConfig } = useIncodeScanner()
 const container = ref(null)
 const errorMsg = ref(null)
 const modal = ref()

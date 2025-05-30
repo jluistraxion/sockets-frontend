@@ -15,7 +15,7 @@ const routes = [
   {
     name: 'demo',
     path: '/demo',
-    component: () => import('@/components/sockets/DemoUseWebSocket.vue')
+    component: () => import('@/views/Demo.vue')
   },
   {
     name: 'example-incode',
@@ -35,7 +35,12 @@ const routes = [
   {
     name: 'microblink',
     path: '/microblink/:id',
-    component: () => import('@/components/blinkid//BlinkIdScanner.vue')
+    component: () => import('@/components/blinkid/BlinkIdScanner.vue')
+  },
+  {
+    name: 'blink-scanner',
+    path: '/blink-scanner/:id',
+    component: () => import('@/components/blinkid/BlinkSDKScanner.vue')
   },
   {
     name: 'incode-scanner',

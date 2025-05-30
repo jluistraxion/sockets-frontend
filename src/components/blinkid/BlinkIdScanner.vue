@@ -68,7 +68,7 @@ const { mutate: getIndicadores } = useMutation({
   },
   onError: (error) => {
     console.log('error getIndicadores', error)
-    errorMsg.value = 'Token o Interview ID no encontrados para esta operación'
+    errorMsg.value = parseErrorMessage(error.message)
   }
 })
 
