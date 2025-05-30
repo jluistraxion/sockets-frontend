@@ -21,15 +21,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  /*
   server: {
     https: {
-      key: fs.readFileSync('./cert/key.pem'),
-      cert: fs.readFileSync('./cert/cert.pem')
+      key: fs.readFileSync('privkey.pem'),
+      cert: fs.readFileSync('fullchain.pem')
     },
-    port: 5173, // o el que prefieras
+    port: 2026, // o el que prefieras
+    allowedHosts: true,
     host: true // permite conexiones desde IP o LAN
   }
-    */
-  server: { port: 2026, allowedHosts: true }
 })

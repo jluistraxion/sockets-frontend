@@ -38,10 +38,6 @@ const setConfig = (data) => {
   if (data.tipoflujo === 'movil' && data.motorutilizado === '2') {
     router.push({ name: 'microblink', params: { id: route.params.id } })
   }
-  if (data.tipoflujo === 'movil' && data.motorutilizado === '3') {
-    router.push({ name: 'incode-document', params: { id: route.params.id } })
-    close()
-  }
 }
 
 const { mutate: fetchData, isPending: isLoading } = useMutation({

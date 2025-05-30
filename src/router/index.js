@@ -48,11 +48,6 @@ const routes = [
     component: () => import('@/components/incode/IncodeScanner.vue')
   },
   {
-    name: 'incode-document',
-    path: '/incode-document/:id',
-    component: () => import('@/components/incode/IncodeDocument.vue')
-  },
-  {
     name: 'not-found',
     path: '/:pathMatch(.*)*',
     component: Error,

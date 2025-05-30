@@ -35,12 +35,6 @@
       >
         Incode Scanner
       </Button>
-      <Button
-        color="default"
-        @click="$router.push('/incode-document')"
-      >
-        Incode Document
-      </Button>
     </div>
     <div>Demo inactividad: {{ countdown }} - {{ showWarning }} - {{ warningCountdown }}</div>
     <InactivityModal
