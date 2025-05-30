@@ -2,9 +2,7 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useScriptTag } from '@vueuse/core'
 import { useWebSockets } from '@/composables/useWebSockets'
-import { useMutation } from '@tanstack/vue-query'
-import { parseErrorMessage } from '@/utils/parseData'
-import api from '@/api/api'
+import { useIndicadores } from '@/composables/useIndicadores'
 
 export function useIncodeScanner({ errorMsg }) {
   const API_URL = import.meta.env.VITE_API_URL
@@ -13,7 +11,8 @@ export function useIncodeScanner({ errorMsg }) {
   let incode = null
   const route = useRoute()
   const router = useRouter()
-  const { joinSession, sendMessage, close, sendToIncodePreview } = useWebSockets()
+  const { joinSession, sendMessage } = useWebSockets()
+  const { getIndicadores } = useIndicadores({ errorMsg })
 
   joinSession()
 
@@ -34,35 +33,51 @@ export function useIncodeScanner({ errorMsg }) {
   }
 
   const createOnboarding = () => {
-    incode = window.OnBoarding.create({
-      apiURL: config.value?.apiURL,
-      apiKey: config.value?.apiKey,
-      encrypt: config.value?.crypto,
-      lang: 'es'
-    })
+    try {
+      incode = window.OnBoarding.create({
+        apiURL: config.value?.apiURL,
+        apiKey: config.value?.apiKey,
+        encrypt: config.value?.crypto,
+        lang: 'es'
+      })
+    } catch (error) {
+      getIndicadores({
+        success: false,
+        message: 'Error al crear el OnBoarding incode scanner',
+        idoperacion: route.params.id
+      })
+    }
   }
 
   const getToken = async () => {
-    const headers = new Headers({
-      'Content-Type': 'application/json'
-    })
+    try {
+      const headers = new Headers({
+        'Content-Type': 'application/json'
+      })
 
-    const body = JSON.stringify({
-      idoperacion: route.params.id,
-      error: false
-    })
+      const body = JSON.stringify({
+        idoperacion: route.params.id,
+        error: false
+      })
 
-    const res = await fetch(`${API_URL}/getmotorselect`, {
-      method: 'POST',
-      headers,
-      body
-    })
+      const res = await fetch(`${API_URL}/getmotorselect`, {
+        method: 'POST',
+        headers,
+        body
+      })
 
-    const data = await res.json()
-    if (data.success) {
-      session.value = data.data
-    } else {
-      router.push({ name: data.data.redirect, params: { id: route.params.id } })
+      const data = await res.json()
+      if (data.success) {
+        session.value = data.data
+      } else {
+        router.push({ name: data.data.redirect, params: { id: route.params.id } })
+      }
+    } catch (error) {
+      getIndicadores({
+        success: false,
+        message: 'Error al consultar getmotorselect incode scanner',
+        idoperacion: route.params.id
+      })
     }
   }
 
@@ -81,7 +96,13 @@ export function useIncodeScanner({ errorMsg }) {
       numberOfTries: config.value?.reintentos,
       showTutorial: true,
       onSuccess,
-      onError: console.error
+      onError: () => {
+        getIndicadores({
+          success: false,
+          message: 'Error al capturar el frente del dni incode scanner',
+          idoperacion: route.params.id
+        })
+      }
     })
   }
 
@@ -91,7 +112,13 @@ export function useIncodeScanner({ errorMsg }) {
       numberOfTries: config.value?.reintentos,
       showTutorial: true,
       onSuccess,
-      onError: console.error
+      onError: () => {
+        getIndicadores({
+          success: false,
+          message: 'Error al capturar el reverso del dni incode scanner',
+          idoperacion: route.params.id
+        })
+      }
     })
   }
 
@@ -108,38 +135,31 @@ export function useIncodeScanner({ errorMsg }) {
     try {
       await incode.processId({ token: session.value.token })
     } catch (error) {
-      console.error(error)
+      console.error('error processId', error)
+      getIndicadores({
+        success: false,
+        message: 'Error en el procesId incode scanner',
+        idoperacion: route.params.id
+      })
     }
   }
 
-  const { mutate: getIndicadores } = useMutation({
-    mutationFn: () => {
-      return api.post(`${API_URL}/getindicadores`, {
-        success: true,
-        message: 'Operacion concluida exitosamente',
-        idoperacion: route.params.id
-      })
-    },
-    onSuccess: () => {
-      sendToIncodePreview(session.value.token)
-      close()
-      router.push({ name: 'success' })
-    },
-    onError: (error) => {
-      errorMsg.value = parseErrorMessage(error.message)
-    }
-  })
-
   const finishOnboarding = async () => {
     try {
-      const result = await incode.getFinishStatus(null, {
-        token: session.value.token
+      await incode.getFinishStatus(null, { token: session.value.token })
+      getIndicadores({
+        success: true,
+        message: 'Captura completa incode scanner',
+        idoperacion: route.params.id
       })
-      // console.log('Finish status:', result)
-      getIndicadores()
-      // sendMessage('capture-finished')
+      sendMessage('capture-finished')
     } catch (error) {
-      console.error(error)
+      console.error('error finishOnboarding', error)
+      getIndicadores({
+        success: false,
+        message: 'Error en el finishOnboarding incode scanner',
+        idoperacion: route.params.id
+      })
     }
   }
 

@@ -7,6 +7,8 @@ export function useWebSockets() {
   const route = useRoute()
   const router = useRouter()
 
+  const captureFinished = ref(false)
+
   const { status, data, send, open, close, ws } = useWebSocket(WS_URL, {
     // immediate: false,
     autoReconnect: {
@@ -30,15 +32,9 @@ export function useWebSockets() {
       let isErrorSession = ['session-does-not-exist', 'session-not-found'].includes(parsed.type)
       if (isErrorSession) router.push('/session-not-found')
       if (parsed.type === 'session-already-exists') router.push('/session-already-exists')
-
-      // corregir
       if (parsed.type === 'message' && parsed.message === 'capture-finished') {
-        router.push('/success')
+        captureFinished.value = true
       }
-      if (parsed.type === 'message' && parsed.message === 'incode-preview') {
-        router.push({ name: 'incode-preview', params: { id: parsed.token } })
-      }
-
       console.log(`📩 Recibido: ${event.data}`, parsed, 'received')
     }
   })
@@ -46,25 +42,12 @@ export function useWebSockets() {
   const isOpen = computed(() => status.value === 'OPEN')
 
   const sendMessage = (txt) => {
-    console.log('sendMessage')
     let payload = JSON.stringify({
       type: 'message',
       message: txt ? txt : 'mensaje',
       sessionId: route.params.id
     })
     send(payload)
-    console.log(payload)
-  }
-
-  const sendToIncodePreview = (token) => {
-    let payload = JSON.stringify({
-      type: 'message',
-      message: 'incode-preview',
-      sessionId: route.params.id,
-      token: token
-    })
-    send(payload)
-    console.log(payload)
   }
 
   const createSession = () => {
@@ -73,7 +56,6 @@ export function useWebSockets() {
       token: route.params.id
     })
     send(payload)
-    console.log(payload)
   }
 
   const joinSession = () => {
@@ -82,7 +64,6 @@ export function useWebSockets() {
       sessionId: route.params.id
     })
     send(payload)
-    console.log(payload)
   }
 
   const mobileConnected = () => {
@@ -91,7 +72,6 @@ export function useWebSockets() {
       sessionId: route.params.id
     })
     send(payload)
-    console.log(payload)
   }
 
   return {
@@ -103,6 +83,6 @@ export function useWebSockets() {
     createSession,
     joinSession,
     mobileConnected,
-    sendToIncodePreview
+    captureFinished
   }
 }

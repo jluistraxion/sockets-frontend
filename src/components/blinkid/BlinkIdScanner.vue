@@ -20,6 +20,7 @@ import { parseErrorMessage } from '@/utils/parseData.js'
 import { parseaOcr } from '@/utils/blinkid.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
 import { useWebSockets } from '@/composables/useWebSockets'
+import { useIndicadores } from '@/composables/useIndicadores'
 import InactivityModal from '@/ui/modals/InactivityModal.vue'
 import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
@@ -35,6 +36,7 @@ const modal = ref()
 
 const { showWarning, warningCountdown, cancelRedirect, setConfig } = useInactivityWatcher()
 const { joinSession, sendMessage, close } = useWebSockets()
+const { getIndicadores } = useIndicadores({ errorMsg })
 
 watch(showWarning, (isShowWarning) => {
   if (isShowWarning) modal.value.showModal()
@@ -50,27 +52,6 @@ const loadIncode = () => {
 
 loadIncode()
 joinSession()
-
-const { mutate: getIndicadores } = useMutation({
-  mutationFn: (payload) => {
-    console.log('payload getIndicadores', payload)
-    return api.post(`${API_URL}/getindicadores`, {
-      success: true,
-      message: 'Operacion concluida exitosamente',
-      idoperacion: route.params.id,
-      data: payload
-    })
-  },
-  onSuccess: (response) => {
-    sendMessage('capture-finished')
-    close()
-    router.push({ name: 'success' })
-  },
-  onError: (error) => {
-    console.log('error getIndicadores', error)
-    errorMsg.value = parseErrorMessage(error.message)
-  }
-})
 
 const run = () => {
   if (blinkid.value) {
@@ -103,19 +84,68 @@ const run = () => {
     blinkId.iconInvalidFormat = undefined
     blinkId.iconSpinner = undefined
 
-    blinkId.addEventListener('fatalError', (ev) => console.log('fatalError', ev.detail))
+    blinkId.addEventListener('fatalError', (ev) => {
+      console.error('fatalError', ev.detail)
+      getIndicadores({
+        success: false,
+        message: 'fatalError Microblink scanner',
+        idoperacion: route.params.id
+      })
+    })
 
     blinkId.addEventListener('ready', (ev) => {
       console.log('ready', ev.detail)
       blinkId.startCameraScan()
     })
 
-    blinkId.addEventListener('scanError', (ev) => console.log('scanError', ev.detail))
+    blinkId.addEventListener('scanError', (ev) => {
+      console.error('scanError', ev.detail)
+      getIndicadores({
+        success: false,
+        message: 'scanError Microblink scanner',
+        idoperacion: route.params.id
+      })
+    })
 
     blinkId.addEventListener('scanSuccess', (ev) => {
-      console.log('scanSuccess', ev.detail)
-      let parseData = parseaOcr(ev.detail.recognizer)
-      getIndicadores(parseData)
+      const ano = new Date().getFullYear()
+      if (ev.type === 'scanSuccess') {
+        let objetoData = ev.detail.recognizer
+        if (objetoData.classInfo.documentType === 18) {
+          //escaneo exitoso y es INE
+          if (objetoData.frontViz.dateOfExpiry.year >= ano) {
+            //escaneo exitoso , es INE y es vigente
+            let parseData = parseaOcr(ev.detail.recognizer)
+            getIndicadores({
+              success: true,
+              message: 'Captura completa Microblink scanner',
+              idoperacion: route.params.id,
+              data: parseData
+            })
+            sendMessage('capture-finished')
+          } else {
+            //escaneo exitoso , es INE pero no es vigente
+            getIndicadores({
+              success: false,
+              message: 'El documento no es vigente, Microblink scanner',
+              idoperacion: route.params.id
+            })
+          }
+        } else {
+          //escaneo exitoso pero no es un INE
+          getIndicadores({
+            success: false,
+            message: 'El documento no es INE, Microblink scanner',
+            idoperacion: route.params.id
+          })
+        }
+      } else {
+        getIndicadores({
+          success: false,
+          message: 'El escaneo del documento no es valido Microblink scanner',
+          idoperacion: route.params.id
+        })
+      }
     })
 
     blinkId.addEventListener('feedback', (ev) => console.log('feedback', ev))

@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
@@ -26,9 +26,17 @@ const router = useRouter()
 const errorMsg = ref(null)
 const config = ref({})
 
-const { createSession, close } = useWebSockets()
+const { createSession, captureFinished, close } = useWebSockets()
 
 createSession()
+
+watch(captureFinished, (isCaptureFinished) => {
+  if (isCaptureFinished) {
+    close()
+    console.warn('captura finalizada!')
+    router.push('/preview')
+  }
+})
 
 const setConfig = (data) => {
   if (data.tipoflujo === 'escritorio') config.value = data

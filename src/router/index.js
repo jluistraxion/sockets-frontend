@@ -78,9 +78,9 @@ const routes = [
     component: () => import('@/views/Timeout.vue')
   },
   {
-    name: 'incode-preview',
-    path: '/incode-preview/:id',
-    component: () => import('@/views/IncodePreview.vue')
+    name: 'preview',
+    path: '/preview/:id?',
+    component: () => import('@/views/Preview.vue')
   }
 ]
 
