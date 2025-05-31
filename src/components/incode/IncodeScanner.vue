@@ -1,6 +1,6 @@
 <template>
   <Container
-    :isLoading
+    :isLoading="isLoading || isLoadingIndicadores"
     :errorMsg
   />
   <div
@@ -31,7 +31,7 @@ const container = ref(null)
 const errorMsg = ref(null)
 const modal = ref()
 
-const { setConfig } = useIncodeScanner({ errorMsg })
+const { setConfig, isLoadingIndicadores } = useIncodeScanner({ errorMsg })
 
 const {
   showWarning,

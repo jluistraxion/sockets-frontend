@@ -1,6 +1,6 @@
 <template>
   <Container
-    :isLoading
+    :isLoading="isLoading || isLoadingIndicadores"
     :errorMsg
   />
   <blinkid-in-browser ref="blinkid"></blinkid-in-browser>
@@ -36,7 +36,7 @@ const modal = ref()
 
 const { showWarning, warningCountdown, cancelRedirect, setConfig } = useInactivityWatcher()
 const { joinSession, sendMessage, close } = useWebSockets()
-const { getIndicadores } = useIndicadores({ errorMsg })
+const { getIndicadores, isLoadingIndicadores } = useIndicadores({ errorMsg })
 
 watch(showWarning, (isShowWarning) => {
   if (isShowWarning) modal.value.showModal()

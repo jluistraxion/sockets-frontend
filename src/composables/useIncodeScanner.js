@@ -12,7 +12,7 @@ export function useIncodeScanner({ errorMsg }) {
   const route = useRoute()
   const router = useRouter()
   const { joinSession, sendMessage } = useWebSockets()
-  const { getIndicadores } = useIndicadores({ errorMsg })
+  const { getIndicadores, isLoadingIndicadores } = useIndicadores({ errorMsg })
 
   joinSession()
 
@@ -189,6 +189,7 @@ export function useIncodeScanner({ errorMsg }) {
   }
 
   return {
-    setConfig
+    setConfig,
+    isLoadingIndicadores
   }
 }

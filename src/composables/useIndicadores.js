@@ -7,14 +7,18 @@ export function useIndicadores({ errorMsg } = {}) {
   const API_URL = import.meta.env.VITE_API_URL
   const router = useRouter()
 
-  const { mutate: getIndicadores } = useMutation({
+  const { mutate: getIndicadores, isPending: isLoadingIndicadores } = useMutation({
     mutationFn: (payload) => {
       console.log('payload getIndicadores', payload)
       return api.post(`${API_URL}/getindicadores`, payload)
     },
     onSuccess: (response) => {
       console.warn('response getIndicadores', response)
-      router.push('/preview')
+      if (response.redirecciona) {
+        router.push('/preview')
+      } else {
+        router.push('/success')
+      }
     },
     onError: (error) => {
       if (errorMsg?.value !== undefined) {
@@ -23,5 +27,5 @@ export function useIndicadores({ errorMsg } = {}) {
     }
   })
 
-  return { getIndicadores }
+  return { getIndicadores, isLoadingIndicadores }
 }
