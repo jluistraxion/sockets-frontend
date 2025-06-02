@@ -3,9 +3,10 @@
     :isLoading="isLoading"
     :errorMsg="errorMsg"
   >
-    <div class="text-center px-4 py-6">
-      <div class="text-2xl mb-4">Página externa para visualizar el OCR</div>
-      <h2 class="text-xl font-semibold mb-2">Resultado del OCR:</h2>
+    <div class="px-4 py-6">
+      <div class="text-2xl mb-4 text-center">Página externa para visualizar el OCR</div>
+      <h2 class="text-xl font-semibold mb-2">Resultado del OCR</h2>
+      <div class="mt-10 mb-4">JWT imagenes:</div>
       <div class="flex flex-row gap-6 my-4">
         <img
           v-if="base64Front"
@@ -26,12 +27,14 @@
           class="w-40 h-40"
         />
       </div>
-      <div>
-        <div class="mb-2">OCR data:</div>
-        <div class="border border-slate-300 rounded-lg max-h-72 overflow-y-auto p-4">
-          <pre>{{ JSON.stringify(data, null, 2) }}</pre>
-        </div>
-      </div>
+      <div class="mt-10 mb-4">OCR data:</div>
+      <JsonViewer
+        :value="data"
+        copyable
+        boxed
+        sort
+        theme="light"
+      />
     </div>
   </Container>
 </template>
@@ -41,6 +44,7 @@ import { useRoute } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import { jwtDecode } from 'jwt-decode'
+import { JsonViewer } from 'vue3-json-viewer'
 import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
 
