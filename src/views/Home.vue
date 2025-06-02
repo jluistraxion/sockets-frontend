@@ -34,7 +34,7 @@ watch(captureFinished, (isCaptureFinished) => {
   if (isCaptureFinished) {
     close()
     console.warn('captura finalizada!')
-    router.push('/preview')
+    router.push({ name: 'preview', params: { id: route.params.id } })
   }
 })
 

@@ -1,11 +1,12 @@
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import api from '@/api/api'
 
 export function useIndicadores({ errorMsg } = {}) {
   const API_URL = import.meta.env.VITE_API_URL
   const router = useRouter()
+  const route = useRoute()
 
   const { mutate: getIndicadores, isPending: isLoadingIndicadores } = useMutation({
     mutationFn: (payload) => {
@@ -15,7 +16,7 @@ export function useIndicadores({ errorMsg } = {}) {
     onSuccess: (response) => {
       console.warn('response getIndicadores', response)
       if (response.redirecciona) {
-        router.push('/preview')
+        router.push({ name: 'preview', params: { id: route.params.id } })
       } else {
         router.push('/success')
       }
