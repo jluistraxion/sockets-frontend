@@ -62,6 +62,6 @@ watch(showWarning, (isShowWarning) => {
 })
 
 onMounted(() => {
-  setConfig(180, 5)
+  setConfig(180, 5, 'prueba sdk')
 })
 </script>
