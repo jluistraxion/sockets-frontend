@@ -115,25 +115,14 @@ const run = () => {
       if (ev.type === 'scanSuccess') {
         let objetoData = ev.detail.recognizer
         if (objetoData.classInfo.documentType === 18) {
-          //escaneo exitoso y es INE
-          if (objetoData.frontViz.dateOfExpiry.year >= ano) {
-            //escaneo exitoso , es INE y es vigente
-            let parseData = parseaOcr(ev.detail.recognizer)
-            getIndicadores({
-              success: true,
-              message: 'Captura completa Microblink scanner',
-              idoperacion: route.params.id,
-              data: parseData
-            })
-            sendMessage('capture-finished')
-          } else {
-            //escaneo exitoso , es INE pero no es vigente
-            getIndicadores({
-              success: false,
-              message: 'El documento no es vigente, Microblink scanner',
-              idoperacion: route.params.id
-            })
-          }
+          let parseData = parseaOcr(ev.detail.recognizer)
+          getIndicadores({
+            success: true,
+            message: 'Captura completa Microblink scanner',
+            idoperacion: route.params.id,
+            data: parseData
+          })
+          sendMessage('capture-finished')
         } else {
           //escaneo exitoso pero no es un INE
           getIndicadores({

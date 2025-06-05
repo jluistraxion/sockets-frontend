@@ -86,6 +86,11 @@ const routes = [
     name: 'combined',
     path: '/combined',
     component: () => import('@/components/demo/CombinedScanner.vue')
+  },
+  {
+    name: 'client-ws',
+    path: '/client-ws/:id',
+    component: () => import('@/components/demo/ClientWS.vue')
   }
 ]
 
