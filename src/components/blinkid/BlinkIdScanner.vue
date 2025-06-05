@@ -3,7 +3,10 @@
     :isLoading="isLoading || isLoadingIndicadores"
     :errorMsg
   />
-  <blinkid-in-browser ref="blinkid"></blinkid-in-browser>
+  <blinkid-in-browser
+    ref="blinkid"
+    :translations="stringifiedTranslations"
+  />
   <InactivityModal
     ref="modal"
     @cancel="cancelRedirect"
@@ -25,6 +28,7 @@ import InactivityModal from '@/ui/modals/InactivityModal.vue'
 import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
 import translations from './translations'
+const stringifiedTranslations = JSON.stringify(translations)
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
@@ -76,7 +80,6 @@ const run = () => {
     blinkId.hideLoadingAndErrorUi = false
     blinkId.scanFromCamera = true
     blinkId.scanFromImage = false
-    blinkId.translations = translations
     blinkId.iconCameraDefault = undefined
     blinkId.iconCameraActive = undefined
     blinkId.iconGalleryDefault = undefined
