@@ -58,7 +58,7 @@ const { mutate: fetchData, isPending: isLoading } = useMutation({
     }
   },
   onError: (error) => {
-    errorMsg.value = parseErrorMessage(error)
+    errorMsg.value = parseErrorMessage(error.message)
   }
 })
 
