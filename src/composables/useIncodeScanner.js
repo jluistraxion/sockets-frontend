@@ -96,10 +96,14 @@ export function useIncodeScanner({ errorMsg }) {
       numberOfTries: config.value?.reintentos,
       showTutorial: true,
       onSuccess,
-      onError: () => {
+      onError: (error) => {
+        let message = 'Error al capturar el frente del INE, Incode scanner'
+        if(error.failReason === 'ID_TYPE_UNACCEPTABLE'){
+            message = 'El frente del documento no es INE, Incode scanner'
+        }
         getIndicadores({
           success: false,
-          message: 'Error al capturar el frente del dni incode scanner',
+          message,
           idoperacion: route.params.id
         })
       }
@@ -112,10 +116,14 @@ export function useIncodeScanner({ errorMsg }) {
       numberOfTries: config.value?.reintentos,
       showTutorial: true,
       onSuccess,
-      onError: () => {
+      onError: (error) => {
+        let message = 'Error al capturar el reverso del INE, Incode scanner'
+        if(error.failReason === 'ID_TYPE_UNACCEPTABLE'){
+            message = 'El reverso del documento no es INE, Incode scanner'
+        }
         getIndicadores({
           success: false,
-          message: 'Error al capturar el reverso del dni incode scanner',
+          message,
           idoperacion: route.params.id
         })
       }
