@@ -91,7 +91,8 @@ const run = () => {
       console.error('fatalError', ev.detail)
       getIndicadores({
         success: false,
-        message: 'fatalError Microblink scanner',
+        message: 'Error al iniciar el SDK',
+        code: 'ID 1',
         idoperacion: route.params.id
       })
     })
@@ -105,7 +106,8 @@ const run = () => {
       console.error('scanError', ev.detail)
       getIndicadores({
         success: false,
-        message: 'scanError Microblink scanner',
+        message: 'No se pudieron recuperar las imagenes del documento procesado',
+        code: 'ID 6',
         idoperacion: route.params.id
       })
     })
@@ -119,6 +121,7 @@ const run = () => {
           getIndicadores({
             success: true,
             message: 'Captura completa Microblink scanner',
+            code: 'ocrComplete',
             idoperacion: route.params.id,
             data: parseData
           })
@@ -127,14 +130,16 @@ const run = () => {
           //escaneo exitoso pero no es un INE
           getIndicadores({
             success: false,
-            message: 'El documento no es INE, Microblink scanner',
+            message: 'Las imagenes capturadas no corresponde a un INE valido',
+            code: 'ID 3',
             idoperacion: route.params.id
           })
         }
       } else {
         getIndicadores({
           success: false,
-          message: 'El escaneo del documento no es valido Microblink scanner',
+          message: 'No se pudieron recuperar las imagenes del documento procesado',
+          code: 'ID 3',
           idoperacion: route.params.id
         })
       }

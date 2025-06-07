@@ -43,7 +43,8 @@ export function useIncodeScanner({ errorMsg }) {
     } catch (error) {
       getIndicadores({
         success: false,
-        message: 'Error al crear el OnBoarding incode scanner',
+        message: 'Error al iniciar el SDK',
+        code: 'ID 10',
         idoperacion: route.params.id
       })
     }
@@ -97,13 +98,16 @@ export function useIncodeScanner({ errorMsg }) {
       showTutorial: true,
       onSuccess,
       onError: (error) => {
-        let message = 'Error al capturar el frente del INE, Incode scanner'
+        let message = 'Se presenta un problema al capturar el frente del documento'
+        let code = 'ID 9'
         if(error.failReason === 'ID_TYPE_UNACCEPTABLE'){
-            message = 'El frente del documento no es INE, Incode scanner'
+            message = 'La imagen del frontal no corresponde a un INE valido'
+            code = 'ID 4'
         }
         getIndicadores({
           success: false,
           message,
+          code,
           idoperacion: route.params.id
         })
       }
@@ -117,13 +121,16 @@ export function useIncodeScanner({ errorMsg }) {
       showTutorial: true,
       onSuccess,
       onError: (error) => {
-        let message = 'Error al capturar el reverso del INE, Incode scanner'
+        let message = 'Se presenta un problema al capturar el reverso del documento'
+        let code = 'ID 9'
         if(error.failReason === 'ID_TYPE_UNACCEPTABLE'){
-            message = 'El reverso del documento no es INE, Incode scanner'
+            message = 'La imagen del reverso no corresponde a un INE valido'
+            code = 'ID 5'
         }
         getIndicadores({
           success: false,
           message,
+          code,
           idoperacion: route.params.id
         })
       }
@@ -146,7 +153,8 @@ export function useIncodeScanner({ errorMsg }) {
       console.error('error processId', error)
       getIndicadores({
         success: false,
-        message: 'Error en el procesId incode scanner',
+        message: 'No se pudieron recuperar las imagenes del documento procesado',
+        code: 'ID 6',
         idoperacion: route.params.id
       })
     }
@@ -158,6 +166,7 @@ export function useIncodeScanner({ errorMsg }) {
       getIndicadores({
         success: true,
         message: 'Captura completa incode scanner',
+        code: 'ocrComplete',
         idoperacion: route.params.id
       })
       sendMessage('capture-finished')
