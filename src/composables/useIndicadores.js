@@ -10,13 +10,11 @@ export function useIndicadores({ errorMsg } = {}) {
 
   const { mutate: getIndicadores, isPending: isLoadingIndicadores } = useMutation({
     mutationFn: (payload) => {
-      console.log('payload getIndicadores', payload)
       return api.post(`${API_URL}/getindicadores`, payload)
     },
     onSuccess: (response) => {
-      console.warn('response getIndicadores', response)
       if (response.redirecciona) {
-        router.push({ name: 'preview', params: { id: route.params.id } })
+        window.location.href = response.redirect
       } else {
         router.push('/success')
       }
