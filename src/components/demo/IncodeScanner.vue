@@ -17,7 +17,7 @@ const container = ref()
 const loadIncodeScript = () => {
   return new Promise((resolve, reject) => {
     useScriptTag(
-      '/incode/onBoarding-1.76.0.js',
+      '/incode/onBoarding-1.80.0.js',
       () => {
         if (window.OnBoarding && window.OnBoarding.create) {
           resolve(window.OnBoarding)
@@ -123,6 +123,24 @@ const finishOnboarding = async () => {
   }
 }
 
+const captureId = (container) => {
+  incode.renderCaptureId(container, {
+    session: incodeSession.value,
+    forceIdV2: true,
+    onSuccess: async () => {
+      console.log('Captura ID completa')
+      await processId()
+      await finishOnboarding()
+    },
+    onError: (err) => {
+      console.error('Error en renderCaptureId:', err)
+    },
+    onFeedback: (feedback) => {
+      console.log('Feedback de captura:', feedback)
+    }
+  })
+}
+
 const start = async (container) => {
   await loadIncodeScript()
   createOnboarding()
@@ -130,6 +148,7 @@ const start = async (container) => {
   // await publishKeys()
   saveDeviceData()
 
+  /*
   captureIdFront(container, () => {
     captureIdBack(container, async () => {
       await processId()
@@ -137,6 +156,8 @@ const start = async (container) => {
       finishOnboarding()
     })
   })
+    */
+  captureId(container)
 }
 
 watch(container, (newContainer) => {

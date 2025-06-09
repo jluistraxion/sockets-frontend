@@ -44,7 +44,7 @@ export function useIncodeScanner({ errorMsg }) {
       getIndicadores({
         success: false,
         message: 'Error al iniciar el SDK',
-        code: 'ID 10',
+        code: '10',
         idoperacion: route.params.id
       })
     }
@@ -100,9 +100,9 @@ export function useIncodeScanner({ errorMsg }) {
       onError: (error) => {
         let message = 'Se presenta un problema al capturar el frente del documento'
         let code = 'ID 9'
-        if(error.failReason === 'ID_TYPE_UNACCEPTABLE'){
-            message = 'La imagen del frontal no corresponde a un INE valido'
-            code = 'ID 4'
+        if (error.failReason === 'ID_TYPE_UNACCEPTABLE') {
+          message = 'La imagen del frontal no corresponde a un INE valido'
+          code = 'ID 4'
         }
         getIndicadores({
           success: false,
@@ -123,9 +123,9 @@ export function useIncodeScanner({ errorMsg }) {
       onError: (error) => {
         let message = 'Se presenta un problema al capturar el reverso del documento'
         let code = 'ID 9'
-        if(error.failReason === 'ID_TYPE_UNACCEPTABLE'){
-            message = 'La imagen del reverso no corresponde a un INE valido'
-            code = 'ID 5'
+        if (error.failReason === 'ID_TYPE_UNACCEPTABLE') {
+          message = 'La imagen del reverso no corresponde a un INE valido'
+          code = 'ID 5'
         }
         getIndicadores({
           success: false,
@@ -154,7 +154,7 @@ export function useIncodeScanner({ errorMsg }) {
       getIndicadores({
         success: false,
         message: 'No se pudieron recuperar las imagenes del documento procesado',
-        code: 'ID 6',
+        code: '6',
         idoperacion: route.params.id
       })
     }

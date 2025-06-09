@@ -28,7 +28,7 @@ export function useInactivityWatcher() {
         getIndicadores({
           success: false,
           message: 'Tiempo de espera de captura de QR terminado',
-          code: 'ID 1',
+          code: '1',
           idoperacion: route.params.id
         })
         // console.log('-->', route.params.id, `Timeout ${sdkName.value} scanner`)

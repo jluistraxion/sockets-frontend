@@ -92,7 +92,7 @@ const run = () => {
       getIndicadores({
         success: false,
         message: 'Error al iniciar el SDK',
-        code: 'ID 1',
+        code: '1',
         idoperacion: route.params.id
       })
     })
@@ -107,7 +107,7 @@ const run = () => {
       getIndicadores({
         success: false,
         message: 'No se pudieron recuperar las imagenes del documento procesado',
-        code: 'ID 6',
+        code: '6',
         idoperacion: route.params.id
       })
     })
@@ -131,7 +131,7 @@ const run = () => {
           getIndicadores({
             success: false,
             message: 'Las imagenes capturadas no corresponde a un INE valido',
-            code: 'ID 3',
+            code: '3',
             idoperacion: route.params.id
           })
         }
@@ -139,7 +139,7 @@ const run = () => {
         getIndicadores({
           success: false,
           message: 'No se pudieron recuperar las imagenes del documento procesado',
-          code: 'ID 3',
+          code: '3',
           idoperacion: route.params.id
         })
       }
