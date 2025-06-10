@@ -189,6 +189,12 @@ export function useIncodeScanner({ errorMsg }) {
         finishOnboarding()
       },
       onError: (err) => {
+        getIndicadores({
+          success: false,
+          message: 'Las imagenes capturadas no corresponde a un INE valido',
+          code: '3',
+          idoperacion: route.params.id
+        })
         console.error('Error en renderCaptureId:', err)
       },
       onFeedback: (feedback) => {

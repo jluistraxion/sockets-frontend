@@ -17,7 +17,7 @@ import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import { useWebSockets } from '@/composables/useWebSockets'
 import Container from '@/components/layout/Container.vue'
-import QR from '@/views/QR.vue'
+import QR from '@/components/qrs/QR.vue'
 import api from '@/api/api'
 
 let intervalId = null

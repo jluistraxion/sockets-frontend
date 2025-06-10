@@ -13,26 +13,6 @@ const routes = [
     component: () => import('@/views/Home.vue')
   },
   {
-    name: 'demo',
-    path: '/demo',
-    component: () => import('@/views/Demo.vue')
-  },
-  {
-    name: 'example-incode',
-    path: '/example-incode',
-    component: () => import('@/components/demo/IncodeScanner.vue')
-  },
-  {
-    name: 'demo-incode',
-    path: '/example-microblink',
-    component: () => import('@/components/demo/MicroblinkScanner.vue')
-  },
-  {
-    name: 'qr',
-    path: '/qr/:id',
-    component: () => import('@/views/QR.vue')
-  },
-  {
     name: 'microblink',
     path: '/microblink/:id',
     component: () => import('@/components/blinkid/BlinkIdScanner.vue')
@@ -81,16 +61,6 @@ const routes = [
     name: 'preview',
     path: '/preview/:id?',
     component: () => import('@/views/Preview.vue')
-  },
-  {
-    name: 'combined',
-    path: '/combined',
-    component: () => import('@/components/demo/CombinedScanner.vue')
-  },
-  {
-    name: 'client-ws',
-    path: '/client-ws/:id',
-    component: () => import('@/components/demo/ClientWS.vue')
   }
 ]
 
