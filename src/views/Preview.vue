@@ -68,15 +68,11 @@ const {
 } = useMutation({
   mutationFn: () => api.post(`${API_URL}/getdata`, { idoperacion: route.params.id }),
   onSuccess: (response) => {
-    if (response.success) {
-      if (response.data.jwt) {
-        const decoded = jwtDecode(response.data.jwt)
-        base64Front.value = decoded.key.ImagenAnverso
-        base64Back.value = decoded.key.ImagenReverso
-        base64Photo.value = decoded.key.ImagenFotoId
-      }
-    } else {
-      errorMsg.value = response.message
+    if (response.data.jwt) {
+      const decoded = jwtDecode(response.data.jwt)
+      base64Front.value = decoded.key.ImagenAnverso
+      base64Back.value = decoded.key.ImagenReverso
+      base64Photo.value = decoded.key.ImagenFotoId
     }
   },
   onError: (error) => {
