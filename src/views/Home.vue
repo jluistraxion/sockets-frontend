@@ -70,7 +70,7 @@ const { mutate: getStatus } = useMutation({
   mutationFn: () => api.post(`${API_URL}/getstatus`, { idoperacion: route.params.id }),
   onSuccess: (response) => {
     if (response.estatusgeneral === '3') {
-      window.location.href = config.value.urlredirect
+      window.location.href = config.value.urlredirect + route.params.id
     }
   }
 })
