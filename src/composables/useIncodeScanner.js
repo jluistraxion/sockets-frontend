@@ -76,7 +76,8 @@ export function useIncodeScanner({ errorMsg }) {
     } catch (error) {
       getIndicadores({
         success: false,
-        message: 'Error al consultar getmotorselect incode scanner',
+        message: 'Verifica los datos url, key, id del flujo de operacion',
+        code: '7',
         idoperacion: route.params.id
       })
     }
@@ -99,10 +100,10 @@ export function useIncodeScanner({ errorMsg }) {
       onSuccess,
       onError: (error) => {
         let message = 'Se presenta un problema al capturar el frente del documento'
-        let code = 'ID 9'
+        let code = '9'
         if (error.failReason === 'ID_TYPE_UNACCEPTABLE') {
           message = 'La imagen del frontal no corresponde a un INE valido'
-          code = 'ID 4'
+          code = '4'
         }
         getIndicadores({
           success: false,
@@ -122,10 +123,10 @@ export function useIncodeScanner({ errorMsg }) {
       onSuccess,
       onError: (error) => {
         let message = 'Se presenta un problema al capturar el reverso del documento'
-        let code = 'ID 9'
+        let code = '9'
         if (error.failReason === 'ID_TYPE_UNACCEPTABLE') {
           message = 'La imagen del reverso no corresponde a un INE valido'
-          code = 'ID 5'
+          code = '5'
         }
         getIndicadores({
           success: false,
@@ -150,7 +151,6 @@ export function useIncodeScanner({ errorMsg }) {
     try {
       await incode.processId({ token: session.value.token })
     } catch (error) {
-      console.error('error processId', error)
       getIndicadores({
         success: false,
         message: 'No se pudieron recuperar las imagenes del documento procesado',
@@ -171,10 +171,10 @@ export function useIncodeScanner({ errorMsg }) {
       })
       sendMessage('capture-finished')
     } catch (error) {
-      console.error('error finishOnboarding', error)
       getIndicadores({
         success: false,
-        message: 'Error en el finishOnboarding incode scanner',
+        message: 'No se pudieron recuperar las imagenes del documento procesado',
+        code: '6',
         idoperacion: route.params.id
       })
     }
@@ -188,17 +188,13 @@ export function useIncodeScanner({ errorMsg }) {
         await processId()
         finishOnboarding()
       },
-      onError: (err) => {
+      onError: () => {
         getIndicadores({
           success: false,
           message: 'Las imagenes capturadas no corresponde a un INE valido',
           code: '3',
           idoperacion: route.params.id
         })
-        console.error('Error en renderCaptureId:', err)
-      },
-      onFeedback: (feedback) => {
-        console.log('Feedback de captura:', feedback)
       }
     })
   }
@@ -214,7 +210,7 @@ export function useIncodeScanner({ errorMsg }) {
   const setConfig = (data, container) => {
     config.value = data
     if (!data.apiURL && !data.apiKey) {
-      console.log('configuracion incorrecta')
+      console.error('configuracion incorrecta')
       router.push({ name: 'error' })
     }
     start(container)

@@ -92,7 +92,7 @@ const run = () => {
       getIndicadores({
         success: false,
         message: 'Error al iniciar el SDK',
-        code: '1',
+        code: '10',
         idoperacion: route.params.id
       })
     })
@@ -113,7 +113,6 @@ const run = () => {
     })
 
     blinkId.addEventListener('scanSuccess', (ev) => {
-      const ano = new Date().getFullYear()
       if (ev.type === 'scanSuccess') {
         let objetoData = ev.detail.recognizer
         if (objetoData.classInfo.documentType === 18) {
@@ -139,13 +138,11 @@ const run = () => {
         getIndicadores({
           success: false,
           message: 'No se pudieron recuperar las imagenes del documento procesado',
-          code: '3',
+          code: '6',
           idoperacion: route.params.id
         })
       }
     })
-
-    blinkId.addEventListener('feedback', (ev) => console.log('feedback', ev))
   }
 }
 
