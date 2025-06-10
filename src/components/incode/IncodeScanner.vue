@@ -51,7 +51,7 @@ const { mutate: fetchData, isPending: isLoading } = useMutation({
       setConfig(response.data, container.value)
       const timeout = Number(response.data.timeout) || 180
       const timedown = Number(response.data.timedown) || 10
-      setConfigInactivity(timeout, timedown, 'Incode')
+      setConfigInactivity(timeout, timedown)
     } else {
       errorMsg.value = response.message
     }

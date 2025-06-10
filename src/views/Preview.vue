@@ -26,6 +26,12 @@
           alt="Imagen OCR"
           class="w-40 h-40"
         />
+        <div
+          v-if="!base64Front || !base64Back"
+          class="text-slate-500"
+        >
+          ⚠️​ Sin imagenes
+        </div>
       </div>
       <div class="mt-10 mb-4">OCR data:</div>
       <JsonViewer
@@ -63,10 +69,12 @@ const {
   mutationFn: () => api.post(`${API_URL}/getdata`, { idoperacion: route.params.id }),
   onSuccess: (response) => {
     if (response.success) {
-      const decoded = jwtDecode(response.data.jwt)
-      base64Front.value = decoded.key.ImagenAnverso
-      base64Back.value = decoded.key.ImagenReverso
-      base64Photo.value = decoded.key.ImagenFotoId
+      if (response.data.jwt) {
+        const decoded = jwtDecode(response.data.jwt)
+        base64Front.value = decoded.key.ImagenAnverso
+        base64Back.value = decoded.key.ImagenReverso
+        base64Photo.value = decoded.key.ImagenFotoId
+      }
     } else {
       errorMsg.value = response.message
     }

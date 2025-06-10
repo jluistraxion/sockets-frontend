@@ -15,9 +15,7 @@
         />
       </svg>
       <div class="text-center">{{ message }}</div>
-      <div class="text-3xl text-green-600 font-bold text-center">
-        ¡Operación completada con éxito!
-      </div>
+      <div class="text-3xl text-green-600 font-bold text-center">¡Operación completada!</div>
       <div class="text-sm text-gray-600 text-center px-4 md:px-2">
         Puedes cerrar esta ventana o volver a la página principal para continuar.
       </div>

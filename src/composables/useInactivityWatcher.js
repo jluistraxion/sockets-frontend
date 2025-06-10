@@ -17,7 +17,6 @@ export function useInactivityWatcher() {
   const countdownSeconds = ref(180) // seconds, 180 default
   const warningCountdown = ref(0)
   const warningCountdownSeconds = ref(10) // seconds, 10 default
-  const sdkName = ref(null)
 
   const { pause, resume } = useInterval(1000, {
     controls: true,
@@ -31,7 +30,6 @@ export function useInactivityWatcher() {
           code: '1',
           idoperacion: route.params.id
         })
-        // console.log('-->', route.params.id, `Timeout ${sdkName.value} scanner`)
         router.push('/timeout')
       }
     }
@@ -52,13 +50,12 @@ export function useInactivityWatcher() {
     pause()
   }
 
-  const setConfig = (timeout, timedown, name) => {
+  const setConfig = (timeout, timedown) => {
     countdownSeconds.value = timeout
     warningCountdown.value = timedown
     warningCountdownSeconds.value = timedown
     startCountdown.value = true
-    sdkName.value = name
-    console.log('setConfig', timeout, timedown, name)
+    console.log('setConfig', timeout, timedown)
   }
 
   watch([idledFor, startCountdown], ([idledForValue, startCountdownValue]) => {

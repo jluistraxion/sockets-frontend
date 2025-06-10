@@ -154,7 +154,7 @@ const { mutate: fetchData, isPending: isLoading } = useMutation({
       run()
       const timeout = Number(response.data.timeout) || 180
       const timedown = Number(response.data.timedown) || 10
-      setConfig(timeout, timedown, 'Microblink')
+      setConfig(timeout, timedown)
     } else {
       errorMsg.value = response.message
     }
