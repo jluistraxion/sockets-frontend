@@ -34,8 +34,7 @@ createSession()
 watch(captureFinished, (isCaptureFinished) => {
   if (isCaptureFinished) {
     close()
-    console.warn('captura finalizada!')
-    router.push({ name: 'preview', params: { id: route.params.id } })
+    window.location.href = config.value.urlredirect + route.params.id
   }
 })
 

@@ -165,7 +165,7 @@ export function useIncodeScanner({ errorMsg }) {
       await incode.getFinishStatus(null, { token: session.value.token })
       getIndicadores({
         success: true,
-        message: 'Captura completa incode scanner',
+        message: 'Captura completa',
         code: 'ocrComplete',
         idoperacion: route.params.id
       })

@@ -119,7 +119,7 @@ const run = () => {
           let parseData = parseaOcr(ev.detail.recognizer)
           getIndicadores({
             success: true,
-            message: 'Captura completa Microblink scanner',
+            message: 'Captura completa',
             code: 'ocrComplete',
             idoperacion: route.params.id,
             data: parseData
