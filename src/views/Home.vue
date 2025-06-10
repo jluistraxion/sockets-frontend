@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { parseErrorMessage } from '@/utils/parseData.js'
@@ -20,6 +20,7 @@ import Container from '@/components/layout/Container.vue'
 import QR from '@/views/QR.vue'
 import api from '@/api/api'
 
+let intervalId = null
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
 const router = useRouter()
@@ -53,6 +54,7 @@ const { mutate: fetchData, isPending: isLoading } = useMutation({
   onSuccess: (response) => {
     if (response.success) {
       setConfig(response.data)
+      intervalId = setInterval(() => getStatus(), 2000)
     } else {
       errorMsg.value = response.message
     }
@@ -63,4 +65,17 @@ const { mutate: fetchData, isPending: isLoading } = useMutation({
 })
 
 fetchData()
+
+const { mutate: getStatus } = useMutation({
+  mutationFn: () => api.post(`${API_URL}/getstatus`, { idoperacion: route.params.id }),
+  onSuccess: (response) => {
+    if (response.estatusgeneral === '3') {
+      window.location.href = config.value.urlredirect
+    }
+  }
+})
+
+onBeforeUnmount(() => {
+  clearInterval(intervalId)
+})
 </script>
