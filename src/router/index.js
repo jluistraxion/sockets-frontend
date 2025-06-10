@@ -15,7 +15,7 @@ const routes = [
   {
     name: 'demo',
     path: '/demo',
-    component: () => import('@/components/demo/IncodeScanner.vue')
+    component: () => import('@/views/Demo.vue')
   },
   {
     name: 'example-incode',

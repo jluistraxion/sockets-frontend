@@ -19,7 +19,7 @@ export function useIncodeScanner({ errorMsg }) {
   const loadIncodeScript = () => {
     return new Promise((resolve, reject) => {
       useScriptTag(
-        '/incode/onBoarding-1.76.0.js',
+        '/incode/onBoarding-1.80.0.js',
         () => {
           if (window.OnBoarding && window.OnBoarding.create) {
             resolve(window.OnBoarding)
@@ -180,20 +180,29 @@ export function useIncodeScanner({ errorMsg }) {
     }
   }
 
+  const captureId = (container) => {
+    incode.renderCaptureId(container, {
+      session: session.value,
+      forceIdV2: true,
+      onSuccess: async () => {
+        await processId()
+        finishOnboarding()
+      },
+      onError: (err) => {
+        console.error('Error en renderCaptureId:', err)
+      },
+      onFeedback: (feedback) => {
+        console.log('Feedback de captura:', feedback)
+      }
+    })
+  }
+
   const start = async (container) => {
     await loadIncodeScript()
     createOnboarding()
     await getToken()
-    // await publishKeys()
     saveDeviceData()
-
-    captureIdFront(container, () => {
-      captureIdBack(container, async () => {
-        await processId()
-        // captureSelfie(container, finishOnboarding) // opcional
-        finishOnboarding()
-      })
-    })
+    captureId(container)
   }
 
   const setConfig = (data, container) => {
