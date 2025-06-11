@@ -55,7 +55,7 @@ export function useInactivityWatcher() {
     warningCountdown.value = timedown
     warningCountdownSeconds.value = timedown
     startCountdown.value = true
-    console.log('setConfig', timeout, timedown)
+    console.warn('config incactivity:', timeout, timedown)
   }
 
   watch([idledFor, startCountdown], ([idledForValue, startCountdownValue]) => {
