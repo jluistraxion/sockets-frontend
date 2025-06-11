@@ -61,6 +61,11 @@ const routes = [
     name: 'preview',
     path: '/preview/:id?',
     component: () => import('@/views/Preview.vue')
+  },
+  {
+    name: 'combined',
+    path: '/combined',
+    component: () => import('@/views/CombinedScanner.vue')
   }
 ]
 
