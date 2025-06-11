@@ -948,6 +948,24 @@ function parseaOcr(objetoData) {
   ctx?.putImageData(objetoData.faceImage.rawImage, 0, 0)
   var imagenfotoMB = faceImageEl.toDataURL('image/jpeg').slice(23)
 
+  var fullImagenFront = ''
+  if (objetoData.frontCameraFrame.frame) {
+    faceImageEl.width = objetoData.frontCameraFrame.frame.width
+    faceImageEl.height = objetoData.frontCameraFrame.frame.height
+    const ctx4 = faceImageEl.getContext('2d')
+    ctx4?.putImageData(objetoData.frontCameraFrame.frame, 0, 0)
+    fullImagenFront = faceImageEl.toDataURL('image/jpeg').slice(23)
+  }
+
+  var fullImagenBack = ''
+  if (objetoData.backCameraFrame.frame) {
+    faceImageEl.width = objetoData.backCameraFrame.frame.width
+    faceImageEl.height = objetoData.backCameraFrame.frame.height
+    const ctx5 = faceImageEl.getContext('2d')
+    ctx5?.putImageData(objetoData.backCameraFrame.frame, 0, 0)
+    fullImagenBack = faceImageEl.toDataURL('image/jpeg').slice(23)
+  }
+
   //faceImageEl.width = objetoData.signatureImage.encodedImage.width;
   //faceImageEl.height = objetoData.signatureImage.encodedImage.height;
   //const ctx4 = faceImageEl.getContext('2d');
@@ -1079,6 +1097,10 @@ function parseaOcr(objetoData) {
   jsonObject2.ImagenesBase64.FrenteDoc = fnValidaNoVacios(imagenFrontMB)
   jsonObject2.ImagenesBase64.ReversoDoc = fnValidaNoVacios(imagenBackMB)
   jsonObject2.ImagenesBase64.FotografiaDoc = fnValidaNoVacios(imagenfotoMB)
+
+  jsonObject2.ImagenesBase64.FullFrenteDoc = fnValidaNoVacios(fullImagenFront)
+  jsonObject2.ImagenesBase64.FullReversoDoc = fnValidaNoVacios(fullImagenBack)
+
   return jsonObject2
 }
 

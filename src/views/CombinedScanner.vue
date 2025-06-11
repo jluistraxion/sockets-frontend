@@ -207,7 +207,7 @@ const runBlinkId = () => {
         returnFullDocumentImage: true,
         returnFaceImage: true,
         signatureImage: true,
-        saveCameraFrames: true
+        saveCameraFrames: true // imagenes completas
       }
     }
 

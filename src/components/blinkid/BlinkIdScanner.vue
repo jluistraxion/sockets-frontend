@@ -69,7 +69,8 @@ const run = () => {
       BlinkIdMultiSideRecognizer: {
         returnFullDocumentImage: config.value.returnFullDocumentImage,
         returnFaceImage: config.value.returnFaceImage,
-        signatureImage: config.value.signatureImage
+        signatureImage: config.value.signatureImage,
+        saveCameraFrames: Boolean(config.value.saveCameraFrames) ?? false
       }
     }
 
@@ -116,13 +117,13 @@ const run = () => {
       if (ev.type === 'scanSuccess') {
         let objetoData = ev.detail.recognizer
         if (objetoData.classInfo.documentType === 18) {
-          let parseData = parseaOcr(ev.detail.recognizer)
+          let data = parseaOcr(ev.detail.recognizer)
           getIndicadores({
             success: true,
             message: 'Captura completa',
             code: 'ocrComplete',
             idoperacion: route.params.id,
-            data: parseData
+            data
           })
           sendMessage('capture-finished')
         } else {
