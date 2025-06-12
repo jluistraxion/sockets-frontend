@@ -21,17 +21,21 @@
       />
     </svg>
   </button>
-  <Sidebar />
+  <Sidebar :options />
   <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-      <div class="mb-6">Aqui van las graficas 📊​</div>
-      <Table />
-      holas
+      <RouterView :key="$route.path" />
     </div>
   </div>
 </template>
 
 <script setup>
-import Table from '@/components/tables/Table.vue'
 import Sidebar from '@/components/layout/Sidebar.vue'
+
+const options = [
+  { name: 'Dashboard', to: 'admin.dashboard', icon: 'bi bi-pie-chart-fill' },
+  { name: 'Sesiones', to: 'admin.sessions', icon: 'bi bi-card-list' },
+  { name: 'Usuarios', to: 'admin.users', icon: 'bi bi-people-fill' },
+  { name: 'Configuraciones', to: 'admin.config', icon: 'bi bi-gear-fill' }
+]
 </script>
