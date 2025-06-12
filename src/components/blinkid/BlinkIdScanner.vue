@@ -5,6 +5,7 @@
   />
   <blinkid-in-browser
     ref="blinkid"
+    :class="[isShowBrowser ? 'block' : 'hidden']"
     :translations="stringifiedTranslations"
   />
   <InactivityModal
@@ -44,6 +45,7 @@ const errorMsg = ref(null)
 const config = ref({})
 const modal = ref()
 const operationModal = ref()
+const isShowBrowser = ref(false)
 
 const { showWarning, warningCountdown, cancelRedirect, setConfig } = useInactivityWatcher()
 const { joinSession, sendMessage, close } = useWebSockets()
@@ -107,6 +109,7 @@ const run = () => {
 
     blinkId.addEventListener('ready', (ev) => {
       console.log('ready', ev.detail)
+      isShowBrowser.value = true
       blinkId.startCameraScan()
     })
 
