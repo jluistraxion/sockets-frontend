@@ -23,7 +23,7 @@ import { parseErrorMessage } from '@/utils/parseData.js'
 import { useWebSockets } from '@/composables/useWebSockets'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
 import Container from '@/components/layout/Container.vue'
-import InactivityModal from '@/ui/modals/InactivityModal.vue'
+import InactivityModal from '@/components/modals/InactivityModal.vue'
 import QR from '@/components/qrs/QR.vue'
 import api from '@/api/api'
 

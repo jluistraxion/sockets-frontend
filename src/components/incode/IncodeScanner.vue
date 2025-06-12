@@ -21,7 +21,7 @@ import { useMutation } from '@tanstack/vue-query'
 import { useIncodeScanner } from '@/composables/useIncodeScanner'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
-import InactivityModal from '@/ui/modals/InactivityModal.vue'
+import InactivityModal from '@/components/modals/InactivityModal.vue'
 import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
 

@@ -12,6 +12,11 @@
     @cancel="cancelRedirect"
     :countdown="warningCountdown"
   />
+  <CancelOperationModal
+    ref="operationModal"
+    @cancel="startCamera"
+    @acept="cancelScan"
+  />
 </template>
 
 <script setup>
@@ -24,8 +29,9 @@ import { parseaOcr } from '@/utils/blinkid.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
 import { useWebSockets } from '@/composables/useWebSockets'
 import { useIndicadores } from '@/composables/useIndicadores'
-import InactivityModal from '@/ui/modals/InactivityModal.vue'
+import InactivityModal from '@/components/modals/InactivityModal.vue'
 import Container from '@/components/layout/Container.vue'
+import CancelOperationModal from '@/components/modals/CancelOperationModal.vue'
 import api from '@/api/api'
 import translations from './translations'
 const stringifiedTranslations = JSON.stringify(translations)
@@ -37,6 +43,7 @@ const blinkid = ref(null)
 const errorMsg = ref(null)
 const config = ref({})
 const modal = ref()
+const operationModal = ref()
 
 const { showWarning, warningCountdown, cancelRedirect, setConfig } = useInactivityWatcher()
 const { joinSession, sendMessage, close } = useWebSockets()
@@ -113,6 +120,10 @@ const run = () => {
       })
     })
 
+    blinkId.addEventListener('scanAborted', (ev) => {
+      operationModal.value.show()
+    })
+
     blinkId.addEventListener('scanSuccess', (ev) => {
       if (ev.type === 'scanSuccess') {
         let objetoData = ev.detail.recognizer
@@ -166,4 +177,15 @@ const { mutate: fetchData, isPending: isLoading } = useMutation({
 })
 
 fetchData()
+
+const startCamera = () => blinkid.value.startCameraScan()
+
+const cancelScan = () => {
+  getIndicadores({
+    success: false,
+    message: 'No se pudieron recuperar las imagenes del documento procesado',
+    code: '6',
+    idoperacion: route.params.id
+  })
+}
 </script>
