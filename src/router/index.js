@@ -66,6 +66,11 @@ const routes = [
     name: 'combined',
     path: '/combined',
     component: () => import('@/views/CombinedScanner.vue')
+  },
+  {
+    name: 'dashboard',
+    path: '/dashboard',
+    component: () => import('@/components/layout/Dashboard.vue')
   }
 ]
 
