@@ -7,36 +7,17 @@
       </div>
     </Title>
     <router-view />
-    <div
+    <FilterBar
       v-show="isAdminSessions"
-      class="w-1/8 flex items-end gap-2"
-    >
-      <Input
-        label="Fecha inicio:"
-        size="sm"
-        type="date"
-        v-model="initDate"
-      />
-      <Input
-        label="Fecha fin:"
-        size="sm"
-        type="date"
-        v-model="endDate"
-      />
-      <Button
-        size="xs"
-        color="green"
-        @click="mutate"
-      >
-        <div class="flex flex-row items-center gap-1">
-          <i class="bi bi-filter text-xl" /> Filtrar
-        </div>
-      </Button>
-    </div>
+      v-model:searchCriteria="searchCriteria"
+      v-model:initDate="initDate"
+      v-model:endDate="endDate"
+      @filter="mutate"
+    />
     <EasyDataTable
       v-show="isAdminSessions"
       :headers="headers"
-      :items="data || []"
+      :items="filteredData || []"
       :loading="isPending"
       table-class-name="customize-table"
       theme-color="#17a54d"
@@ -57,9 +38,8 @@ import { computed, ref } from 'vue'
 import { useMutation } from '@tanstack/vue-query'
 import { useRouter, useRoute } from 'vue-router'
 import { currentDate, subtractDays, formatDate } from '@/utils/date'
+import FilterBar from '@/components/sessions/FilterBar.vue'
 import Title from '@/ui/content/Title.vue'
-import Input from '@/ui/form/Input.vue'
-import Button from '@/ui/buttons/Button.vue'
 import api from '@/api/api'
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -67,6 +47,7 @@ const router = useRouter()
 const route = useRoute()
 const initDate = ref(subtractDays(2))
 const endDate = ref(currentDate())
+const searchCriteria = ref('')
 
 const isAdminSessions = computed(() => route.name === 'admin.sessions')
 
@@ -94,12 +75,23 @@ const headers = [
 ]
 
 const showRow = (item) => {
-  console.log('show row', item)
   router.push({
     name: 'admin.session',
     params: { id: `${item.uuid}` }
   })
 }
+
+const filteredData = computed(() => {
+  const criteria = searchCriteria.value.trim().toLowerCase()
+  if (!criteria) return data.value || []
+
+  return (data.value || []).filter((item) => {
+    return ['uuid', 'tipoflujo', 'descripciongeneral'].some((field) => {
+      const value = item[field]
+      return value != null && value.toString().toLowerCase().includes(criteria)
+    })
+  })
+})
 </script>
 
 <style lang="css">

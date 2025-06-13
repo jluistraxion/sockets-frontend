@@ -1,7 +1,7 @@
 <template>
   <fwb-input
     :label
-    placeholder="enter your name"
+    :placeholder
     :size
     v-model="model"
   />
@@ -18,6 +18,10 @@ defineProps({
   size: {
     type: String,
     default: 'md'
+  },
+  placeholder: {
+    type: String,
+    default: ''
   }
 })
 
