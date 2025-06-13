@@ -18,7 +18,14 @@ const admin = [
       {
         path: 'sessions',
         name: 'admin.sessions',
-        component: () => import('@/views/admin/Sessions.vue')
+        component: () => import('@/views/admin/sessions/Sessions.vue'),
+        children: [
+          {
+            path: ':id',
+            name: 'admin.session',
+            component: () => import('@/views/admin/sessions/Session.vue')
+          }
+        ]
       },
       {
         path: 'config',

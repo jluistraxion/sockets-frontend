@@ -1,5 +1,7 @@
 <template>
-  <div>configuration</div>
+  <Title>Configuración</Title>
 </template>
 
-<script setup></script>
+<script setup>
+import Title from '@/ui/content/Title.vue'
+</script>

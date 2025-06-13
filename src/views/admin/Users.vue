@@ -1,5 +1,7 @@
 <template>
-  <div>Users</div>
+  <Title>Usuarios</Title>
 </template>
 
-<script setup></script>
+<script setup>
+import Title from '@/ui/content/Title.vue'
+</script>

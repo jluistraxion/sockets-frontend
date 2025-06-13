@@ -1,8 +1,7 @@
 <template>
-  <div class="mb-6">Aqui van las graficas 📊​</div>
-  <Table />
+  <Title>Dashboard​</Title>
 </template>
 
 <script setup>
-import Table from '@/components/tables/Table.vue'
+import Title from '@/ui/content/Title.vue'
 </script>
