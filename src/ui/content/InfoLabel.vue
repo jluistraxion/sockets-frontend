@@ -1,10 +1,19 @@
 <template>
-  <div class="flex items-center gap-1.5">
-    <span class="text-slate-500 text-sm">{{ label }}</span>
-    <div class="text-sm">{{ value }}</div>
+  <div class="text-sm">
+    <span class="">{{ label }}</span>
+    <div
+      v-if="loading"
+      class="animate-pulse h-2.5 w-48 bg-gray-200 rounded-full mt-1"
+    />
+    <div
+      v-else
+      class="text-slate-500"
+    >
+      {{ value ?? '--' }}
+    </div>
   </div>
 </template>
 
 <script setup>
-defineProps(['label', 'value'])
+defineProps(['label', 'value', 'loading'])
 </script>

@@ -22,10 +22,8 @@
     </svg>
   </button>
   <Sidebar :options />
-  <div class="p-4 sm:ml-64">
-    <div class="p-4">
-      <RouterView :key="$route.path" />
-    </div>
+  <div class="min-h-screen px-4 py-3 sm:ml-64 bg-slate-100">
+    <RouterView :key="$route.path" />
   </div>
 </template>
 
