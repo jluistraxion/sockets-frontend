@@ -28,9 +28,9 @@ const admin = [
         ]
       },
       {
-        path: 'config',
-        name: 'admin.config',
-        component: () => import('@/views/admin/Config.vue')
+        path: 'settings',
+        name: 'admin.settings',
+        component: () => import('@/views/admin/Settings.vue')
       }
     ]
   }

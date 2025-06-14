@@ -34,6 +34,6 @@ const options = [
   { name: 'Dashboard', to: 'admin.dashboard', icon: 'bi bi-pie-chart-fill' },
   { name: 'Sesiones', to: 'admin.sessions', icon: 'bi bi-card-list' },
   { name: 'Usuarios', to: 'admin.users', icon: 'bi bi-people-fill' },
-  { name: 'Configuraciones', to: 'admin.config', icon: 'bi bi-gear-fill' }
+  { name: 'Configuraciones', to: 'admin.settings', icon: 'bi bi-gear-fill' }
 ]
 </script>
