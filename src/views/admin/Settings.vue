@@ -15,19 +15,13 @@
         name="incode"
         title="Incode"
       >
-        Incode
+        <IncodeSettings />
       </fwb-tab>
       <fwb-tab
         name="second"
         title="Microblink"
       >
-        Microblink
-      </fwb-tab>
-      <fwb-tab
-        name="fourth"
-        title="Fourth"
-      >
-        4 Lorem ipsum dolor...
+        <MicroblinkSettings />
       </fwb-tab>
     </fwb-tabs>
   </div>
@@ -38,6 +32,8 @@ import { ref } from 'vue'
 import { FwbTab, FwbTabs } from 'flowbite-vue'
 import Title from '@/ui/content/Title.vue'
 import GeneralSettings from '@/components/settings/GeneralSettings.vue'
+import IncodeSettings from '@/components/settings/IncodeSettings.vue'
+import MicroblinkSettings from '@/components/settings/MicroblinkSettings.vue'
 
 const activeTab = ref('general')
 </script>
