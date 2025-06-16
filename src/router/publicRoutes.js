@@ -65,6 +65,11 @@ const publicRoutes = [
     name: 'combined',
     path: '/combined',
     component: () => import('@/views/CombinedScanner.vue')
+  },
+  {
+    name: 'login',
+    path: '/login',
+    component: () => import('@/views/Login.vue')
   }
 ]
 

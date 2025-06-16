@@ -186,7 +186,7 @@ const startCamera = () => blinkid.value.startCameraScan()
 const cancelScan = () => {
   getIndicadores({
     success: false,
-    message: 'No se pudieron recuperar las imagenes del documento procesado',
+    message: 'Proceso cancelado por el usuario',
     code: '6',
     idoperacion: route.params.id
   })
