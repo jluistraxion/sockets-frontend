@@ -3,8 +3,9 @@
     :label
     :placeholder
     :size
-    v-model="model"
+    v-model="value"
     :type="inputType"
+    :validation-status="errorMessage ? 'error' : ''"
   >
     <template
       #prefix
@@ -32,6 +33,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { FwbInput } from 'flowbite-vue'
+import { useField } from 'vee-validate'
 
 const showPassword = ref(false)
 
@@ -51,6 +53,9 @@ const props = defineProps({
   icon: {
     type: String
   },
+  name: {
+    type: String
+  },
   type: {
     type: String,
     default: 'text'
@@ -65,4 +70,10 @@ const inputType = computed(() => {
 })
 
 const model = defineModel()
+
+const { value, errorMessage } = useField(
+  props.name,
+  {},
+  { initialValue: model.value, syncVModel: true }
+)
 </script>

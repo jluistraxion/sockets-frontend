@@ -46,7 +46,10 @@
         </li>
         <li>
           <router-link :to="{ name: 'login' }">
-            <a class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group">
+            <a
+              @click="logout"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group"
+            >
               <i class="bi bi-box-arrow-in-left text-lg transition duration-75" />
               <span class="ms-3">Cerrar sesión</span>
             </a>
@@ -58,5 +61,7 @@
 </template>
 
 <script setup>
+import { useAuthStore } from '@/composables/useAuthStore'
 defineProps(['options'])
+const { logout } = useAuthStore()
 </script>

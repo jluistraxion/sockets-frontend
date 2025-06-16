@@ -4,6 +4,7 @@ const admin = [
     path: '/admin',
     component: () => import('@/components/layout/AdminLayout.vue'),
     redirect: { name: 'admin.dashboard' },
+    meta: { requiresAuth: true },
     children: [
       {
         path: 'dashboard',

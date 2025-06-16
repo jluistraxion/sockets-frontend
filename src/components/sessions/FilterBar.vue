@@ -6,6 +6,7 @@
       size="sm"
       placeholder="Escribe algo para buscar..."
       v-model="searchCriteria"
+      name="searchCriteria"
     />
     <div class="flex items-end gap-2">
       <Input
@@ -13,12 +14,14 @@
         size="sm"
         type="date"
         v-model="initDate"
+        name="initDate"
       />
       <Input
         label="Fecha fin:"
         size="sm"
         type="date"
         v-model="endDate"
+        name="endDate"
       />
       <Button
         size="xs"
