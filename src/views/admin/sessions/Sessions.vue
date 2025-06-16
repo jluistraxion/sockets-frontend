@@ -1,36 +1,34 @@
 <template>
-  <div class="flex flex-col gap-6 border border-slate-50 rounded-lg p-4 bg-white">
-    <Title>
-      <div class="flex gap-2 items-center">
-        <div v-show="isAdminSessions">Sesiones</div>
-        <div v-show="!isAdminSessions">Información de la sesión</div>
-      </div>
-    </Title>
-    <router-view />
-    <FilterBar
-      v-show="isAdminSessions"
-      v-model:searchCriteria="searchCriteria"
-      v-model:initDate="initDate"
-      v-model:endDate="endDate"
-      @filter="mutate"
-    />
-    <EasyDataTable
-      v-show="isAdminSessions"
-      :headers="headers"
-      :items="filteredData || []"
-      :loading="isPending"
-      table-class-name="customize-table"
-      theme-color="#17a54d"
-      @click-row="showRow"
-    >
-      <template #item-fecharegistro="{ fecharegistro }">
-        {{ formatDate(fecharegistro, 'YYYY-MM-DD', 'DD-MM-YYYY') }}
-      </template>
-      <template #item-estatuserror="{ estatuserror }">
-        {{ estatuserror ?? 'Sin error' }}
-      </template>
-    </EasyDataTable>
-  </div>
+  <Title>
+    <div class="flex gap-2 items-center">
+      <div v-show="isAdminSessions">Sesiones</div>
+      <div v-show="!isAdminSessions">Información de la sesión</div>
+    </div>
+  </Title>
+  <router-view />
+  <FilterBar
+    v-show="isAdminSessions"
+    v-model:searchCriteria="searchCriteria"
+    v-model:initDate="initDate"
+    v-model:endDate="endDate"
+    @filter="mutate"
+  />
+  <EasyDataTable
+    v-show="isAdminSessions"
+    :headers="headers"
+    :items="filteredData || []"
+    :loading="isPending"
+    table-class-name="customize-table"
+    theme-color="#17a54d"
+    @click-row="showRow"
+  >
+    <template #item-fecharegistro="{ fecharegistro }">
+      {{ formatDate(fecharegistro, 'YYYY-MM-DD', 'DD-MM-YYYY') }}
+    </template>
+    <template #item-estatuserror="{ estatuserror }">
+      {{ estatuserror ?? 'Sin error' }}
+    </template>
+  </EasyDataTable>
 </template>
 
 <script setup>

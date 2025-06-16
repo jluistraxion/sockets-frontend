@@ -1,30 +1,28 @@
 <template>
-  <div class="flex flex-col gap-6 border border-slate-50 rounded-lg p-4 bg-white">
-    <Title>Configuraciones</Title>
-    <fwb-tabs
-      v-model="activeTab"
-      class="px-2"
+  <Title>Configuraciones</Title>
+  <fwb-tabs
+    v-model="activeTab"
+    class="px-2"
+  >
+    <fwb-tab
+      name="general"
+      title="General"
     >
-      <fwb-tab
-        name="general"
-        title="General"
-      >
-        <GeneralSettings />
-      </fwb-tab>
-      <fwb-tab
-        name="incode"
-        title="Incode"
-      >
-        <IncodeSettings />
-      </fwb-tab>
-      <fwb-tab
-        name="second"
-        title="Microblink"
-      >
-        <MicroblinkSettings />
-      </fwb-tab>
-    </fwb-tabs>
-  </div>
+      <GeneralSettings />
+    </fwb-tab>
+    <fwb-tab
+      name="incode"
+      title="Incode"
+    >
+      <IncodeSettings />
+    </fwb-tab>
+    <fwb-tab
+      name="second"
+      title="Microblink"
+    >
+      <MicroblinkSettings />
+    </fwb-tab>
+  </fwb-tabs>
 </template>
 
 <script setup>
