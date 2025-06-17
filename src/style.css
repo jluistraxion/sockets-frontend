@@ -3,3 +3,17 @@
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite-vue";
 @import 'bootstrap-icons/font/bootstrap-icons';
+
+.customize-table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+  --easy-table-header-font-size: 13px;
+  --easy-table-header-background-color: #f9fafb;
+  --easy-table-header-item-padding: 12px 10px;
+  --easy-table-body-item-padding: 12px 15px;
+}
+
+.customize-table tbody tr {
+  cursor: pointer;
+}

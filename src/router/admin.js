@@ -3,30 +3,48 @@ const admin = [
     name: 'admin',
     path: '/admin',
     component: () => import('@/components/layout/AdminLayout.vue'),
-    redirect: { name: 'admin.dashboard' },
+    redirect: { name: 'dashboard' },
     meta: { requiresAuth: true, title: 'Inicio' },
     children: [
       {
         path: 'dashboard',
-        name: 'admin.dashboard',
+        name: 'dashboard',
         meta: { title: 'Dashboard' },
         component: () => import('@/views/admin/Dashboard.vue')
       },
       {
         path: 'users',
-        name: 'admin.users',
+        name: 'users',
         meta: { title: 'Usuarios' },
-        component: () => import('@/views/admin/Users.vue')
+        redirect: { name: 'users.index' },
+        children: [
+          {
+            path: '',
+            name: 'users.index',
+            component: () => import('@/views/admin/users/index.vue')
+          },
+          {
+            path: ':id',
+            name: 'user',
+            meta: { title: 'Usuario' },
+            component: () => import('@/views/admin/users/User.vue')
+          }
+        ]
       },
       {
         path: 'sessions',
-        name: 'admin.sessions',
+        name: 'sessions',
         meta: { title: 'Sesiones' },
-        component: () => import('@/views/admin/sessions/Sessions.vue'),
+        redirect: { name: 'sessions.index' },
         children: [
           {
+            path: '',
+            name: 'sessions.index',
+            component: () => import('@/views/admin/sessions/index.vue')
+          },
+          {
             path: ':id',
-            name: 'admin.session',
+            name: 'session',
             meta: { title: 'Sesion' },
             component: () => import('@/views/admin/sessions/Session.vue')
           }
@@ -34,7 +52,7 @@ const admin = [
       },
       {
         path: 'settings',
-        name: 'admin.settings',
+        name: 'settings',
         meta: { title: 'Configuraciones' },
         component: () => import('@/views/admin/Settings.vue')
       }

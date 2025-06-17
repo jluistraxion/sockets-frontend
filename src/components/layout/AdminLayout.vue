@@ -35,9 +35,9 @@ import Sidebar from '@/components/layout/Sidebar.vue'
 import Breadcrumb from '@/ui/breadcrumbs/Breadcrumb.vue'
 
 const options = [
-  { name: 'Dashboard', to: 'admin.dashboard', icon: 'bi bi-pie-chart-fill' },
-  { name: 'Sesiones', to: 'admin.sessions', icon: 'bi bi-card-list' },
-  { name: 'Usuarios', to: 'admin.users', icon: 'bi bi-people-fill' },
-  { name: 'Configuraciones', to: 'admin.settings', icon: 'bi bi-gear-fill' }
+  { name: 'Dashboard', to: 'dashboard', icon: 'bi bi-pie-chart-fill' },
+  { name: 'Sesiones', to: 'sessions', icon: 'bi bi-card-list' },
+  { name: 'Usuarios', to: 'users', icon: 'bi bi-people-fill' },
+  { name: 'Configuraciones', to: 'settings', icon: 'bi bi-gear-fill' }
 ]
 </script>

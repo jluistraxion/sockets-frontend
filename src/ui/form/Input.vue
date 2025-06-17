@@ -12,7 +12,7 @@
       v-show="icon"
     >
       <i
-        class="text-gray-500 text-xl"
+        class="text-gray-500 text-lg"
         :class="[icon]"
       />
     </template>

@@ -1,4 +1,5 @@
 <template>
+  <Title> Información de la sesión </Title>
   <Card class="p-5 !min-w-full">
     <div class="md:flex gap-4">
       <ListGroup
@@ -49,6 +50,7 @@ import TabPersonal from '@/components/sessions/detail/TabPersonal.vue'
 import TabAddress from '@/components/sessions/detail/TabAddress.vue'
 import TabLocation from '@/components/sessions/detail/TabLocation.vue'
 import TabImages from '@/components/sessions/detail/TabImages.vue'
+import Title from '@/ui/content/Title.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()

@@ -1,20 +1,12 @@
 <template>
-  <Title>
-    <div class="flex gap-2 items-center">
-      <div v-show="isAdminSessions">Sesiones</div>
-      <div v-show="!isAdminSessions">Información de la sesión</div>
-    </div>
-  </Title>
-  <router-view />
+  <Title> Sesiones </Title>
   <FilterBar
-    v-show="isAdminSessions"
     v-model:searchCriteria="searchCriteria"
     v-model:initDate="initDate"
     v-model:endDate="endDate"
     @filter="mutate"
   />
   <EasyDataTable
-    v-show="isAdminSessions"
     :headers="headers"
     :items="filteredData || []"
     :loading="isPending"
@@ -47,8 +39,6 @@ const initDate = ref(subtractDays(2))
 const endDate = ref(currentDate())
 const searchCriteria = ref('')
 
-const isAdminSessions = computed(() => route.name === 'admin.sessions')
-
 const { mutate, data, isPending } = useMutation({
   mutationFn: () =>
     api.post(`${API_URL}/getoperaciones`, {
@@ -74,7 +64,7 @@ const headers = [
 
 const showRow = (item) => {
   router.push({
-    name: 'admin.session',
+    name: 'session',
     params: { id: `${item.uuid}` }
   })
 }
@@ -91,19 +81,3 @@ const filteredData = computed(() => {
   })
 })
 </script>
-
-<style lang="css">
-.customize-table {
-  border-radius: 0.5rem;
-  overflow: hidden;
-
-  --easy-table-header-font-size: 13px;
-  --easy-table-header-background-color: #f9fafb;
-  --easy-table-header-item-padding: 12px 10px;
-  --easy-table-body-item-padding: 12px 15px;
-}
-
-.customize-table tbody tr {
-  cursor: pointer;
-}
-</style>

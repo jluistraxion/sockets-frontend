@@ -7,6 +7,7 @@
       placeholder="Escribe algo para buscar..."
       v-model="searchCriteria"
       name="searchCriteria"
+      icon="bi bi-search text-sm"
     />
     <div class="flex items-end gap-2">
       <Input
