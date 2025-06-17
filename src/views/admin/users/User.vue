@@ -23,15 +23,27 @@
       <UserSettings v-show="activeTab === 'general'" />
       <QRSettings
         v-show="activeTab === 'qr'"
-        :settings="qrSettings"
+        :settings="
+          settings && Object.keys(settings).length > 0
+            ? settings.find((e) => e.idparametro === 1).valores
+            : {}
+        "
       />
       <IncodeSettings
         v-show="activeTab === 'incode'"
-        :settings="incodeSettings"
+        :settings="
+          settings && Object.keys(settings).length > 0
+            ? settings.find((e) => e.idparametro === 3).valores
+            : {}
+        "
       />
       <MicroblinkSettings
         v-show="activeTab === 'second'"
-        :settings="microblinkSettings"
+        :settings="
+          settings && Object.keys(settings).length > 0
+            ? settings.find((e) => e.idparametro === 4).valores
+            : {}
+        "
       />
     </div>
   </div>
@@ -51,7 +63,6 @@ import api from '@/api/api'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
-
 const activeTab = ref('general')
 
 const { data: settings } = useQuery({
@@ -59,19 +70,4 @@ const { data: settings } = useQuery({
   queryFn: () => api.post(`${API_URL}/getconfiguraciones`, { idusuario: route.params.id }),
   enabled: computed(() => !!route.params.id)
 })
-
-const qrSettings = computed(() => getSettings(1))
-const incodeSettings = computed(() => getSettings(3))
-const microblinkSettings = computed(() => getSettings(4))
-
-const getSettings = (idparametro) => {
-  if (!settings.value) return
-  if (Object.keys(settings.value).length === 0) return
-  return settings.value.find((element) => element.idparametro === idparametro).valores
-}
-
-const getSettings2 = (idparametro) => {
-  const val = settings.value?.find((el) => el.idparametro === idparametro)
-  return val?.valores
-}
 </script>

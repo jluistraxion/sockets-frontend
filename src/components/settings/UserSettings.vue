@@ -122,7 +122,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
 import { Form } from 'vee-validate'
@@ -145,10 +145,7 @@ const { data: user, isFetching } = useQuery({
   queryKey: ['user-detail', route.params.id],
   queryFn: () => api.post(`${API_URL}/getusuarios`, { idusuario: route.params.id }),
   enabled: computed(() => !!route.params.id),
-  select: (data) => {
-    form.value.resetForm({ values: data?.data[0] })
-    return data?.data
-  }
+  select: (data) => data?.data
 })
 
 const handleSubmit = (values) => {
@@ -158,4 +155,14 @@ const handleSubmit = (values) => {
 const onInvalidSubmit = ({ values, errors, results }) => {
   console.log('onInvalidSubmit', values, errors, results)
 }
+
+watch(
+  () => [form.value, user.value],
+  ([formInstance, userData]) => {
+    if (formInstance && userData && userData.length > 0) {
+      formInstance.resetForm({ values: userData[0] })
+    }
+  },
+  { immediate: true }
+)
 </script>
