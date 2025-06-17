@@ -49,12 +49,6 @@ const admin = [
             component: () => import('@/views/admin/sessions/Session.vue')
           }
         ]
-      },
-      {
-        path: 'settings',
-        name: 'settings',
-        meta: { title: 'Configuraciones' },
-        component: () => import('@/views/admin/Settings.vue')
       }
     ]
   }

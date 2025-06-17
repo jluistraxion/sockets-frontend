@@ -1,69 +1,114 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="grid grid-cols-2 gap-2">
-      <Input
-        label="API Key"
-        placeholder="a02644685ee3394d70154fcfa5b2237180e4f6aa"
-        size="sm"
-        name="apiKey"
-      />
-      <Input
-        label="API Url"
-        placeholder="https://demo-api.incodesmile.com/0/"
-        size="sm"
-        name="apiURL"
-      />
+  <Form
+    ref="form"
+    v-slot="{ meta, values }"
+    @submit="handleSubmit"
+    :validation-schema="schema"
+    @invalid-submit="onInvalidSubmit"
+  >
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-2 gap-2">
+        <Input
+          label="API Key"
+          placeholder="a02644685ee3394d70154fcfa5b2237180e4f6aa"
+          name="apiKey"
+        />
+        <Input
+          label="API Url"
+          placeholder="https://demo-api.incodesmile.com/0/"
+          name="apiURL"
+        />
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <Input
+          label="Token Url"
+          placeholder="https://demo-api.incodesmile.com/omni/start"
+          name="tokenURL"
+        />
+        <Input
+          label="Configuración ID"
+          placeholder="67cf42bc1c5dc4846eb8e147"
+          name="configurationId"
+        />
+      </div>
+      <div class="grid grid-cols-4 gap-2">
+        <Select
+          label="Crypto"
+          name="crypto"
+          :options="[
+            { value: true, name: 'Si' },
+            { value: false, name: 'No' }
+          ]"
+        />
+        <Input
+          label="Reintentos"
+          placeholder="3"
+          name="reintentos"
+        />
+        <Input
+          label="Tiempo de espera (segundos)"
+          placeholder="180"
+          name="timeout"
+        />
+        <Input
+          label="Tiempo antes de redirección (segundos)"
+          placeholder="10"
+          name="timedown"
+        />
+      </div>
+      <Button
+        color="green"
+        class="w-fit"
+      >
+        Guardar
+      </Button>
     </div>
-    <div class="grid grid-cols-2 gap-2">
-      <Input
-        label="Token Url"
-        placeholder="https://demo-api.incodesmile.com/omni/start"
-        size="sm"
-        name="tokenURL"
-      />
-      <Input
-        label="Configuración ID"
-        placeholder="67cf42bc1c5dc4846eb8e147"
-        size="sm"
-        name="configurationId"
-      />
-    </div>
-    <div class="grid grid-cols-4 gap-2">
-      <Input
-        label="Crypto"
-        placeholder="true"
-        size="sm"
-        name="crypto"
-      />
-      <Input
-        label="Reintentos"
-        placeholder="3"
-        size="sm"
-        name="reintentos"
-      />
-      <Input
-        label="Tiempo de espera (segundos)"
-        placeholder="180"
-        size="sm"
-        name="timeout"
-      />
-      <Input
-        label="Tiempo antes de redirección (segundos)"
-        placeholder="10"
-        size="sm"
-        name="timedown"
-      />
-    </div>
-    <Button
-      color="green"
-      class="w-fit"
-    >
-      Guardar
-    </Button>
-  </div>
+  </Form>
 </template>
 
 <script setup>
+import { ref, watch } from 'vue'
+import { Form } from 'vee-validate'
 import Input from '@/ui/form/Input.vue'
 import Button from '@/ui/buttons/Button.vue'
+import Select from '@/ui/form/Select.vue'
+
+const schema = {
+  apiKey: 'required',
+  apiURL: 'required',
+  tokenURL: 'required',
+  configurationId: 'required',
+  crypto: 'required',
+  reintentos: 'required',
+  timeout: 'required',
+  timedown: 'required'
+}
+
+const form = ref()
+
+const handleSubmit = (values) => {
+  console.log('handleSubmit', values)
+}
+
+const onInvalidSubmit = ({ values, errors, results }) => {
+  console.log('onInvalidSubmit', values, errors, results)
+}
+
+const props = defineProps(['settings'])
+
+watch(
+  () => props.settings,
+  (newVal) => {
+    if (newVal && form.value) {
+      const cleanValues = {
+        ...newVal,
+        timeout: String(newVal.timeout ?? ''),
+        reintentos: String(newVal.reintentos ?? ''),
+        timedown: String(newVal.timedown ?? '')
+      }
+      form.value.resetForm({ values: cleanValues })
+    }
+  },
+  { immediate: true, deep: true }
+)
 </script>

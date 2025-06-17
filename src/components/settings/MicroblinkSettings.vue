@@ -1,73 +1,136 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="grid grid-cols-2 gap-2">
-      <Input
-        label="Dominio"
-        placeholder="www.indentidad-digital-ocr-prod.com"
-        size="sm"
-        name="dominio"
-      />
-      <Input
-        label="Licencia"
-        placeholder="sRwCACN3d3cuaW5kZW50aWRhZC1kaWdpdGFsLW9jci1wcm9kLmNvbQZ"
-        size="sm"
-        name="licenseKey"
-      />
+  <Form
+    ref="form"
+    v-slot="{ meta, values }"
+    @submit="handleSubmit"
+    :validation-schema="schema"
+    @invalid-submit="onInvalidSubmit"
+  >
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-2 gap-2">
+        <Input
+          label="Dominio"
+          placeholder="www.indentidad-digital-ocr-prod.com"
+          name="dominio"
+        />
+        <Input
+          label="Licencia"
+          placeholder="sRwCACN3d3cuaW5kZW50aWRhZC1kaWdpdGFsLW9jci1wcm9kLmNvbQZ"
+          name="licenseKey"
+        />
+      </div>
+      <div class="grid grid-cols-4 gap-2">
+        <Select
+          label="Signature Image"
+          name="signatureImage"
+          :options="[
+            { value: true, name: 'Si' },
+            { value: false, name: 'No' }
+          ]"
+        />
+        <Select
+          label="Return Face Image"
+          name="returnFaceImage"
+          :options="[
+            { value: true, name: 'Si' },
+            { value: false, name: 'No' }
+          ]"
+        />
+        <Select
+          label="Save Camera Frames"
+          name="saveCameraFrames"
+          :options="[
+            { value: true, name: 'Si' },
+            { value: false, name: 'No' }
+          ]"
+        />
+        <Select
+          label="Full Document Image"
+          name="returnFullDocumentImage"
+          :options="[
+            { value: true, name: 'Si' },
+            { value: false, name: 'No' }
+          ]"
+        />
+        <Input
+          label="Reintentos"
+          placeholder="3"
+          name="reintentos"
+        />
+        <Input
+          label="Tiempo de espera (segundos)"
+          placeholder="180"
+          name="timeout"
+        />
+        <Input
+          label="Tiempo antes de redirección (segundos)"
+          placeholder="10"
+          name="timedown"
+        />
+        <Input
+          label="Tipo"
+          placeholder="dev"
+          name="tipo"
+        />
+        <Input
+          label="Solución"
+          placeholder="inbrowser"
+          name="solucion"
+        />
+      </div>
+      <Button
+        color="green"
+        class="w-fit"
+      >
+        Guardar
+      </Button>
     </div>
-    <div class="grid grid-cols-4 gap-2">
-      <Input
-        label="Signature Image"
-        placeholder="true"
-        size="sm"
-        name="signatureImage"
-      />
-      <Input
-        label="Return Face Image"
-        placeholder="true"
-        size="sm"
-        name="returnFaceImage"
-      />
-      <Input
-        label="Save Camera Frames"
-        placeholder="true"
-        size="sm"
-        name="saveCameraFrames"
-      />
-      <Input
-        label="Full Document Image"
-        placeholder="true"
-        size="sm"
-        name="returnFullDocumentImage"
-      />
-      <Input
-        label="Reintentos"
-        placeholder="3"
-        size="sm"
-        name="reintentos"
-      />
-      <Input
-        label="Tiempo de espera (segundos)"
-        placeholder="180"
-        size="sm"
-        name="timeout"
-      />
-      <Input
-        label="Tiempo antes de redirección (segundos)"
-        placeholder="10"
-        size="sm"
-        name="timedown"
-      />
-    </div>
-    <Button
-      color="green"
-      class="w-fit"
-    >
-      Guardar
-    </Button>
-  </div>
+  </Form>
 </template>
 
 <script setup>
+import { ref, watch } from 'vue'
+import { Form } from 'vee-validate'
 import Input from '@/ui/form/Input.vue'
 import Button from '@/ui/buttons/Button.vue'
+import Select from '@/ui/form/Select.vue'
+
+const schema = {
+  dominio: 'required',
+  licenseKey: 'required',
+  signatureImage: 'required',
+  returnFaceImage: 'required',
+  returnFullDocumentImage: 'required',
+  reintentos: 'required',
+  timeout: 'required',
+  timedown: 'required'
+}
+
+const form = ref()
+
+const handleSubmit = (values) => {
+  console.log('handleSubmit', values)
+}
+
+const onInvalidSubmit = ({ values, errors, results }) => {
+  console.log('onInvalidSubmit', values, errors, results)
+}
+
+const props = defineProps(['settings'])
+
+watch(
+  () => props.settings,
+  (newVal) => {
+    if (newVal && form.value) {
+      const cleanValues = {
+        ...newVal,
+        timeout: String(newVal.timeout ?? ''),
+        reintentos: String(newVal.reintentos ?? ''),
+        timedown: String(newVal.timedown ?? '')
+      }
+      form.value.resetForm({ values: cleanValues })
+    }
+  },
+  { immediate: true, deep: true }
+)
 </script>

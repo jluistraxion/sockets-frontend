@@ -37,7 +37,6 @@ import Breadcrumb from '@/ui/breadcrumbs/Breadcrumb.vue'
 const options = [
   { name: 'Dashboard', to: 'dashboard', icon: 'bi bi-pie-chart-fill' },
   { name: 'Sesiones', to: 'sessions', icon: 'bi bi-card-list' },
-  { name: 'Usuarios', to: 'users', icon: 'bi bi-people-fill' },
-  { name: 'Configuraciones', to: 'settings', icon: 'bi bi-gear-fill' }
+  { name: 'Usuarios', to: 'users', icon: 'bi bi-people-fill' }
 ]
 </script>

@@ -4,7 +4,6 @@
       <Form
         @submit="prevSaveOrUpdate"
         :validation-schema="schema"
-        @invalid-submit="onInvalidSubmit"
       >
         <div class="flex flex-col gap-3">
           <div class="font-bold text-2xl">¡Bienvenido!</div>
@@ -71,9 +70,5 @@ const prevSaveOrUpdate = () => {
   } else {
     hasError.value = true
   }
-}
-
-const onInvalidSubmit = ({ values, errors, results }) => {
-  console.log('onInvalidSubmit', values, errors, results)
 }
 </script>

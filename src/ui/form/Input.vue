@@ -6,6 +6,7 @@
     v-model="value"
     :type="inputType"
     :validation-status="errorMessage ? 'error' : ''"
+    :disabled="loading"
   >
     <template
       #prefix
@@ -44,7 +45,7 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: 'md'
+    default: 'sm'
   },
   placeholder: {
     type: String,
@@ -59,6 +60,10 @@ const props = defineProps({
   type: {
     type: String,
     default: 'text'
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 
