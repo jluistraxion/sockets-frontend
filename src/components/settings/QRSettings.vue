@@ -14,7 +14,7 @@
         />
         <span>*Imagen de referencia</span>
       </div>
-      <div class="col-span-2 flex flex-col gap-4 h-[70vh] overflow-auto px-4">
+      <div class="col-span-2 flex flex-col gap-4 overflow-auto">
         <div class="grid grid-cols-5 gap-2">
           <div class="col-span-3">
             <Input
@@ -159,18 +159,28 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Form } from 'vee-validate'
+import { useQuery } from '@tanstack/vue-query'
+import { useRoute } from 'vue-router'
 import Input from '@/ui/form/Input.vue'
 import Button from '@/ui/buttons/Button.vue'
+import api from '@/api/api'
 
-const props = defineProps(['settings'])
-
+const API_URL = import.meta.env.VITE_API_URL
+const route = useRoute()
 const form = ref()
 
 const schema = {
   logo: { url: 'required' }
 }
+
+const { data: settings } = useQuery({
+  queryKey: ['qr-settings', route.params.id],
+  queryFn: () => api.post(`${API_URL}/getconfiguraciones`, { idusuario: route.params.id }),
+  enabled: computed(() => !!route.params.id),
+  select: (data) => data.find((e) => e.idparametro === 1).valores
+})
 
 const handleSubmit = (values) => {
   console.log('handleSubmit', values)
@@ -181,10 +191,10 @@ const onInvalidSubmit = ({ values, errors, results }) => {
 }
 
 watch(
-  () => props.settings,
-  (newVal) => {
-    if (newVal && form.value) {
-      form.value.resetForm({ values: newVal })
+  () => [form.value, settings.value],
+  ([formInstance, settingsData]) => {
+    if (formInstance && settingsData) {
+      form.value.resetForm({ values: settingsData })
     }
   },
   { immediate: true, deep: true }

@@ -58,7 +58,7 @@
       </div>
       <Button
         color="green"
-        class="w-fit"
+        class="w-fit bg-green-elektra"
       >
         Guardar
       </Button>
@@ -67,11 +67,14 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Form } from 'vee-validate'
+import { useQuery } from '@tanstack/vue-query'
+import { useRoute } from 'vue-router'
 import Input from '@/ui/form/Input.vue'
 import Button from '@/ui/buttons/Button.vue'
 import Select from '@/ui/form/Select.vue'
+import api from '@/api/api'
 
 const schema = {
   apiKey: 'required',
@@ -84,6 +87,8 @@ const schema = {
   timedown: 'required'
 }
 
+const API_URL = import.meta.env.VITE_API_URL
+const route = useRoute()
 const form = ref()
 
 const handleSubmit = (values) => {
@@ -94,17 +99,22 @@ const onInvalidSubmit = ({ values, errors, results }) => {
   console.log('onInvalidSubmit', values, errors, results)
 }
 
-const props = defineProps(['settings'])
+const { data: settings } = useQuery({
+  queryKey: ['incode-settings', route.params.id],
+  queryFn: () => api.post(`${API_URL}/getconfiguraciones`, { idusuario: route.params.id }),
+  enabled: computed(() => !!route.params.id),
+  select: (data) => data.find((e) => e.idparametro === 3).valores
+})
 
 watch(
-  () => props.settings,
-  (newVal) => {
-    if (newVal && form.value) {
+  () => [form.value, settings.value],
+  ([formInstance, settingsData]) => {
+    if (formInstance && settingsData) {
       const cleanValues = {
-        ...newVal,
-        timeout: String(newVal.timeout ?? ''),
-        reintentos: String(newVal.reintentos ?? ''),
-        timedown: String(newVal.timedown ?? '')
+        ...settingsData,
+        timeout: String(settingsData.timeout ?? ''),
+        reintentos: String(settingsData.reintentos ?? ''),
+        timedown: String(settingsData.timedown ?? '')
       }
       form.value.resetForm({ values: cleanValues })
     }

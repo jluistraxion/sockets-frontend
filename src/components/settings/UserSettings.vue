@@ -113,7 +113,7 @@
       </div>
       <Button
         color="green"
-        class="w-fit"
+        class="w-fit bg-green-elektra"
       >
         Guardar
       </Button>
@@ -145,7 +145,7 @@ const { data: user, isFetching } = useQuery({
   queryKey: ['user-detail', route.params.id],
   queryFn: () => api.post(`${API_URL}/getusuarios`, { idusuario: route.params.id }),
   enabled: computed(() => !!route.params.id),
-  select: (data) => data?.data
+  select: (data) => data?.data[0]
 })
 
 const handleSubmit = (values) => {
@@ -159,8 +159,13 @@ const onInvalidSubmit = ({ values, errors, results }) => {
 watch(
   () => [form.value, user.value],
   ([formInstance, userData]) => {
-    if (formInstance && userData && userData.length > 0) {
-      formInstance.resetForm({ values: userData[0] })
+    if (formInstance && userData) {
+      const cleanValues = {
+        ...userData,
+        iddocumento: String(userData.iddocumento ?? ''),
+        pais: String(userData.pais ?? '')
+      }
+      formInstance.resetForm({ values: cleanValues })
     }
   },
   { immediate: true }
