@@ -1,9 +1,9 @@
 import { createWebHistory, createRouter } from 'vue-router'
 // import { useAuthStore } from '@/composables/useAuthStore'
-import publicRoutes from './publicRoutes'
+import client from './client'
 import admin from './admin'
 
-const routes = [...publicRoutes, ...admin]
+const routes = [...client, ...admin]
 
 // const { isAuthenticated } = useAuthStore()
 

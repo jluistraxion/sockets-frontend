@@ -5,7 +5,7 @@ export const useAuthStore = () => {
 
   const login = (form) => {
     const { user, password } = form
-    if ((user === 'admin', password === 'admin')) {
+    if (user === 'admin' && password === 'admin') {
       isAuthenticated.value = true
       localStorage.setItem('auth', 'true')
       return true

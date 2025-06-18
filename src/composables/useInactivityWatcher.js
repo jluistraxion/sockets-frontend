@@ -30,7 +30,7 @@ export function useInactivityWatcher() {
           code: '1',
           idoperacion: route.params.id
         })
-        router.push('/timeout')
+        router.push({ name: 'timeout' })
       }
     }
   })

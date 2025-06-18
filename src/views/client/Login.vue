@@ -66,7 +66,7 @@ const prevSaveOrUpdate = () => {
   const result = login(form.value)
   if (result) {
     hasError.value = false
-    router.push('/admin')
+    router.push('/configure')
   } else {
     hasError.value = true
   }

@@ -16,7 +16,7 @@ export function useIndicadores({ errorMsg } = {}) {
       if (response.redirecciona) {
         window.location.href = response.redirect
       } else {
-        router.push('/success')
+        router.push({ name: 'success' })
       }
     },
     onError: (error) => {

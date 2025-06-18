@@ -30,8 +30,8 @@ export function useWebSockets() {
     onMessage(ws, event) {
       let parsed = JSON.parse(event.data)
       let isErrorSession = ['session-does-not-exist', 'session-not-found'].includes(parsed.type)
-      if (isErrorSession) router.push('/session-not-found')
-      if (parsed.type === 'session-already-exists') router.push('/session-already-exists')
+      if (isErrorSession) router.push({ name: 'session-not-found' })
+      if (parsed.type === 'session-already-exists') router.push({ name: 'session-already-exists' })
       if (parsed.type === 'message' && parsed.message === 'capture-finished') {
         captureFinished.value = true
       }
