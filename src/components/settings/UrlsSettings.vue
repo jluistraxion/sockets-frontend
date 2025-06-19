@@ -9,51 +9,26 @@
     <div class="flex flex-col gap-4">
       <div class="grid grid-cols-2 gap-2">
         <Input
-          label="API Key"
-          placeholder="a02644685ee3394d70154fcfa5b2237180e4f6aa"
-          name="apiKey"
+          label="URL Motor 1"
+          placeholder="/path-example"
+          name="urlmotor1"
         />
         <Input
-          label="API Url"
-          placeholder="https://demo-api.incodesmile.com/0/"
-          name="apiURL"
+          label="URL Motor 2"
+          placeholder="/path-example"
+          name="urlmotor2"
         />
       </div>
       <div class="grid grid-cols-2 gap-2">
         <Input
-          label="Token Url"
-          placeholder="https://demo-api.incodesmile.com/omni/start"
-          name="tokenURL"
+          label="Frontend URL"
+          placeholder="/path-example"
+          name="frontendurl"
         />
         <Input
-          label="Configuración ID"
-          placeholder="67cf42bc1c5dc4846eb8e147"
-          name="configurationId"
-        />
-      </div>
-      <div class="grid grid-cols-4 gap-2">
-        <Select
-          label="Crypto"
-          name="crypto"
-          :options="[
-            { value: '1', name: 'Si' },
-            { value: '0', name: 'No' }
-          ]"
-        />
-        <Input
-          label="Reintentos"
-          placeholder="3"
-          name="reintentos"
-        />
-        <Input
-          label="Tiempo de espera (segundos)"
-          placeholder="180"
-          name="timeout"
-        />
-        <Input
-          label="Tiempo antes de redirección (segundos)"
-          placeholder="10"
-          name="timedown"
+          label="URL Motor Documentos"
+          placeholder="/path-example"
+          name="urlmotordocumentos"
         />
       </div>
       <Button
@@ -80,14 +55,10 @@ import Select from '@/ui/form/Select.vue'
 import api from '@/api/api'
 
 const schema = {
-  apiKey: 'required',
-  apiURL: 'required',
-  tokenURL: 'required',
-  configurationId: 'required',
-  crypto: 'required',
-  reintentos: 'required',
-  timeout: 'required',
-  timedown: 'required'
+  urlmotor1: 'required',
+  urlmotor2: 'required',
+  frontendurl: 'required',
+  urlmotordocumentos: 'required'
 }
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -95,10 +66,10 @@ const route = useRoute()
 const form = ref()
 
 const { data: settings } = useQuery({
-  queryKey: ['incode-settings', route.params.id],
+  queryKey: ['path-settings', route.params.id],
   queryFn: () => api.post(`${API_URL}/getconfiguraciones`, { idusuario: route.params.id }),
   enabled: computed(() => !!route.params.id),
-  select: (data) => data.find((e) => e.idparametro === 3).valores
+  select: (data) => data.find((e) => e.idparametro === 2).valores
 })
 
 const { mutate, isPending } = useMutation({
@@ -112,7 +83,7 @@ const { mutate, isPending } = useMutation({
 })
 
 const handleSubmit = (values) => {
-  const payload = { idusuario: Number(route.params.id), idparametro: 3, valores: values }
+  const payload = { idusuario: Number(route.params.id), idparametro: 2, valores: values }
   mutate(payload)
 }
 
@@ -124,14 +95,7 @@ watch(
   () => [form.value, settings.value],
   ([formInstance, settingsData]) => {
     if (formInstance && settingsData) {
-      const cleanValues = {
-        ...settingsData,
-        timeout: String(settingsData.timeout ?? ''),
-        reintentos: String(settingsData.reintentos ?? ''),
-        timedown: String(settingsData.timedown ?? ''),
-        crypto: settingsData.crypto === true ? '1' : '0'
-      }
-      form.value.resetForm({ values: cleanValues })
+      form.value.resetForm({ values: settingsData })
     }
   },
   { immediate: true, deep: true }

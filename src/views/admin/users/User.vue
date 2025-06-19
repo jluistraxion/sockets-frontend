@@ -6,8 +6,8 @@
       class="px-2 py-4"
     >
       <fwb-tab
-        name="general"
-        title="General"
+        name="user"
+        title="Usuario"
       >
         <UserSettings />
       </fwb-tab>
@@ -16,6 +16,12 @@
         title="QR"
       >
         <QRSettings />
+      </fwb-tab>
+      <fwb-tab
+        name="urls"
+        title="URLs"
+      >
+        <UrlsSettings />
       </fwb-tab>
       <fwb-tab
         name="incode"
@@ -41,6 +47,7 @@ import QRSettings from '@/components/settings/QRSettings.vue'
 import IncodeSettings from '@/components/settings/IncodeSettings.vue'
 import MicroblinkSettings from '@/components/settings/MicroblinkSettings.vue'
 import UserSettings from '@/components/settings/UserSettings.vue'
+import UrlsSettings from '@/components/settings/UrlsSettings.vue'
 
-const activeTab = ref('general')
+const activeTab = ref('user')
 </script>
