@@ -24,32 +24,32 @@
           label="Signature Image"
           name="signatureImage"
           :options="[
-            { value: true, name: 'Si' },
-            { value: false, name: 'No' }
+            { value: '1', name: 'Si' },
+            { value: '0', name: 'No' }
           ]"
         />
         <Select
           label="Return Face Image"
           name="returnFaceImage"
           :options="[
-            { value: true, name: 'Si' },
-            { value: false, name: 'No' }
+            { value: '1', name: 'Si' },
+            { value: '0', name: 'No' }
           ]"
         />
         <Select
           label="Save Camera Frames"
           name="saveCameraFrames"
           :options="[
-            { value: true, name: 'Si' },
-            { value: false, name: 'No' }
+            { value: '1', name: 'Si' },
+            { value: '0', name: 'No' }
           ]"
         />
         <Select
           label="Full Document Image"
           name="returnFullDocumentImage"
           :options="[
-            { value: true, name: 'Si' },
-            { value: false, name: 'No' }
+            { value: '1', name: 'Si' },
+            { value: '0', name: 'No' }
           ]"
         />
         <Input
@@ -134,7 +134,14 @@ const { mutate, isPending } = useMutation({
 })
 
 const handleSubmit = (values) => {
-  const payload = { idusuario: Number(route.params.id), idparametro: 4, valores: values }
+  const valores = {
+    ...values,
+    signatureImage: values.signatureImage === '1' ? true : false,
+    returnFaceImage: values.returnFaceImage === '1' ? true : false,
+    saveCameraFrames: values.saveCameraFrames === '1' ? true : false,
+    returnFullDocumentImage: values.returnFullDocumentImage === '1' ? true : false
+  }
+  const payload = { idusuario: Number(route.params.id), idparametro: 4, valores }
   mutate(payload)
 }
 
@@ -150,7 +157,11 @@ watch(
         ...settingsData,
         timeout: String(settingsData.timeout ?? ''),
         reintentos: String(settingsData.reintentos ?? ''),
-        timedown: String(settingsData.timedown ?? '')
+        timedown: String(settingsData.timedown ?? ''),
+        signatureImage: settingsData.signatureImage === true ? '1' : '0',
+        returnFaceImage: settingsData.returnFaceImage === true ? '1' : '0',
+        saveCameraFrames: settingsData.saveCameraFrames === true ? '1' : '0',
+        returnFullDocumentImage: settingsData.returnFullDocumentImage === true ? '1' : '0'
       }
       form.value.resetForm({ values: cleanValues })
     }

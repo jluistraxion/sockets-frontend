@@ -112,7 +112,8 @@ const { mutate, isPending } = useMutation({
 })
 
 const handleSubmit = (values) => {
-  const payload = { idusuario: Number(route.params.id), idparametro: 3, valores: values }
+  const valores = { ...values, crypto: values.crypto === '1' ? true : false }
+  const payload = { idusuario: Number(route.params.id), idparametro: 3, valores }
   mutate(payload)
 }
 
