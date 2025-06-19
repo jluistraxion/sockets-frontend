@@ -30,7 +30,6 @@ import api from '@/api/api'
 let intervalId = null
 const API_URL = import.meta.env.VITE_API_URL
 const STATUS_CHECK_INTERVAL = 3
-const TIMEOUT_INACTIVITY = 600
 
 const route = useRoute()
 const router = useRouter()
@@ -63,7 +62,9 @@ const setConfig = (data) => {
   if (data.tipoflujo === 'escritorio') {
     config.value = data
     intervalId = setInterval(() => getStatus(), STATUS_CHECK_INTERVAL * 1000)
-    setConfigInactivity(TIMEOUT_INACTIVITY, 10)
+    const timeout = Number(data.configuraciones.timeout) || 180
+    const timedown = Number(data.configuraciones.timedown) || 10
+    setConfigInactivity(timeout, timedown)
   }
   if (data.tipoflujo === 'movil' && data.motorutilizado === '1') {
     router.push({ name: 'incode-scanner', params: { id: route.params.id } })

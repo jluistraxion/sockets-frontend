@@ -20,6 +20,18 @@
           placeholder="https://www.url-example.com"
           name="qr.url"
         />
+        <div class="grid grid-cols-2 gap-2">
+          <Input
+            label="Tiempo de espera (segundos)"
+            placeholder="180"
+            name="timeout"
+          />
+          <Input
+            label="Tiempo antes de redirección (segundos)"
+            placeholder="10"
+            name="timedown"
+          />
+        </div>
         <fieldset class="border border-slate-300 rounded-lg p-4">
           <legend class="px-2">Logo:</legend>
           <div class="grid grid-cols-6 gap-2">
