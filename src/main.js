@@ -9,6 +9,7 @@ import registerValidationRules from '@/config/validate'
 
 import 'vue3-json-viewer/dist/index.css'
 import 'vue3-easy-data-table/dist/style.css'
+import 'vue3-toastify/dist/index.css'
 
 registerValidationRules()
 

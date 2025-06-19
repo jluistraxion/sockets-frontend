@@ -14,6 +14,26 @@
           :loading="isFetching"
         />
         <Select
+          label="Estatus"
+          name="estatus"
+          :loading="isFetching"
+          :options="[
+            { value: '1', name: 'activo' },
+            { value: '2', name: 'inactivo' }
+          ]"
+        />
+        <Select
+          label="Flujo"
+          name="flujo"
+          :loading="isFetching"
+          :options="[
+            { value: '21', name: '21' },
+            { value: '22', name: '22' },
+            { value: '23', name: '23' },
+            { value: '24', name: '24' }
+          ]"
+        />
+        <Select
           label="Tipo de flujo"
           name="tipodeflujo"
           :loading="isFetching"
@@ -28,39 +48,20 @@
           name="motorpreferencia"
           :loading="isFetching"
           :options="[
-            { value: '1', name: 'Móvil' },
-            { value: '2', name: 'Escritorio' },
-            { value: '3', name: 'Automático' }
+            { value: '1', name: 'Incode' },
+            { value: '2', name: 'Microblink' },
+            { value: '3', name: 'Híbrido' }
           ]"
-        />
-        <Input
-          label="Negocio"
-          name="negocio"
-          :loading="isFetching"
-        />
-        <Input
-          label="Flujo"
-          name="flujo"
-          :loading="isFetching"
         />
       </div>
       <div class="grid grid-cols-5 gap-2">
-        <Select
-          label="Estatus"
-          name="estatus"
-          :loading="isFetching"
-          :options="[
-            { value: '1', name: 'activo' },
-            { value: '2', name: 'inactivo' }
-          ]"
-        />
         <Select
           label="Usa motor 1"
           name="usamotor1"
           :loading="isFetching"
           :options="[
             { value: '1', name: 'Si' },
-            { value: '2', name: 'No' }
+            { value: '0', name: 'No' }
           ]"
         />
         <Select
@@ -69,7 +70,7 @@
           :loading="isFetching"
           :options="[
             { value: '1', name: 'Si' },
-            { value: '2', name: 'No' }
+            { value: '0', name: 'No' }
           ]"
         />
         <Select
@@ -78,8 +79,27 @@
           :loading="isFetching"
           :options="[
             { value: '1', name: 'Si' },
-            { value: '2', name: 'No' }
+            { value: '0', name: 'No' }
           ]"
+        />
+        <Select
+          label="Documento"
+          name="iddocumento"
+          :loading="isFetching"
+          :options="[{ value: '1', name: 'INE' }]"
+        />
+        <Select
+          label="País"
+          name="pais"
+          :loading="isFetching"
+          :options="[{ value: '1', name: 'México' }]"
+        />
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <Input
+          label="URL redireccion"
+          name="urlredireccion"
+          :loading="isFetching"
         />
         <Input
           label="Responsable"
@@ -87,33 +107,16 @@
           :loading="isFetching"
         />
       </div>
-      <div class="grid grid-cols-5 gap-2">
-        <Input
-          label="ID documento"
-          name="iddocumento"
-          :loading="isFetching"
-        />
-        <div class="col-span-2">
-          <Input
-            label="URL redireccion"
-            name="urlredireccion"
-            :loading="isFetching"
-          />
-        </div>
-        <Input
-          label="Comentarios"
-          name="comentarios"
-          :loading="isFetching"
-        />
-        <Input
-          label="País"
-          name="pais"
-          :loading="isFetching"
-        />
-      </div>
+      <Textarea
+        label="Comentarios"
+        name="comentarios"
+        :loading="isFetching"
+      />
       <Button
         color="green"
         class="w-fit bg-green-elektra"
+        :disabled="isPending"
+        :loading="isPending"
       >
         Guardar
       </Button>
@@ -123,13 +126,15 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
+import { useQuery, useMutation } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
 import { Form } from 'vee-validate'
+import { toast } from 'vue3-toastify'
 import api from '@/api/api'
 import Select from '@/ui/form/Select.vue'
 import Input from '@/ui/form/Input.vue'
 import Button from '@/ui/buttons/Button.vue'
+import Textarea from '@/ui/form/Textarea.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
@@ -138,7 +143,14 @@ const form = ref()
 
 const schema = {
   usuario: 'required',
-  tipodeflujo: 'required'
+  tipodeflujo: 'required',
+  motorpreferencia: 'required',
+  estatus: 'required',
+  usamotor1: 'required',
+  usamotor2: 'required',
+  iddocumento: 'required',
+  urlredireccion: 'required',
+  usamotordocumentos: 'required'
 }
 
 const { data: user, isFetching } = useQuery({
@@ -148,8 +160,22 @@ const { data: user, isFetching } = useQuery({
   select: (data) => data?.data[0]
 })
 
+const { mutate, isPending } = useMutation({
+  mutationFn: (payload) => api.put(`${API_URL}/getusuarios`, payload),
+  onSuccess: (response) => {
+    console.log('success', response)
+    toast.success('Actualización realizada con éxito.')
+  },
+  onError: (error) => {
+    console.log('error', error)
+  }
+})
+
 const handleSubmit = (values) => {
-  console.log('handleSubmit', values)
+  const payload = { ...values, idusuario: route.params.id }
+  delete payload.fechaalta
+  delete payload.fechaultimaactualizacion
+  mutate(payload)
 }
 
 const onInvalidSubmit = ({ values, errors, results }) => {
