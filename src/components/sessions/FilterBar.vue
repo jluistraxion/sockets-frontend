@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-row items-end justify-between">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
     <Input
-      class="w-96"
+      class="lg:w-96"
       label="Buscar"
       size="sm"
       placeholder="Escribe algo para buscar..."
