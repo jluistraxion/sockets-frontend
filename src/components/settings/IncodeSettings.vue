@@ -36,8 +36,8 @@
           label="Crypto"
           name="crypto"
           :options="[
-            { value: true, name: 'Si' },
-            { value: false, name: 'No' }
+            { value: '1', name: 'Si' },
+            { value: '0', name: 'No' }
           ]"
         />
         <Input
@@ -69,8 +69,9 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { Form } from 'vee-validate'
-import { useQuery } from '@tanstack/vue-query'
+import { useQuery, useMutation } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
+import { toast } from 'vue3-toastify'
 import Input from '@/ui/form/Input.vue'
 import Button from '@/ui/buttons/Button.vue'
 import Select from '@/ui/form/Select.vue'
@@ -91,20 +92,32 @@ const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
 const form = ref()
 
-const handleSubmit = (values) => {
-  console.log('handleSubmit', values)
-}
-
-const onInvalidSubmit = ({ values, errors, results }) => {
-  console.log('onInvalidSubmit', values, errors, results)
-}
-
 const { data: settings } = useQuery({
   queryKey: ['incode-settings', route.params.id],
   queryFn: () => api.post(`${API_URL}/getconfiguraciones`, { idusuario: route.params.id }),
   enabled: computed(() => !!route.params.id),
   select: (data) => data.find((e) => e.idparametro === 3).valores
 })
+
+const { mutate, isPending } = useMutation({
+  mutationFn: (payload) => api.put(`${API_URL}/getconfiguraciones`, payload),
+  onSuccess: (response) => {
+    toast.success('Actualización realizada con éxito.')
+  },
+  onError: (error) => {
+    toast.success('Ocurrió un error al actualizar.')
+  }
+})
+
+const handleSubmit = (values) => {
+  const payload = { idusuario: Number(route.params.id), idparametro: 3, valores: values }
+  console.log('handleSubmit', payload)
+  mutate(payload)
+}
+
+const onInvalidSubmit = ({ values, errors, results }) => {
+  console.log('onInvalidSubmit', values, errors, results)
+}
 
 watch(
   () => [form.value, settings.value],
@@ -114,7 +127,8 @@ watch(
         ...settingsData,
         timeout: String(settingsData.timeout ?? ''),
         reintentos: String(settingsData.reintentos ?? ''),
-        timedown: String(settingsData.timedown ?? '')
+        timedown: String(settingsData.timedown ?? ''),
+        crypto: settingsData.crypto === true ? '1' : '0'
       }
       form.value.resetForm({ values: cleanValues })
     }

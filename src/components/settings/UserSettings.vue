@@ -4,7 +4,6 @@
     v-slot="{ meta, values }"
     @submit="handleSubmit"
     :validation-schema="schema"
-    @invalid-submit="onInvalidSubmit"
   >
     <div class="flex flex-col gap-4">
       <div class="grid grid-cols-5 gap-2">
@@ -163,11 +162,10 @@ const { data: user, isFetching } = useQuery({
 const { mutate, isPending } = useMutation({
   mutationFn: (payload) => api.put(`${API_URL}/getusuarios`, payload),
   onSuccess: (response) => {
-    console.log('success', response)
     toast.success('Actualización realizada con éxito.')
   },
   onError: (error) => {
-    console.log('error', error)
+    toast.success('Ocurrió un error al actualizar.')
   }
 })
 
@@ -176,10 +174,6 @@ const handleSubmit = (values) => {
   delete payload.fechaalta
   delete payload.fechaultimaactualizacion
   mutate(payload)
-}
-
-const onInvalidSubmit = ({ values, errors, results }) => {
-  console.log('onInvalidSubmit', values, errors, results)
 }
 
 watch(

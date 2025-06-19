@@ -6,7 +6,7 @@
     :validation-schema="schema"
     @invalid-submit="onInvalidSubmit"
   >
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-3 gap-4">
       <div>
         <img
           src="@/assets/home-preview.png"
@@ -15,42 +15,48 @@
         <span>*Imagen de referencia</span>
       </div>
       <div class="col-span-2 flex flex-col gap-4 overflow-auto">
-        <div class="grid grid-cols-5 gap-2">
-          <div class="col-span-3">
-            <Input
-              label="Logo"
-              placeholder="https://www.bazsolicitudunica.com.mx/assets/logos/logo.svg"
-              name="logo.url"
-            />
-          </div>
-          <Input
-            label="Ancho del logo (px)"
-            placeholder="260"
-            name="logo.width"
-          />
-          <Input
-            label="Alto del logo (px)"
-            placeholder="60"
-            name="logo.height"
-          />
-        </div>
         <div class="grid grid-cols-3 gap-2">
           <Input
             label="Color spinner"
             placeholder="#17a54d"
             name="spinner.color"
+            type="color"
           />
           <Input
             label="Color del fondo central"
             placeholder="#FFF"
             name="fondocentral.backgroundColor"
+            type="color"
           />
           <Input
             label="Color del fondo general"
             placeholder="#278252"
             name="fondogeneral.backgroundColor"
+            type="color"
           />
         </div>
+        <fieldset class="border border-slate-300 rounded-lg p-4">
+          <legend class="px-2">Logo:</legend>
+          <div class="grid grid-cols-6 gap-2">
+            <div class="col-span-4">
+              <Input
+                label="Logo"
+                placeholder="https://www.bazsolicitudunica.com.mx/assets/logos/logo.svg"
+                name="logo.url"
+              />
+            </div>
+            <Input
+              label="Ancho (px)"
+              placeholder="260"
+              name="logo.width"
+            />
+            <Input
+              label="Alto (px)"
+              placeholder="60"
+              name="logo.height"
+            />
+          </div>
+        </fieldset>
         <fieldset class="border border-slate-300 rounded-lg p-4">
           <legend class="px-2">Texto 1:</legend>
           <div class="grid grid-cols-4 gap-2">
