@@ -7,6 +7,7 @@
     :type="inputType"
     :validation-status="errorMessage ? 'error' : ''"
     :disabled="loading"
+    label-class="dark:text-white"
   >
     <template
       #prefix

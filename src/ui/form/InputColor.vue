@@ -8,6 +8,7 @@
     :disabled="loading"
     input-class="p-0.5"
     class="p-[3px]"
+    label-class="dark:text-white"
   />
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-50 h-screen flex items-center justify-center">
+  <div class="bg-slate-50 dark:bg-gray-800 h-screen flex items-center justify-center">
     <Card class="w-96 p-6">
       <Form
         @submit="prevSaveOrUpdate"

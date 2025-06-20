@@ -25,15 +25,17 @@
             label="Tiempo de espera (segundos)"
             placeholder="180"
             name="timeout"
+            type="number"
           />
           <Input
             label="Tiempo antes de redirección (segundos)"
             placeholder="10"
             name="timedown"
+            type="number"
           />
         </div>
         <fieldset class="border border-slate-300 rounded-lg p-4">
-          <legend class="px-2">Logo:</legend>
+          <legend class="px-2 dark:text-white">Logo:</legend>
           <div class="grid grid-cols-6 gap-2">
             <div class="col-span-4">
               <Input
@@ -55,7 +57,7 @@
           </div>
         </fieldset>
         <fieldset class="border border-slate-300 rounded-lg p-4">
-          <legend class="px-2">Texto 1:</legend>
+          <legend class="px-2 dark:text-white">Texto 1:</legend>
           <div class="grid grid-cols-4 gap-2">
             <div class="col-span-4">
               <Input
@@ -90,7 +92,7 @@
           </div>
         </fieldset>
         <fieldset class="border border-slate-300 rounded-lg p-4">
-          <legend class="px-2">Texto 2:</legend>
+          <legend class="px-2 dark:text-white">Texto 2:</legend>
           <div class="grid grid-cols-4 gap-2">
             <div class="col-span-4">
               <Input
@@ -125,7 +127,7 @@
           </div>
         </fieldset>
         <fieldset class="border border-slate-300 rounded-lg p-4">
-          <legend class="px-2">Texto 3:</legend>
+          <legend class="px-2 dark:text-white">Texto 3:</legend>
           <div class="grid grid-cols-4 gap-2">
             <div class="col-span-4">
               <Input

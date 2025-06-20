@@ -7,6 +7,7 @@
     :options
     :validation-status="errorMessage ? 'error' : ''"
     :disabled="loading"
+    label-class="text-white"
   />
 </template>
 
