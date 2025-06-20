@@ -23,7 +23,8 @@ var var_objetojsonAPI = {
     NumeroEmision: '?',
     Seccion: '?',
     Localidad: '?',
-    Negocio: '?'
+    Negocio: '?',
+    Latin: '?'
   },
   DatosMRZ: {
     Folio: '?',
@@ -1059,6 +1060,8 @@ function parseaOcr(objetoData) {
   let codigodocmrzMB = fnValidaNoVacios(objetoData.mrz.documentCode)
   let rawMRZString = fnValidaNoVacios(objetoData.mrz.rawMRZString)
 
+  let latin = fnValidaNoVacios(objetoData.documentOptionalAdditionalNumber.latin)
+
   //asignacion de datos
 
   jsonObject2.TipoDoc = 'Credencial IFE/INE'
@@ -1085,6 +1088,7 @@ function parseaOcr(objetoData) {
   jsonObject2.Datos.Seccion = fnValidaNoVacios(seccionMB)
   jsonObject2.Datos.Localidad = fnValidaNoVacios(municipioMB)
   jsonObject2.Datos.Negocio = fnValidaNoVacios('ocr-cloud')
+  jsonObject2.Datos.Latin = fnValidaNoVacios(latin)
 
   jsonObject2.DatosMRZ.Folio = fnValidaNoVacios(folioMB).replace(/[^0-9]+/g, '')
   jsonObject2.DatosMRZ.CIC = fnValidaNoVacios(cicMB)
