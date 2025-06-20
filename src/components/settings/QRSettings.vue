@@ -66,20 +66,20 @@
                 name="texto1.text"
               />
             </div>
-            <Input
-              label="Tamaño letra (px)"
-              placeholder="22"
+            <Select
+              label="Tamaño letra"
               name="texto1.fontSize"
+              :options="fontSizeOptions"
             />
             <InputColor
               label="Color letra"
               placeholder="#FFF"
               name="texto1.textColor"
             />
-            <Input
+            <Select
               label="Tipo de letra"
-              placeholder="Arial"
               name="texto1.fontFamily"
+              :options="fontFamilyOptions"
             />
             <Select
               label="Letra negrita"
@@ -101,20 +101,20 @@
                 name="texto2.text"
               />
             </div>
-            <Input
-              label="Tamaño letra (px)"
-              placeholder="14"
+            <Select
+              label="Tamaño letra"
               name="texto2.fontSize"
+              :options="fontSizeOptions"
             />
             <InputColor
               label="Color letra"
               placeholder="#FFF"
               name="texto2.textColor"
             />
-            <Input
+            <Select
               label="Tipo de letra"
-              placeholder="Arial"
               name="texto2.fontFamily"
+              :options="fontFamilyOptions"
             />
             <Select
               label="Letra negrita"
@@ -136,20 +136,20 @@
                 name="texto3.text"
               />
             </div>
-            <Input
-              label="Tamaño letra (px)"
-              placeholder="14"
+            <Select
+              label="Tamaño letra"
               name="texto3.fontSize"
+              :options="fontSizeOptions"
             />
             <InputColor
               label="Color letra"
               placeholder="#FFF"
               name="texto3.textColor"
             />
-            <Input
+            <Select
               label="Tipo de letra"
-              placeholder="Arial"
               name="texto3.fontFamily"
+              :options="fontFamilyOptions"
             />
             <Select
               label="Letra negrita"
@@ -200,6 +200,7 @@ import { Form } from 'vee-validate'
 import { useQuery, useMutation } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
+import { fontSizeOptions, fontFamilyOptions } from '@/constants/selectOptions.js'
 import * as yup from 'yup'
 import Input from '@/ui/form/Input.vue'
 import InputColor from '@/ui/form/InputColor.vue'
@@ -212,6 +213,8 @@ const route = useRoute()
 const form = ref()
 
 const schema = yup.object({
+  timeout: yup.string().required(),
+  timedown: yup.string().required(),
   spinner: yup.object({
     color: yup.string().required()
   }),
