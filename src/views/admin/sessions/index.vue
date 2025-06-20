@@ -14,9 +14,6 @@
     theme-color="#17a54d"
     @click-row="showRow"
   >
-    <template #item-fecharegistro="{ fecharegistro }">
-      {{ formatDate(fecharegistro, 'YYYY-MM-DD', 'DD-MM-YYYY') }}
-    </template>
     <template #item-estatuserror="{ estatuserror }">
       {{ estatuserror ?? 'Sin error' }}
     </template>
@@ -27,7 +24,7 @@
 import { computed, ref } from 'vue'
 import { useMutation } from '@tanstack/vue-query'
 import { useRouter, useRoute } from 'vue-router'
-import { currentDate, subtractDays, formatDate } from '@/utils/date'
+import { currentDate, subtractDays } from '@/utils/date'
 import FilterBar from '@/components/sessions/FilterBar.vue'
 import Title from '@/ui/content/Title.vue'
 import api from '@/api/api'
