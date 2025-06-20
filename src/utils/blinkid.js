@@ -33,7 +33,8 @@ var var_objetojsonAPI = {
     NacionalidadMRZ: '?',
     FechaNacimientoMrz: '?',
     SexoMrz: '?',
-    TipoIdentificacionReverso: '?'
+    TipoIdentificacionReverso: '?',
+    rawMRZString: '?'
   },
   Otros: {
     InformacionCentral: '?',
@@ -1056,6 +1057,7 @@ function parseaOcr(objetoData) {
 
   let generomrzMB = fnValidaNoVacios(objetoData.mrz.gender)
   let codigodocmrzMB = fnValidaNoVacios(objetoData.mrz.documentCode)
+  let rawMRZString = fnValidaNoVacios(objetoData.mrz.rawMRZString)
 
   //asignacion de datos
 
@@ -1093,6 +1095,7 @@ function parseaOcr(objetoData) {
   jsonObject2.DatosMRZ.FechaNacimientoMrz = fnValidaNoVacios(fechanacemrzMB)
   jsonObject2.DatosMRZ.SexoMrz = fnValidaNoVacios(generomrzMB)
   jsonObject2.DatosMRZ.TipoIdentificacionReverso = fnValidaNoVacios(codigodocmrzMB)
+  jsonObject2.DatosMRZ.rawMRZString = fnValidaNoVacios(rawMRZString)
 
   jsonObject2.ImagenesBase64.FrenteDoc = fnValidaNoVacios(imagenFrontMB)
   jsonObject2.ImagenesBase64.ReversoDoc = fnValidaNoVacios(imagenBackMB)

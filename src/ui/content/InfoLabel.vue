@@ -9,7 +9,7 @@
       v-else
       class="text-black dark:text-white"
     >
-      {{ value ?? '--' }}
+      {{ value || '--' }}
     </div>
   </div>
 </template>
