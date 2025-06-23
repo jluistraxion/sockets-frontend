@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-screen flex justify-center p-6"
+    class="h-screen flex justify-center p-6 relative"
     :style="{
       backgroundColor: config?.fondogeneral?.backgroundColor || '#21232de6'
     }"
@@ -25,6 +25,7 @@
           fontFamily: config?.texto1?.fontFamily || 'arial',
           fontWeight: config?.texto1?.fontWeight || 'normal'
         }"
+        class="text-center leading-tight"
       >
         {{ config?.texto1?.text }}
       </div>
@@ -35,6 +36,7 @@
           fontFamily: config?.texto2?.fontFamily || 'arial',
           fontWeight: config?.texto2?.fontWeight || 'normal'
         }"
+        class="text-center leading-tight"
       >
         {{ config?.texto2?.text }}
       </div>
@@ -46,7 +48,7 @@
           render-as="svg"
         />
       </div>
-      <div class="flex flex-col gap-2 items-center justify-center absolute bottom-0 mb-8">
+      <div class="flex flex-col gap-2 items-center justify-center absolute bottom-0 mb-12">
         <Spinner :color="config?.spinner?.color" />
         <div
           :style="{
@@ -55,6 +57,7 @@
             fontFamily: config?.texto3?.fontFamily || 'arial',
             fontWeight: config?.texto3?.fontWeight || 'normal'
           }"
+          class="text-center leading-tight"
         >
           {{ config?.texto3?.text }}
         </div>
