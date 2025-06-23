@@ -8,11 +8,7 @@
   >
     <div class="grid grid-cols-3 gap-4">
       <div>
-        <img
-          src="@/assets/home-preview.png"
-          class="w-96 h-[70vh]"
-        />
-        <span>*Imagen de referencia</span>
+        <QR :config="values" />
       </div>
       <div class="col-span-2 flex flex-col gap-4">
         <Input
@@ -202,6 +198,7 @@ import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { fontSizeOptions, fontFamilyOptions } from '@/constants/selectOptions.js'
 import * as yup from 'yup'
+import QR from '@/components/qrs/QR.vue'
 import Input from '@/ui/form/Input.vue'
 import InputColor from '@/ui/form/InputColor.vue'
 import Button from '@/ui/buttons/Button.vue'
