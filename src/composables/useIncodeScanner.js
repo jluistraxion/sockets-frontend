@@ -83,10 +83,6 @@ export function useIncodeScanner({ errorMsg }) {
     }
   }
 
-  const publishKeys = async () => {
-    await incode.publishKeys(session.value)
-  }
-
   const saveDeviceData = () => {
     incode.sendGeolocation({ token: session.value.token }).catch(console.error)
     incode.sendFingerprint({ token: session.value.token }).catch(console.error)
@@ -203,6 +199,9 @@ export function useIncodeScanner({ errorMsg }) {
     await loadIncodeScript()
     createOnboarding()
     await getToken()
+    if (config.value?.crypto) {
+      await incode.publishKeys(session.value.token)
+    }
     saveDeviceData()
     captureId(container)
   }

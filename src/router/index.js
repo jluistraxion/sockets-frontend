@@ -3,15 +3,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 import client from './client'
 import admin from './admin'
 
-const routes = [
-  ...client,
-  ...admin,
-  {
-    name: 'test',
-    path: '/test/:id',
-    component: () => import('@/views/Test.vue')
-  }
-]
+const routes = [...client, ...admin]
 
 // const { isAuthenticated } = useAuthStore()
 
