@@ -1,19 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4">
-    <div class="flex justify-between mb-3">
-      <div class="flex justify-center items-center">
-        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">
-          {{ title }}
-        </h5>
-      </div>
-    </div>
-
-    <!-- Donut Chart -->
-    <div
-      class="py-4"
-      ref="pieChart"
-    />
-  </div>
+  <div ref="pieChart" />
 </template>
 
 <script setup>
@@ -22,10 +8,6 @@ import ApexCharts from 'apexcharts'
 
 // const props = defineProps(['title', 'series', 'labels'])
 const props = defineProps({
-  title: {
-    type: String,
-    default: ''
-  },
   series: {
     type: Array,
     required: true
@@ -37,6 +19,10 @@ const props = defineProps({
   colors: {
     type: Array,
     default: ['#00809D', '#80D8C3']
+  },
+  height: {
+    type: Number,
+    default: 320
   }
 })
 
@@ -50,7 +36,7 @@ const getChartOptions = () => {
     labels: props.labels,
     colors: props.colors,
     chart: {
-      height: 320,
+      height: props.height,
       width: '100%',
       type: 'pie'
     },
