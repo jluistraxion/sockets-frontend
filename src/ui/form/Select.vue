@@ -1,14 +1,24 @@
 <template>
-  <fwb-select
-    :label
-    :placeholder
-    :size
-    v-model="value"
-    :options
-    :validation-status="errorMessage ? 'error' : ''"
-    :disabled="loading"
-    label-class="text-white"
-  />
+  <div class="relative">
+    <fwb-select
+      :label
+      :placeholder
+      :size
+      v-model="value"
+      :options
+      :validation-status="errorMessage ? 'error' : ''"
+      :disabled="loading"
+      label-class="text-white"
+    />
+    <button
+      v-if="value && canClear"
+      type="button"
+      class="absolute top-8 right-8 text-gray-500 hover:text-slate-500 cursor-pointer text-lg"
+      @click="value = ''"
+    >
+      &times;
+    </button>
+  </div>
 </template>
 
 <script setup>
@@ -36,6 +46,10 @@ const props = defineProps({
     required: true
   },
   loading: {
+    type: Boolean,
+    default: false
+  },
+  canClear: {
     type: Boolean,
     default: false
   }

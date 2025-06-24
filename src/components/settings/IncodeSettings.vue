@@ -107,7 +107,7 @@ const { mutate, isPending } = useMutation({
     toast.success('Actualización realizada con éxito.')
   },
   onError: (error) => {
-    toast.success('Ocurrió un error al actualizar.')
+    toast.error('Ocurrió un error al actualizar.')
   }
 })
 
