@@ -3,34 +3,21 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import ApexCharts from 'apexcharts'
 
 const props = defineProps({
-  series: {
-    type: Array,
-    required: true
-  },
-  labels: {
-    type: Array,
-    required: true
-  },
-  colors: {
-    type: Array,
-    default: ['#4F46E5', '#10B981', '#F59E0B', '#A855F7']
-  },
-  height: {
-    type: Number,
-    default: 320
-  }
+  series: { type: Array, required: true },
+  labels: { type: Array, required: true },
+  colors: { type: Array, default: ['#4F46E5', '#10B981', '#F59E0B', '#A855F7'] },
+  height: { type: Number, default: 320 }
 })
 
 const donutChart = ref()
+const chart = ref(null)
 
 const getChartOptions = () => {
   return {
-    // series: [35.1, 23.5, 2.4, 5.4],
-    // labels: ['Direct', 'Sponsor', 'Affiliate', 'Email marketing'],
     series: props.series,
     labels: props.labels,
     colors: props.colors,
@@ -116,7 +103,20 @@ const getChartOptions = () => {
 onMounted(() => {
   const el = donutChart.value
   if (!el) return
-  const chart = new ApexCharts(el, getChartOptions())
-  chart.render()
+  chart.value = new ApexCharts(el, getChartOptions())
+  chart.value.render()
 })
+
+watch(
+  () => props.series,
+  (newSeries) => {
+    if (chart.value) {
+      // chart.value.updateSeries(newSeries)
+      chart.value.destroy()
+      chart.value = new ApexCharts(donutChart.value, getChartOptions())
+      chart.value.render()
+    }
+  },
+  { deep: true }
+)
 </script>

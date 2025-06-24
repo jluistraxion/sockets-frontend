@@ -199,9 +199,9 @@ export function useIncodeScanner({ errorMsg }) {
     await loadIncodeScript()
     createOnboarding()
     await getToken()
-    if (config.value?.crypto) {
+    /*if (config.value?.crypto) {
       await incode.publishKeys(session.value.token)
-    }
+    }*/
     saveDeviceData()
     captureId(container)
   }
