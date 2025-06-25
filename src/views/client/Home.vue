@@ -72,6 +72,9 @@ const setConfig = (data) => {
   if (data.tipoflujo === 'movil' && data.motorutilizado === '2') {
     router.push({ name: 'microblink', params: { id: route.params.id } })
   }
+  if (data.tipoflujo === 'movil' && data.motorutilizado === '3') {
+    router.push({ name: 'combined', params: { id: route.params.id } })
+  }
 }
 
 const { mutate: fetchData, isPending: isLoading } = useMutation({

@@ -60,7 +60,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher'
 import { parseErrorMessage } from '@/utils/parseData'
-import useBlinkIdScanner from '@/composables/useBlinkIdScanner'
+import useBlinkIDSDKScanner from '@/composables/useBlinkIDSDKScanner'
 import InactivityModal from '@/components/modals/InactivityModal.vue'
 import Container from '@/components/layout/Container.vue'
 import api from '@/api/api'
@@ -83,7 +83,7 @@ const {
   cancelRedirect,
   setConfig: setConfigInactivity
 } = useInactivityWatcher()
-const { setConfig, flipMessage } = useBlinkIdScanner({
+const { setConfig, flipMessage } = useBlinkIDSDKScanner({
   initialMessageEl,
   cameraFeed,
   cameraFeedback,

@@ -6,7 +6,7 @@ import { parseErrorMessage } from '@/utils/parseData'
 import * as BlinkIDSDK from '@microblink/blinkid-in-browser-sdk'
 import api from '@/api/api'
 
-export default function useBlinkIdScanner({
+export default function useBlinkIDSDKScanner({
   initialMessageEl,
   cameraFeed,
   cameraFeedback,

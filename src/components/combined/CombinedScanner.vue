@@ -30,11 +30,13 @@ import { parseaOcr } from '@/utils/blinkid.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
 import { useWebSockets } from '@/composables/useWebSockets'
 import { useIndicadores } from '@/composables/useIndicadores'
+import { useIncodeScanner } from '@/composables/useIncodeScanner'
 import InactivityModal from '@/components/modals/InactivityModal.vue'
 import Container from '@/components/layout/Container.vue'
 import CancelOperationModal from '@/components/modals/CancelOperationModal.vue'
 import api from '@/api/api'
-import translations from './translations'
+import translations from '@/components/blinkid/translations.js'
+
 const stringifiedTranslations = JSON.stringify(translations)
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -50,6 +52,7 @@ const isShowBrowser = ref(false)
 const { showWarning, warningCountdown, cancelRedirect, setConfig } = useInactivityWatcher()
 const { joinSession, sendMessage, close } = useWebSockets()
 const { getIndicadores, isLoadingIndicadores } = useIndicadores({ errorMsg })
+const { setCombinedSettings } = useIncodeScanner({ errorMsg })
 
 watch(showWarning, (isShowWarning) => {
   if (isShowWarning) modal.value.showModal()
@@ -163,13 +166,14 @@ const run = () => {
 
 const { mutate: fetchData, isPending: isLoading } = useMutation({
   mutationFn: () => api.post(`${API_URL}/getmotorconfig`, { idoperacion: route.params.id }),
-  onSuccess: (response) => {
+  onSuccess: async (response) => {
     if (response.success) {
       config.value = response.data
       run()
       const timeout = Number(response.data.timeout) || 180
       const timedown = Number(response.data.timedown) || 10
       setConfig(timeout, timedown)
+      setCombinedSettings(response.data)
     } else {
       errorMsg.value = response.message
     }

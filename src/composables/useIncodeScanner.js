@@ -215,8 +215,26 @@ export function useIncodeScanner({ errorMsg }) {
     start(container)
   }
 
+  const startForCombined = async () => {
+    await loadIncodeScript()
+    createOnboarding()
+    await getToken()
+    incode.sendGeolocation({ token: session.value.token }).catch(console.error)
+    await incode.getFinishStatus(null, { token: session.value.token })
+  }
+
+  const setCombinedSettings = (data) => {
+    config.value = data
+    if (!data.apiURL && !data.apiKey) {
+      console.error('configuracion incorrecta')
+      router.push({ name: 'error' })
+    }
+    startForCombined()
+  }
+
   return {
     setConfig,
-    isLoadingIndicadores
+    isLoadingIndicadores,
+    setCombinedSettings
   }
 }

@@ -63,8 +63,8 @@ const client = [
       },
       {
         name: 'combined',
-        path: 'combined',
-        component: () => import('@/views/client/CombinedScanner.vue')
+        path: 'combined/:id',
+        component: () => import('@/components/combined/CombinedScanner.vue')
       },
       {
         name: 'login',
