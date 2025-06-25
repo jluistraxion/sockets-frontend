@@ -13,11 +13,6 @@
         :loading
       />
       <InfoLabel
-        label="Ciudad IP:"
-        :value="data?.gpsData?.ciudadIP"
-        :loading
-      />
-      <InfoLabel
         label="Código País:"
         :value="data?.gpsData?.codigoPais"
         :loading
@@ -28,23 +23,8 @@
         :loading
       />
       <InfoLabel
-        label="IP:"
-        :value="data?.gpsData?.direccionIP"
-        :loading
-      />
-      <InfoLabel
         label="Distancia Geolocalización ID:"
         :value="data?.gpsData?.distanciaGeolocalizacionID"
-        :loading
-      />
-      <InfoLabel
-        label="Distancia Geolocalización IP:"
-        :value="data?.gpsData?.distanciaGeolocalizacionIP"
-        :loading
-      />
-      <InfoLabel
-        label="Identificador Hash:"
-        :value="data?.gpsData?.identificadorHash"
         :loading
       />
       <InfoLabel
@@ -53,8 +33,8 @@
         :loading
       />
       <InfoLabel
-        label="Latitud IP:"
-        :value="data?.gpsData?.latitudIP"
+        label="Longitud:"
+        :value="data?.gpsData?.longitud"
         :loading
       />
       <InfoLabel
@@ -63,43 +43,8 @@
         :loading
       />
       <InfoLabel
-        label="Longitud:"
-        :value="data?.gpsData?.longitud"
-        :loading
-      />
-      <InfoLabel
-        label="Longitud IP:"
-        :value="data?.gpsData?.longitudIP"
-        :loading
-      />
-      <InfoLabel
-        label="Modelo Dispositivo:"
-        :value="data?.gpsData?.modeloDispositivo"
-        :loading
-      />
-      <InfoLabel
-        label="Navegador:"
-        :value="data?.gpsData?.navegador"
-        :loading
-      />
-      <InfoLabel
-        label="Navegador Desconocido:"
-        :value="data?.gpsData?.navegadorDesconocido"
-        :loading
-      />
-      <InfoLabel
         label="Nombre País:"
         :value="data?.gpsData?.nombrePais"
-        :loading
-      />
-      <InfoLabel
-        label="País IP:"
-        :value="data?.gpsData?.paisIP"
-        :loading
-      />
-      <InfoLabel
-        label="Región IP:"
-        :value="data?.gpsData?.regionIP"
         :loading
       />
       <InfoLabel
@@ -117,26 +62,13 @@
         :value="data?.gpsData?.subNumeroCalle"
         :loading
       />
-      <InfoLabel
-        label="Tipo Dispositivo:"
-        :value="data?.gpsData?.tipoDispositivo"
-        :loading
-      />
-      <InfoLabel
-        label="Ubicación:"
-        :value="data?.gpsData?.ubicacion"
-        :loading
-      />
-      <InfoLabel
-        label="Versión OS:"
-        :value="data?.gpsData?.versionOS"
-        :loading
-      />
-      <InfoLabel
-        label="Versión SDK:"
-        :value="data?.gpsData?.versionSDK"
-        :loading
-      />
+      <div class="col-span-3">
+        <InfoLabel
+          label="Ubicación:"
+          :value="data?.gpsData?.ubicacion"
+          :loading
+        />
+      </div>
     </div>
   </div>
 </template>
