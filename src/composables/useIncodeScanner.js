@@ -36,7 +36,6 @@ export function useIncodeScanner({ errorMsg }) {
     try {
       incode = window.OnBoarding.create({
         apiURL: config.value?.apiURL,
-        apiKey: config.value?.apiKey,
         encrypt: config.value?.crypto,
         lang: 'es'
       })
