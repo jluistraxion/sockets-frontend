@@ -18,7 +18,7 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
-import { useIncodeScanner } from '@/composables/useIncodeScanner'
+import { useIncodeScanner } from '@/composables/useIncodeConsent'
 import { parseErrorMessage } from '@/utils/parseData.js'
 import { useInactivityWatcher } from '@/composables/useInactivityWatcher.js'
 import InactivityModal from '@/components/modals/InactivityModal.vue'

@@ -139,12 +139,12 @@ export function useIncodeScanner({ errorMsg }) {
       if (response?.showMandatoryConsent) {
         incode.renderBiometricConsent(incodeContainer, {
           token: session.value,
-          onSuccess: captureCombinedConsent,
+          onSuccess: () => captureCombinedConsent(incodeContainer),
           onCancel: () => console.error('Mandatory consent was denied'),
           regulationType: response.regulationType
         })
       } else {
-        captureCombinedConsent()
+        captureCombinedConsent(incodeContainer)
       }
     })
   }
@@ -152,14 +152,14 @@ export function useIncodeScanner({ errorMsg }) {
   const captureCombinedConsent = (incodeContainer) => {
     incode.renderCombinedConsent(incodeContainer, {
       token: session.value,
-      onSuccess: sendGeolocation,
+      onSuccess: () => sendGeolocation(incodeContainer),
       consentId: config.value?.consentId
     })
   }
 
-  const sendGeolocation = () => {
+  const sendGeolocation = (incodeContainer) => {
     incode.sendGeolocation({ token: session.value.token })
-    captureId()
+    captureId(incodeContainer)
   }
 
   const start = async (container) => {

@@ -17,17 +17,15 @@
           name="qr.url"
         />
         <div class="grid grid-cols-2 gap-2">
-          <Input
+          <InputNumber
             label="Tiempo de espera (segundos)"
             placeholder="180"
             name="timeout"
-            type="number"
           />
-          <Input
+          <InputNumber
             label="Tiempo antes de redirección (segundos)"
             placeholder="10"
             name="timedown"
-            type="number"
           />
         </div>
         <fieldset class="border border-slate-300 rounded-lg p-4">
@@ -201,6 +199,7 @@ import * as yup from 'yup'
 import QR from '@/components/qrs/QR.vue'
 import Input from '@/ui/form/Input.vue'
 import InputColor from '@/ui/form/InputColor.vue'
+import InputNumber from '@/ui/form/InputNumber.vue'
 import Button from '@/ui/buttons/Button.vue'
 import Select from '@/ui/form/Select.vue'
 import api from '@/api/api'
