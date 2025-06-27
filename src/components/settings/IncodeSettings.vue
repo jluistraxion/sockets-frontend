@@ -32,6 +32,13 @@
         />
       </div>
       <div class="grid grid-cols-4 gap-2">
+        <div class="col-span-2">
+          <Input
+            label="Consent ID"
+            placeholder="67cf42bc1c5dc4846eb8e147"
+            name="consentId"
+          />
+        </div>
         <Select
           label="Crypto"
           name="crypto"
@@ -45,6 +52,8 @@
           placeholder="3"
           name="reintentos"
         />
+      </div>
+      <div class="grid grid-cols-2 gap-2">
         <Input
           label="Tiempo de espera (segundos)"
           placeholder="180"
@@ -84,6 +93,7 @@ const schema = {
   apiURL: 'required',
   tokenURL: 'required',
   configurationId: 'required',
+  consentId: 'required',
   crypto: 'required',
   reintentos: 'required',
   timeout: 'required',

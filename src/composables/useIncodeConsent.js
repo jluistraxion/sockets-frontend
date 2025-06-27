@@ -153,7 +153,7 @@ export function useIncodeScanner({ errorMsg }) {
     incode.renderCombinedConsent(incodeContainer, {
       token: session.value,
       onSuccess: sendGeolocation,
-      consentId: config.value?.consentId // id of a consent created in dashboard
+      consentId: config.value?.consentId
     })
   }
 

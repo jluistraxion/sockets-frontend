@@ -19,7 +19,7 @@ export function useIncodeScanner({ errorMsg }) {
   const loadIncodeScript = () => {
     return new Promise((resolve, reject) => {
       useScriptTag(
-        '/incode/onBoarding-1.80.0.js',
+        '/incode/onBoarding-1.81.0.js',
         () => {
           if (window.OnBoarding && window.OnBoarding.create) {
             resolve(window.OnBoarding)
